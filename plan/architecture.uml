@@ -1,0 +1,48 @@
+@startuml
+
+actor "Operator"
+actor "Customer"
+
+box "Machine in a branch's server room (BSR)"
+participant "Audio card"
+participant "Sound service"
+collections "Audio files on\n the machine in a BSR"
+participant "sFTP server"
+end box
+
+box "Machine in our workplace"
+participant "sFTP client"
+collections "Audio files on\nmachine in a workspace"
+participant "Text Service"
+database "Text DB"
+participant "Full text engine"
+participant "Counters service"
+participant "Pattern finder"
+end box
+
+box "Client's machine"
+participant "UI"
+end box
+
+actor "Manager"
+
+"Operator" -> "Audio card" : analog audio signal
+"Customer" -> "Audio card" : analog audio signal
+"Audio card" -> "Sound service" : audio signal
+"Sound service" -> "Audio files on\n the machine in a BSR" : audio file
+"Audio files on\n the machine in a BSR" o<->o "sFTP server"
+"sFTP server" <-> "sFTP client"  : sFTP (audio file\n and metadata)
+"sFTP client" o<->o "Audio files on\nmachine in a workspace"
+"Audio files on\nmachine in a workspace" -> "Text Service": audio file\n and metadata
+
+"Text Service" -> "Text DB" : text\n and metadata
+
+"Full text engine" <-> "Text DB" : SQL-query\ntext and metadata
+"Counters service" <-> "Text DB" : SQL-query\ntext and metadata
+"Pattern finder" <-> "Text DB" : SQL-query\ntext and metadata
+
+"Full text engine" <-> "UI" : REST
+"Counters service" <-> "UI" : REST
+"Pattern finder" <-> "UI" : REST
+"UI" <-> "Manager" : i/o
+@enduml
