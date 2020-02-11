@@ -6,3 +6,4 @@ data/
 kaldi
 kaldi-ru-0.6/
 venv 
+__pycache__ 
