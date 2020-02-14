@@ -3,14 +3,16 @@ import pyaudio
 import wave
 import datetime
 
+
 Recording_CHUNK = 1024
 Recording_FORMAT = pyaudio.paInt16
 Recording_CHANNELS = 1
 Recording_RATE = 48000
+Recording_FOLDER = r'/home/user/Desktop/projects/Egg-Shaped_Apostle/data/'
 
 
 class Recording():
-    def __init__(self, inp_device_ind):
+    def __init__(self, inp_device_ind=None):
         self.inp_dev_ind = inp_device_ind
 
     # open_stream - задает формат для записи (из глабальных переменных) и создает пустой фрейм, в который будет добавляться запись
@@ -91,6 +93,6 @@ class Recording():
 
         print("* done recording")
         self.close_stream()
-        self.save_file(WAVE_OUTPUT_FILENAME)
+        self.save_file(Recording_FOLDER+WAVE_OUTPUT_FILENAME)
 
 

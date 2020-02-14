@@ -10,5 +10,5 @@ for i in range(0, numdevices):
         if (p.get_device_info_by_host_api_device_index(0, i).get('maxInputChannels')) > 0:
             print("Input Device id ", i, " - ", p.get_device_info_by_host_api_device_index(0, i).get('name'))
 
-#recording = Recording(14)
-#recording.stop_by_key('i', 'test')
+recording = Recording()
+recording.stop_by_key('i', 'test')
