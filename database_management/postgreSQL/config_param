@@ -1,0 +1,4 @@
+mode=unattended
+disable-components=pgAdmin
+locale=Russian
+prefix=C:\Program Files\PostgreSQL\12
