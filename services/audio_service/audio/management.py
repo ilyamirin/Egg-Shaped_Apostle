@@ -1,14 +1,19 @@
+# coding=utf-8
+import configparser
 import pyaudio
 import keyboard
 import sounddevice as sd
 from devices_wrapper import Audio_file, Speaker
 import datetime
 
+config = configparser.ConfigParser()
+config.read_file(open('config.ini'))
 
 def ui():
     print('Чтобы показать список устройств, введите "devices"\n'\
-          'Чтобы прослушать устройство, введите "listen n t", где "n" — номер устройства, "t" — время прослушивания в секундах\n'\
-          'Чтобы записать аудио с устройства, введите "record n name", где "n" — номер устройства, "name" — имя файла без расширения. По умолчанию "unnamed"\n'
+          'Чтобы прослушать устройство, введите "listen n t", где "n" — индекс устройства, "t" — время прослушивания в секундах\n'\
+          'Чтобы записать аудио с устройства, введите "record n name", где "n" — индекс устройства, "name" — имя файла без расширения. По умолчанию "unnamed"\n'\
+          'Чтобы задать определенным индексам префиксы для записи, введите "bind"\n'
           'Чтобы выйти, введите "exit"\n')
     inp = input().split()
     if len(inp) < 1:
@@ -22,7 +27,17 @@ def ui():
             sp = Speaker()
             sp.play_stream_from_mic(inp_device_ind=int(attrib[0]), listen_time=int(attrib[1]))
         elif command == 'record':
-            stop_by_key('space', inp_device_ind=int(attrib[0]), name=attrib[1])
+            if attrib[0] in config['prefixes_of_microphones'].keys():
+                name = config['prefixes_of_microphones'][attrib[0]]+'_'+attrib[1]
+            else: name = attrib[1]
+            stop_by_key('space', inp_device_ind=int(attrib[0]), name=name)
+        elif command == 'bind':
+            print('введите префикс в формате "n prefix", где n — индекс, prefix — префикс для записи с определенного индекса')
+            index, prefix  = input().split()
+            if not 'prefixes_of_microphones' in config.keys():
+                config['prefixes_of_microphones'] = {}
+            config['prefixes_of_microphones'][index] = prefix
+            config.write(open('config.ini', 'w'))
         elif command == 'exit':
             return True
         else:
@@ -66,4 +81,5 @@ def stop_by_time(output_path=None, inp_device_ind=None, name='unnamed', chunk=10
     file.mic.close_stream()
     file.save_file()
 
-ui()
+#ui()
+print(datetime.isoformat(sep='\s'))
