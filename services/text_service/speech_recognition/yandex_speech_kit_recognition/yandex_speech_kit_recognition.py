@@ -5,17 +5,18 @@ from json import dumps
 from time import sleep
 from threading import Thread
 from os import listdir, getcwd
-from keyring import get_password
+import yaml
 
+with open('api-key.yaml') as file:
+    api_key = yaml.load(file, Loader=yaml.FullLoader)['secret']
 
-api_key = get_password('Yandex_API_key', 'MNIXenus') #u should add your API key by keyring.set_password()
 auth = {"Authorization": "Api-Key " + api_key}
 
 
 def send_file(name_of_file):
 
     resource = 'https://transcribe.api.cloud.yandex.net/speech/stt/v2/longRunningRecognize'
-    obj_link = 'https://storage.yandexcloud.net/audiocdo/'+name_of_file
+    obj_link = 'https://storage.yandexcloud.net/esa-audio/'+name_of_file
 
     params = {
         "config": {
@@ -24,7 +25,7 @@ def send_file(name_of_file):
                 "profanityFilter": "true",
                 "audioEncoding": "LINEAR16_PCM",
                 "sampleRateHertz": "48000",
-                "audioChannelCount": "1"
+                "audioChannelCount": "2"
             }
         },
         "audio": {
@@ -78,3 +79,8 @@ def recognize_all(names):
         threads.append(Thread(target=recognize, args=(i,))) #Thread read str as enumerable
     for i in threads:
         i.run()
+
+#DATA_DIR = r'../../../../data/'
+#files = listdir(DATA_DIR)
+#recognize_all(files)
+recognize('main_microphone_сбербанк.wav')
