@@ -3,8 +3,8 @@ import configparser
 import pyaudio
 import keyboard
 import sounddevice as sd
-from devices_wrapper import Audio_file, Speaker
-import datetime
+from devices_wrapper import Microphone, Audio_file
+from datetime import datetime
 
 config = configparser.ConfigParser()
 config.read_file(open('config.ini'))
@@ -69,7 +69,7 @@ def stop_by_time(output_path=None, inp_device_ind=None, name='unnamed', chunk=10
     print('start recording')
     file.start_record_from_mic(inp_device_ind)
     while True:
-        now = datetime.datetime.now()
+        now = datetime.now()
         data = file.mic.stream.read(file.chunk)
         file.frames.append(data)
         if now.hour == 18 and now.minute == 0:
@@ -82,4 +82,3 @@ def stop_by_time(output_path=None, inp_device_ind=None, name='unnamed', chunk=10
     file.save_file()
 
 #ui()
-print(datetime.isoformat(sep='\s'))

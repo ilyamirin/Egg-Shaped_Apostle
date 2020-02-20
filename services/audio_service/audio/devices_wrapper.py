@@ -89,6 +89,7 @@ class Audio_file(Audio_obj):
         self.output_path = output_path
         self.name = name
         self.n_batch = 0
+        self.frames_used_flag = False
 
     def start_record_from_mic(self, inp_device_ind=None):
         self.mic = Microphone(inp_device_ind,
@@ -102,13 +103,18 @@ class Audio_file(Audio_obj):
         self.mic.open_stream()
 
     def cut_frames(self):# cut_frames
-        self.save_file(self.name+str(self.n_batch))
+        self.frames_used_flag = True
+        self.save_file()
         self.n_batch += 1
         self.frames = []
 
     # save_file - сохранение файла в wav с необходимыми свойствами (из глобальных переменных)
     def save_file(self):
-        wf = wave.open(self.name + ".wav", 'wb')
+        if self.frames_used_flag:
+            full_name = self.output_path + self.name + '_' + self.n_batch+".wav"
+        else:
+            full_name = self.output_path + self.name + ".wav"
+        wf = wave.open(full_name, 'wb')
         wf.setnchannels(self.channels)
         wf.setsampwidth(self.mic.p.get_sample_size(self.format_))
         wf.setframerate(self.rate)
