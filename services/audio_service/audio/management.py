@@ -57,6 +57,7 @@ def stop_by_key(key='space', output_path=None, inp_device_ind=None, name='unname
         if keyboard.is_pressed(key):
             print('Recording stopped...')
             data = file.mic.stream.read(file.chunk)
+            # data = file.mic.stream.read()
             file.frames.append(data)
             break
     print("* done recording")
@@ -81,4 +82,4 @@ def stop_by_time(output_path=None, inp_device_ind=None, name='unnamed', chunk=10
     file.mic.close_stream()
     file.save_file()
 
-#ui()
+ui()

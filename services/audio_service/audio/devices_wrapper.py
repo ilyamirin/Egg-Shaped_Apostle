@@ -25,7 +25,7 @@ class Audio_obj():
 
 class Microphone(Audio_obj):
 
-    def __init__(self, inp_device_ind=None, chunk=1024, format_=pyaudio.paInt16, channels=2, rate=48000):
+    def __init__(self, inp_device_ind=None, chunk=1024, format_=pyaudio.paInt16 , channels=2, rate=48000):
         super().__init__(chunk=chunk, format_=format_, channels=channels, rate=rate)
         self.inp_dev_ind = inp_device_ind
 
@@ -38,7 +38,8 @@ class Microphone(Audio_obj):
                                   input_device_index = self.inp_dev_ind,
                                   channels=self.channels,
                                   input=True,
-                                  frames_per_buffer=self.chunk)
+                                  frames_per_buffer=self.chunk,
+                                  )
         return True
 
     # close_stream - для закрытия записи
@@ -63,6 +64,7 @@ class Speaker(Audio_obj):
         )
         self.mic.open_stream()
         self.stream = self.p.open(format=self.format_,
+
                                   channels=self.channels,
                                   rate=self.rate,
                                   output=True)
@@ -95,7 +97,7 @@ class Audio_file(Audio_obj):
         self.mic = Microphone(inp_device_ind,
                               chunk=self.chunk,
                               format_=self.format_,
-                              #ichannels=self.channels,
+                              channels=self.channels,
                               rate=self.rate,
         )
 
@@ -110,10 +112,16 @@ class Audio_file(Audio_obj):
 
     # save_file - сохранение файла в wav с необходимыми свойствами (из глобальных переменных)
     def save_file(self):
-        if self.frames_used_flag:
-            full_name = self.output_path + self.name + '_' + self.n_batch+".wav"
+        if self.output_path:
+            if self.frames_used_flag:
+                full_name = self.output_path + self.name + '_' + self.n_batch+".wav"
+            else:
+                full_name = self.output_path + self.name + ".wav"
         else:
-            full_name = self.output_path + self.name + ".wav"
+            if self.frames_used_flag:
+                full_name = self.name + '_' + self.n_batch+".wav"
+            else:
+                full_name = self.name + ".wav"
         wf = wave.open(full_name, 'wb')
         wf.setnchannels(self.channels)
         wf.setsampwidth(self.mic.p.get_sample_size(self.format_))
@@ -125,3 +133,5 @@ class Audio_file(Audio_obj):
 #sp.start_record_from_mic()
 #sp.save_file()
 #stop_by_key('i', name='test', channels=2)
+
+#Speaker().play_stream_from_mic(listen_time=10)
