@@ -9,13 +9,21 @@ from time import time
 #Recording_FOLDER = r'C:/Users/User/Desktop/projects/Egg-Shaped_Apostle/data/'
 
 
-class Audio_obj():
-    def __init__(self, chunk=1024, format_=pyaudio.paInt16, channels=2, rate=48000):
+class AudioObj(object):
+    def __init__(self, chunk=1024, format_=pyaudio.paInt16, channels=2, rate=48000, **kwargs):
         self.p = pyaudio.PyAudio()
         self.chunk = chunk
         self.format_ = format_
         self.channels = channels
         self.rate = rate
+
+    def open_stream(self, **kwargs):
+        self.stream = self.p.open(format=self.format_,
+                                  rate=self.rate,
+                                  channels=self.channels,
+                                  frames_per_buffer=self.chunk,
+                                  **kwargs)
+        return True
 
     def close_stream(self):
         self.stream.stop_stream()
@@ -23,51 +31,26 @@ class Audio_obj():
         self.p.terminate()
         return True
 
-class Microphone(Audio_obj):
 
-    def __init__(self, inp_device_ind=None, chunk=1024, format_=pyaudio.paInt16 , channels=2, rate=48000):
-        super().__init__(chunk=chunk, format_=format_, channels=channels, rate=rate)
+class Microphone(AudioObj):
+    def __init__(self, inp_device_ind=None, **kwargs):
+        super().__init__(**kwargs)
         self.inp_dev_ind = inp_device_ind
 
-
-    # open_stream - задает формат для записи (из глабальных переменных) и создает пустой фрейм, в который будет добавляться запись
     def open_stream(self):
-
-        self.stream = self.p.open(format=self.format_,
-                                  rate=self.rate,
-                                  input_device_index = self.inp_dev_ind,
-                                  channels=self.channels,
-                                  input=True,
-                                  frames_per_buffer=self.chunk,
-                                  )
-        return True
-
-    # close_stream - для закрытия записи
+        super().open_stream(input=True, input_device_index=self.inp_dev_ind)
 
 
-    def get_device_info(self):
-        return self.p.get_device_info_by_index(self.inp_device_ind)
-
-
-class Speaker(Audio_obj):
-
-    def __init__(self, output_device_ind=None, chunk=1024, format_=pyaudio.paInt16, channels=2, rate=48000):
-        super().__init__(chunk=chunk, format_=format_, channels=channels, rate=rate)
+class Speaker(AudioObj):
+    def __init__(self, output_device_ind=None, **kwargs):
+        super().__init__(**kwargs)
         self.output_device_ind = output_device_ind
 
-    def play_stream_from_mic(self, inp_device_ind=None, listen_time=10):
-        self.mic = Microphone(inp_device_ind,
-                              chunk=self.chunk,
-                              format_=self.format_,
-                              channels=self.channels,
-                              rate=self.rate,
-        )
+    def start_stream_from_mic(self, inp_device_ind=None, listen_time=10, **kwargs):
+        self.kwargs = kwargs
+        self.mic = Microphone(inp_device_ind, **self.kwargs)
         self.mic.open_stream()
-        self.stream = self.p.open(format=self.format_,
-
-                                  channels=self.channels,
-                                  rate=self.rate,
-                                  output=True)
+        self.open_stream(output=True)
 
         start_time = time()
         while time() - start_time <= listen_time:
@@ -78,30 +61,24 @@ class Speaker(Audio_obj):
         return True
 
     def stop_stream_from_mic(self):
-        self.play_flag=False
         self.mic.close_stream()
         self.close_stream()
         return True
 
 
-class Audio_file(Audio_obj):
+class AudioFile(AudioObj):
 
-    def __init__(self, output_path=None, name='unnamed', chunk=1024, format_=pyaudio.paInt16, channels=2, rate=48000):
-        super().__init__(chunk=chunk, format_=format_, channels=channels, rate=rate)
+    def __init__(self, output_path=None, name='unnamed', **kwargs):
+        super().__init__(**kwargs)
+        self.kwargs = kwargs
         self.output_path = output_path
         self.name = name
         self.n_batch = 0
         self.frames_used_flag = False
-
-    def start_record_from_mic(self, inp_device_ind=None):
-        self.mic = Microphone(inp_device_ind,
-                              chunk=self.chunk,
-                              format_=self.format_,
-                              channels=self.channels,
-                              rate=self.rate,
-        )
-
         self.frames = []
+
+    def start_record_from_mic(self, **kwargs):
+        self.mic = Microphone(**kwargs)
         self.mic.open_stream()
 
     def cut_frames(self):# cut_frames
@@ -129,9 +106,3 @@ class Audio_file(Audio_obj):
         wf.writeframes(b''.join(self.frames))
         wf.close()
 
-#sp = Audio_file()
-#sp.start_record_from_mic()
-#sp.save_file()
-#stop_by_key('i', name='test', channels=2)
-
-#Speaker().play_stream_from_mic(listen_time=10)

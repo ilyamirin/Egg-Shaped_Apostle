@@ -83,4 +83,4 @@ def recognize_all(names):
 #DATA_DIR = r'../../../../data/'
 #files = listdir(DATA_DIR)
 #recognize_all(files)
-recognize('main_microphone_сбербанк.wav')
+recognize('main_microphone_asdasdasd.wav')

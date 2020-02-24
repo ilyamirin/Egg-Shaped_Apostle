@@ -1,18 +1,17 @@
 # coding=utf-8
 import configparser
-import pyaudio
 import keyboard
 import sounddevice as sd
-from devices_wrapper import Microphone, Audio_file
 from datetime import datetime
 
 config = configparser.ConfigParser()
-config.read_file(open('config.ini'))
 
 def ui():
-    print('Чтобы показать список устройств, введите "devices"\n'\
-          'Чтобы прослушать устройство, введите "listen n t", где "n" — индекс устройства, "t" — время прослушивания в секундах\n'\
-          'Чтобы записать аудио с устройства, введите "record n name", где "n" — индекс устройства, "name" — имя файла без расширения. По умолчанию "unnamed"\n'\
+    print('Чтобы показать список устройств, введите "devices"\n'
+          'Чтобы прослушать устройство, введите "listen n c t", где "n" — индекс устройства,'
+          '"c" — количество каналов, "t" — время прослушивания в секундах\n'
+          'Чтобы записать аудио с устройства, введите "record n name", где "n" — индекс устройства,'
+          '"name" — имя файла без расширения. По умолчанию "unnamed"\n'
           'Чтобы задать определенным индексам префиксы для записи, введите "bind"\n'
           'Чтобы выйти, введите "exit"\n')
     inp = input().split()
@@ -25,15 +24,16 @@ def ui():
             print(sd.query_devices())
         elif command == 'listen':
             sp = Speaker()
-            sp.play_stream_from_mic(inp_device_ind=int(attrib[0]), listen_time=int(attrib[1]))
+            sp.start_stream_from_mic(inp_device_ind=int(attrib[0]), channels=int(attrib[1]), listen_time=int(attrib[2]))
         elif command == 'record':
             if attrib[0] in config['prefixes_of_microphones'].keys():
                 name = config['prefixes_of_microphones'][attrib[0]]+'_'+attrib[1]
             else: name = attrib[1]
             stop_by_key('space', inp_device_ind=int(attrib[0]), name=name)
         elif command == 'bind':
-            print('введите префикс в формате "n prefix", где n — индекс, prefix — префикс для записи с определенного индекса')
-            index, prefix  = input().split()
+            print('введите префикс в формате "n prefix", где n — индекс,'
+                  ' prefix — префикс для записи с определенного индекса')
+            index, prefix = input().split()
             if not 'prefixes_of_microphones' in config.keys():
                 config['prefixes_of_microphones'] = {}
             config['prefixes_of_microphones'][index] = prefix
@@ -44,13 +44,14 @@ def ui():
             print('Команда не распознана')
     return ui()
 
-#print(get_all_host_api_devices())
+# print(get_all_host_api_devices())
 # stop_by_key - остановка записи по нажатию клавиши. key - клавиша, WAVE_OUTPUT_FILENAME - название файла
 
-def stop_by_key(key='space', output_path=None, inp_device_ind=None, name='unnamed', chunk=1024, format_=pyaudio.paInt16, channels=2, rate=48000):
-    file = Audio_file(output_path=output_path, name=name, chunk=chunk, format_=format_, channels=channels, rate=rate)
+
+def stop_by_key(key='space', mic_settings={}, **kwargs):
+    file = AudioFile(**kwargs)
     print(f'* start recording. Press {key} to stop...')
-    file.start_record_from_mic(inp_device_ind=inp_device_ind)
+    file.start_record_from_mic(**mic_settings)
     while True:
         data = file.mic.stream.read(file.chunk)
         file.frames.append(data)
@@ -63,12 +64,13 @@ def stop_by_key(key='space', output_path=None, inp_device_ind=None, name='unname
     print("* done recording")
     file.mic.close_stream()
     file.save_file()
-    print(f'Saved to file {name}.wav')
+    print(f'Saved to file {file.name}.wav')
 
-def stop_by_time(output_path=None, inp_device_ind=None, name='unnamed', chunk=1024, format_=pyaudio.paInt16, channels=2, rate=48000):
-    file = Audio_file(output_path=output_path, name=name, chunk=chunk, format_=format_, channels=channels, rate=rate)
+
+def stop_by_time(key='space', **kwargs):
+    file = AudioFile(**kwargs)
     print('start recording')
-    file.start_record_from_mic(inp_device_ind)
+    file.start_record_from_mic(**kwargs)
     while True:
         now = datetime.now()
         data = file.mic.stream.read(file.chunk)
@@ -81,5 +83,15 @@ def stop_by_time(output_path=None, inp_device_ind=None, name='unnamed', chunk=10
     print("* done recording")
     file.mic.close_stream()
     file.save_file()
+    print(f'Saved to file {file.name}.wav')
 
-ui()
+if __name__ == '__main__':
+    from devices_wrapper import Microphone, AudioFile, Speaker
+    config.read_file(open('config.ini'))
+    #ui()
+else:
+    from audio.devices_wrapper import Microphone, AudioFile, Speaker
+    config.read_file(open('./audio/config.ini'))
+
+
+stop_by_key(name='mic1', mic_settings={'inp_device_ind': 1, 'channels': 2, 'rate': 48000})

@@ -1,21 +1,41 @@
-import os
-import sys
+import socket
+import config
 import configparser
-os.chdir(os.getcwd()+'/audio/')
-sys.path.append(os.getcwd())
-from datetime import datetime
+from audio.devices_wrapper import Microphone
 
 config = configparser.ConfigParser()
-config.read_file(open('config.ini'))
+print('Reading configuration file...', end='')
 
-import devices_wrapper
-import management
+config.read('config.ini')
+print('OK')
 
-DATA_DIR = '..\\..\\..\\data\\'
-input_device_index = 1
-if str(input_device_index) in config['prefixes_of_microphones'].keys():
-    name = config['prefixes_of_microphones'][str(input_device_index)]
-else:
-    name = str(input_device_index)
-name = name + '_' + str(datetime.now()).replace(':', '. ')
-management.stop_by_key(output_path=DATA_DIR, name=name)
+data_chunk = 1024
+
+def stream_audio():
+
+    print('Reading server network configuration...', end='')
+    s_ip = config['NETWORK']['SERVER_IP']
+    s_port = int(config['NETWORK']['SERVER_PORT'])
+    s_addr = (s_ip, s_port)
+    print('OK')
+
+    print('Creating socket...')
+    s = socket.socket()
+    s.bind(s_addr)
+    print(f'Socket successfully created at {s_ip}:{s_port}.')
+    print('listening incoming connections...')
+    s.listen(1)
+    mic = Microphone()
+    mic.open_stream()
+    conn, addr = s.accept()
+    print(f'Incoming connection from {addr[0]}:{addr[1]}.')
+    while True:
+        data = mic.stream.read(data_chunk)
+        try:
+            conn.send(data)
+        except:
+            conn.close()
+            s.close()
+            stream_audio()
+
+stream_audio()
