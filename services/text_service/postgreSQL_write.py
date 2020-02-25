@@ -18,13 +18,16 @@ def write_row(work_place, role, text):
         password=keyring.get_password('postgreSQL', 'text_service'),
     )
     cursor = conn.cursor()
-    cursor.execute(f"insert into text (work_place, role, date_time, text) VALUES ({work_place}, {role}, 'now', '{text}'); COMMIT;")
+    cursor.execute(f"SELECT to_tsvector('russian', '{text}');")
+    tsvector = str(cursor.fetchall()[0])
+    print(tsvector)
+    cursor.execute(f"insert into text (work_place, role, date_time,  text, tsvector) VALUES ({work_place}, {role}, 'now', '{text}', (SELECT to_tsvector('russian', '{text}'))); COMMIT;")
     cursor.execute("SELECT * FROM text;")
-    #print(cursor.fetchall())
-    #cursor.close()
+    print(cursor.fetchall())
+    cursor.close()
     conn.close()
 
-#write_row(1, 'wow that sucks')
+write_row(1, 1, 'wow that sucks')
 
 
 '''class connection(psycopg2.connect):
