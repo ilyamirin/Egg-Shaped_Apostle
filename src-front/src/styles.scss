@@ -1,0 +1,14 @@
+@import "~bootstrap/scss/bootstrap-grid";
+
+@import 'themes';
+
+@import '~@nebular/theme/styles/globals';
+
+@include nb-install() {
+  @include nb-theme-global();
+};
+
+.col-10 {
+  padding: 0;
+}
+

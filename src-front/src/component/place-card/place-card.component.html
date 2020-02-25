@@ -1,0 +1,8 @@
+<nb-card>
+  <nb-card-header>
+    <a [routerLink]="['/place', place.id]">Место {{ place.seatNumber }}</a>
+  </nb-card-header>
+  <nb-card-body [innerHTML]="place.text">
+  </nb-card-body>
+  <nb-card-footer>{{ place.date | date }}</nb-card-footer>
+</nb-card>

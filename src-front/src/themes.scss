@@ -1,0 +1,7 @@
+@import '~@nebular/theme/styles/theming';
+@import '~@nebular/theme/styles/themes/default';
+
+$nb-themes: nb-register-theme((
+  select-min-width: 0,
+  layout-small-padding: 1rem 0 0,
+), default, default);
