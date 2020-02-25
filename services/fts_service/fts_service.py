@@ -1,2 +1,0 @@
-def search(date, ):
-    pass
