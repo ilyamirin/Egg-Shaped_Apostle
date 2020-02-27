@@ -10,7 +10,7 @@ PG_SERVER_HOST = 'localhost'
 PG_SERVER_PORT = '5432'
 
 
-def full_text_search(work_place, role, date_time_start, date_time_end, query, top=5):
+def full_text_search(work_place=1, role=0, date_time_start='2020-02-01', date_time_end='2020-02-28', query='', top=5):
     conn = psycopg2.connect(
         host=PG_SERVER_HOST,
         port=PG_SERVER_PORT,

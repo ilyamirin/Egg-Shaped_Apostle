@@ -1,9 +1,8 @@
 import psycopg2
 import keyring
-keyring.set_password(service_name='postgreSQL', username='text_service', password='Fefu2019')
+#keyring.set_password(service_name='postgreSQL', username='text_service', password='#####')
 #cursor.execute("DROP table text;")
 #cursor.execute("CREATE TABLE text (id bigserial PRIMARY KEY, work_place int, date_time timestamp without time zone, text text);")
-
 PG_DB_NAME = 'text'
 PG_USER = 'text_service'
 PG_SERVER_HOST = 'localhost'
@@ -25,18 +24,11 @@ def write_row(work_place, role, date_time, text):
     cursor.close()
     conn.close()
 
-
-
-'''write_row(1, 1, '2020-02-02', 'Сбербанк хочет прослушивать людей как в сериале прослушка')
-write_row(1, 1, '2020-02-03', 'Они не ценят персональные данные')
-write_row(1, 1, '2020-02-04', 'Скиньте денег')
-write_row(1, 1, '2019-02-05', 'Россия вперед! С нами Бог!')
-write_row(1, 1, '2019-02-06', 'Надеюсь никого за это не посадят')
-write_row(1, 1, '2019-02-07', 'Как и за оскорбление чувств верующих')
-write_row(1, 1, '2019-02-03', 'Полнотекстовый поиск не работает?')
-write_row(1, 1, '2019-02-08', 'я пробовал пиво 1 раз в жизни')
-write_row(1, 1, '2019-02-02', 'или 2')
-write_row(1, 1, '2019-02-11', '')'''
+'''from random import randint
+with open('fish', encoding='utf-8') as fish:
+    data = fish.read().split('\n')
+    for i in data:
+        write_row(randint(0, 8), randint(0, 1), f'2020-02-{randint(1, 28)}', i)'''
 
 '''class connection(psycopg2.connect):
     def __init__(self):
