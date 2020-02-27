@@ -47,14 +47,18 @@ class Speaker(AudioObj):
         self.output_device_ind = output_device_ind
 
     def start_stream_from_mic(self, inp_device_ind=None, listen_time=10, **kwargs):
-        self.kwargs = kwargs
-        self.mic = Microphone(inp_device_ind, **self.kwargs)
+        self.mic = Microphone(inp_device_ind, **kwargs)
         self.mic.open_stream()
         self.open_stream(output=True)
+
+        #print(self.p.get_default_host_api_info())
+        #print(self.p.get_device_info_by_host_api_device_index(0, 14))
 
         start_time = time()
         while time() - start_time <= listen_time:
             data = self.mic.stream.read(self.chunk)
+            #print(len(data))
+
             self.stream.write(data)
 
         self.stop_stream_from_mic()
@@ -105,4 +109,3 @@ class AudioFile(AudioObj):
         wf.setframerate(self.rate)
         wf.writeframes(b''.join(self.frames))
         wf.close()
-

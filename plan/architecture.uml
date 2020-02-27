@@ -3,9 +3,12 @@
 actor "Operator"
 actor "Customer"
 
-box "Machine in a branch's server room (BSR)"
+box "raspberry"
 participant "Audio card"
-participant "Sound service"
+participant "Audio service"
+end box
+
+box "Machine in a branch's server room (BSR)"
 collections "Audio files on\n the machine in a BSR"
 participant "sFTP server"
 end box
@@ -28,13 +31,12 @@ actor "Manager"
 
 "Operator" -> "Audio card" : analog audio signal
 "Customer" -> "Audio card" : analog audio signal
-"Audio card" -> "Sound service" : audio signal
-"Sound service" -> "Audio files on\n the machine in a BSR" : audio file
-"Audio files on\n the machine in a BSR" o<->o "sFTP server"
-"sFTP server" <-> "sFTP client"  : sFTP (audio file\n and metadata)
-"sFTP client" o<->o "Audio files on\nmachine in a workspace"
+"Audio card" -> "Audio service" : audio signal
+"Audio service" -> "sFTP server": audio file
 "Audio files on\nmachine in a workspace" -> "Text Service": audio file\n and metadata
-
+"sFTP server" <-> "Audio files on\n the machine in a BSR": audio file
+"sFTP server" -> "sFTP client": audio file
+"sFTP client" -> "Audio files on\nmachine in a workspace": audio file
 "Text Service" -> "Text DB" : text\n and metadata
 
 "Full text engine" <-> "Text DB" : SQL-query\ntext and metadata

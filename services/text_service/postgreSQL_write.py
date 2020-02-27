@@ -1,6 +1,6 @@
 import psycopg2
 import keyring
-#keyring.set_password(service_name='postgreSQL', username='text_service', password='######')
+keyring.set_password(service_name='postgreSQL', username='text_service', password='Fefu2019')
 #cursor.execute("DROP table text;")
 #cursor.execute("CREATE TABLE text (id bigserial PRIMARY KEY, work_place int, date_time timestamp without time zone, text text);")
 
@@ -26,25 +26,17 @@ def write_row(work_place, role, date_time, text):
     conn.close()
 
 
-#full_text_search('прослушка')
 
-
-
-
-
-
-
-'''write_row(1, 1, 2020-02-02, 'Сбербанк хочет прослушивать людей как в сериале прослушка')
-write_row(1, 1, 2020-02-03, 'Они не ценят персональные данные')
-write_row(1, 1, 2020-02-04, 'Скиньте денег')
-write_row(1, 1, 2019-02-05, 'Россия вперед! С нами Бог!')
-write_row(1, 1, 2019-02-06, 'Надеюсь никого за это не посадят')
-write_row(1, 1, 2019-02-07, 'Как и за оскорбление чувств верующих')
-write_row(1, 1, 2019-02-03, 'Полнотекстовый поиск не работает?')
-write_row(1, 1, 2019-02-08, 'я пробовал пиво 1 раз в жизни')
-write_row(1, 1, 2019-02-02, 'или 2')
-write_row(1, 1, 2019-02-11'                                ')
-'''
+'''write_row(1, 1, '2020-02-02', 'Сбербанк хочет прослушивать людей как в сериале прослушка')
+write_row(1, 1, '2020-02-03', 'Они не ценят персональные данные')
+write_row(1, 1, '2020-02-04', 'Скиньте денег')
+write_row(1, 1, '2019-02-05', 'Россия вперед! С нами Бог!')
+write_row(1, 1, '2019-02-06', 'Надеюсь никого за это не посадят')
+write_row(1, 1, '2019-02-07', 'Как и за оскорбление чувств верующих')
+write_row(1, 1, '2019-02-03', 'Полнотекстовый поиск не работает?')
+write_row(1, 1, '2019-02-08', 'я пробовал пиво 1 раз в жизни')
+write_row(1, 1, '2019-02-02', 'или 2')
+write_row(1, 1, '2019-02-11', '')'''
 
 '''class connection(psycopg2.connect):
     def __init__(self):

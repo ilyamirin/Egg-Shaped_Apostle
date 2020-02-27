@@ -28,11 +28,11 @@ def full_text_search(work_place, role, date_time_start, date_time_end, query, to
                    f"limit {top};"
 
                    )
-    print(cursor.fetchall())
+
+    return cursor.fetchall()
     cursor.close()
     conn.close()
 
-full_text_search(1,1,'2020-02-04 12:30:22','2020-03-05 12:30:22','скиньте')
 def check_table():
     conn = psycopg2.connect(
         host=PG_SERVER_HOST,
@@ -49,3 +49,4 @@ def check_table():
     cursor.close()
     conn.close()
 
+full_text_search(1,1,'2020-01-01 12:30:22','2020-12-12 12:30:22','прослушка')
