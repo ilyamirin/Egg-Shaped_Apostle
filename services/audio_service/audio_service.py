@@ -43,9 +43,9 @@ def record_stop_by_time(**kwargs):
 def send_file(input_file, output_file):
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh.connect(FILE_SERVER_IP, port=FILE_SERVER_PORT, username=SERVICE_USERNAME, key_filename='id_rsa')
+    print(SERVICE_USERNAME)
+    ssh.connect(FILE_SERVER_IP, port=int(FILE_SERVER_PORT), username=SERVICE_USERNAME, key_filename='id_rsa')
     sftp = ssh.open_sftp()
     sftp.put(input_file, output_file)
 
-
-#send_file('test.txt', 'test1.txt')
+send_file('config.ini', 'projects/Egg-Shaped_apostle/services/audio_service/config.ini')
