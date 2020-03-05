@@ -17,6 +17,7 @@ def write_row(work_place, role, date_time, text):
         password=keyring.get_password('postgreSQL', 'text_service'),
     )
     cursor = conn.cursor()
+    print(work_place, role, date_time, text)
     cursor.execute(
         f"insert into text (work_place, role, date_time,  text, tsvector) VALUES ({work_place}, {role}, '{date_time}','{text}', (SELECT to_tsvector('russian', '{text}'))); COMMIT;")
     # cursor.execute("SELECT * FROM text;")

@@ -56,7 +56,7 @@ class Speaker(AudioObj):
 
         start_time = time()
         while time() - start_time <= listen_time:
-            data = self.mic.stream.read(self.chunk)
+            data = self.mic.stream.read(self.chunk, exception_on_overflow=False)
             #print(len(data))
 
             self.stream.write(data)
@@ -109,3 +109,21 @@ class AudioFile(AudioObj):
         wf.setframerate(self.rate)
         wf.writeframes(b''.join(self.frames))
         wf.close()
+
+#def get_audio_devices_info():
+
+'''p = pyaudio.PyAudio()
+host_api_info = p.get_default_host_api_info()
+for id in  range(host_api_info['deviceCount']):
+    device_info = p.get_device_info_by_host_api_device_index(host_api_info['index'], id)
+    fields = ['index', 'name', 'maxInputChannels', 'maxOutputChannels', 'defaultSampleRate']
+    for field in fields:
+        print(f"{field}: {device_info[field]};")
+    print('\n')
+
+    for host_api_index in range(p.get_host_api_count()):
+        host_api_info = p.get_host_api_info_by_index(host_api_index)
+        print(host_api_info)'''
+
+#sp = Speaker(channels=1, rate=48000, chunk=8092)
+#sp.start_stream_from_mic(inp_device_ind=6, channels=1, rate=48000, chunk=8092)

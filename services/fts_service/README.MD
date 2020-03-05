@@ -20,4 +20,5 @@ REST API fts accepts the following parameters:
  - top=5 [ISO 8601]
  
 e.g.:
-<code>http://localhost:5000/fts?work_place=0&role=1&date_time_start=2020-02-01&date_time_end=2020-02-28&query=\u0417\u0430\u043F\u0440\u043E\u0441\u0020\u043D\u0430\u0020\u043D\u0435\u0441\u043A\u043E\u043B\u044C\u043A\u043E\u0020\u0441\u0442\u0440\u043E\u043A&top=5</code>
+<code>curl -i -H "Content-Type: application/json" -X POST -d '{"work_place":"1", "role":"0", "date_time_start":"2020-02-01", "date_time_end":"2020-02-28", "query":"запрос на поиск", "top":5}' http://localhost:5000/fts
+</code>
