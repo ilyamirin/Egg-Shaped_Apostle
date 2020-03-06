@@ -5,11 +5,10 @@ import paramiko
 import configparser
 from time import sleep
 from os import remove, listdir
-
+import keyboard
 
 config = configparser.ConfigParser()
 config.read('config.ini')
-#keyring.set_password('audio_service', config['FILE_SERVER']['USERNAME'], #####)
 START_HOUR = datetime.time(datetime.strptime('02:00', '%H:%M'))
 END_HOUR = datetime.time(datetime.strptime('08:00', '%H:%M'))
 
@@ -20,7 +19,7 @@ def send_to_file_server(input_file, output_file):
 
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh.connect(config['FILE_SERVER']['IP'], port=int(config['FILE_SERVER']['PORT']), username=config['FILE_SERVER']['USERNAME'], key_filename='/home/pi/.ssh/id_rsa')
+    ssh.connect(config['FILE_SERVER']['IP'], port=int(config['FILE_SERVER']['PORT']), username=config['FILE_SERVER']['USERNAME'], key_filename=config["ENV"]["RSA_DIR"])
     sftp = ssh.open_sftp()
     sftp.put(input_file, output_file)
 
@@ -31,8 +30,11 @@ def send_to_file_server(input_file, output_file):
 
 
 def record(q, card, mic, time, file):
-    subprocess.call([r'/usr/bin/arecord', '-f', 'cd', '-D' f'plughw:{card},{mic}', '-c', '1', '-d', f'{time}', f'{config["ENV"]["DATA_DIR"]+file}'])
-    q.put(file)
+    try:
+        subprocess.call([r'/usr/bin/arecord', '-f', 'cd', '-D' f'plughw:{card},{mic}', '-c', '1', '-d', f'{time}', f'{config["ENV"]["DATA_DIR"]+file}'])
+        q.put(file)
+    except:
+        print(f'something wrong with {file} record')
 
 
 def parallel_record(cards):
@@ -41,8 +43,11 @@ def parallel_record(cards):
     for card in cards:
         for mic in cards[card]:
             timestamp = str(datetime.now()).replace(' ', 'T')
-            recording_processes.append(
-                mp.Process(target=record, args=(q, card, mic, 3600, f'{card}_{mic}_{timestamp}.wav')))
+            try:
+                recording_processes.append(
+                    mp.Process(target=record, args=(q, card, mic, 3600, f'{card}_{mic}_{timestamp}.wav')))
+            except:
+                print(f'something wrong with {card}, {mic}')
 
     results = []
 
@@ -59,7 +64,9 @@ def parallel_record(cards):
 
 
 def record_by_work_time(cards):
+    print('start writing, press space to break...')
     while True:
+        if keyboard.is_pressed('space'): break
         date_now = datetime.date(datetime.now())
         start_datetime = datetime.combine(date_now, START_HOUR)
         end_datetime = datetime.combine(date_now, END_HOUR)
