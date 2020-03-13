@@ -4,11 +4,12 @@ from speech_recognition.kaldi import converter, kaldi_recognition
 from postgreSQL_write import write_row
 from datetime import datetime
 
-DATA_IN_DIR = r'/home/user/Desktop/projects/Egg-Shaped_Apostle/data/'
+#DATA_IN_DIR = r'/home/user/Desktop/projects/Egg-Shaped_Apostle/data/'
+DATA_IN_DIR = r'/media/user/data/'
 
 if 'converted' in os.listdir(os.getcwd()):
     with open('converted', 'r') as converted:
-        converted_files = converted.read().split()
+        converted_files = converted.read().split('\n')
 else:
     open('converted', 'w').close()
     converted_files = []
@@ -16,12 +17,13 @@ recognizer = kaldi_recognition.Recognizer()
 
 files = [i for i in converter.get_files() if i not in converted_files]
 
-for i in files[:10]:
-    converter.convert(i)
+for i in files:
+    converter.split_and_convert(i, 60)
+    print(i)
 
 with open('converted', 'w') as converted:
     for i in files:
-        converted.write(i)
+        converted.write(i+'\n')
 
 print(files)
 print('files converted...')
@@ -36,15 +38,21 @@ else:
 
 files_to_stt = [i for i in recognizer.get_data_listdir() if i not in recognized_files]
 
+mic_map = {0: [1, 1],
+           1: [2, 0],
+           2: [1, 0]}
 
 print('recognizing and adding to DB...')
 for file in files_to_stt:
     log = ''
-    role = file[-1]
+    mic_data = mic_map[int(file[0])]
+    place = mic_data[0]
+    role = mic_data[1]
+    date = file[4:-5]
     try:
         text = recognizer.recognize(file)['raw_text']
         print(text)
-        write_row(1, role, datetime.now(), text)
+        write_row(place, role, date, text)
     except:
         e = sys.exc_info()[0]
         err_text = str(e)+f' on file {file}.\n'
