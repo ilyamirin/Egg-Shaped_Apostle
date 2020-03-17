@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 import subprocess
 import multiprocessing as mp
 from datetime import datetime
@@ -8,9 +11,26 @@ from os import remove, listdir
 import keyboard
 
 config = configparser.ConfigParser()
-config.read('config.ini')
-START_HOUR = datetime.time(datetime.strptime('02:00', '%H:%M'))
-END_HOUR = datetime.time(datetime.strptime('08:00', '%H:%M'))
+if 'config.ini' in listdir('.'):
+    config.read('config.ini')
+else:
+    config['ENV'] = {
+        'RSA_DIR': f'/home/pi/.ssh/id_rsa',
+        'DATA_DIR': f'data/',
+        'DEV_NO': 1
+    }
+    
+    config['FILE_SERVER'] = {
+        'IP': '192.168.0.1',
+        'PORT': '22',
+        'USERNAME': 'user',
+        'DIR': '/media/user/data',
+    }
+    with open('config.ini', 'w') as config_file:
+        config.write(config_file)
+    
+START_HOUR = datetime.time(datetime.strptime('09:00', '%H:%M'))
+END_HOUR = datetime.time(datetime.strptime('19:00', '%H:%M'))
 
 files_list = [config["ENV"]["DATA_DIR"]+i for i in listdir(config["ENV"]["DATA_DIR"])]
 
@@ -45,7 +65,7 @@ def parallel_record(cards):
             timestamp = str(datetime.now()).replace(' ', 'T')
             try:
                 recording_processes.append(
-                    mp.Process(target=record, args=(q, card, mic, 3600, f'{card}_{mic}_{timestamp}.wav')))
+                    mp.Process(target=record, args=(q, card, mic, 3600, f'{config["ENV"]["DEV_NUM"]}_{card}_{mic}_{timestamp}.wav'))) #config["ENV"]["DEV_NUM"] - gets number of raspberry
             except:
                 print(f'something wrong with {card}, {mic}')
 
@@ -80,9 +100,9 @@ def record_by_work_time(cards):
             sleep(10)
 
 
-cards = {1: [0,], 2: [0,]}
+cards = {0: [0,], 1: [0,], 2: [0,], 3:[0,]}
 
-record_by_work_time(cards)
+#record_by_work_time(cards)
 
 
 def get_devices():
