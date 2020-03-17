@@ -17,6 +17,7 @@ else:
     config['ENV'] = {
         'RSA_DIR': f'/home/pi/.ssh/id_rsa',
         'DATA_DIR': f'data/',
+        'DEV_NO': 1
     }
     
     config['FILE_SERVER'] = {
@@ -64,7 +65,7 @@ def parallel_record(cards):
             timestamp = str(datetime.now()).replace(' ', 'T')
             try:
                 recording_processes.append(
-                    mp.Process(target=record, args=(q, card, mic, 3600, f'{card}_{mic}_{timestamp}.wav')))
+                    mp.Process(target=record, args=(q, card, mic, 3600, f'{config["ENV"]["DEV_NUM"]}_{card}_{mic}_{timestamp}.wav'))) #config["ENV"]["DEV_NUM"] - gets number of raspberry
             except:
                 print(f'something wrong with {card}, {mic}')
 
