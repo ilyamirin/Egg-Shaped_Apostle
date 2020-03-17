@@ -5,22 +5,25 @@ from postgreSQL_write import write_row
 from datetime import datetime
 
 #DATA_IN_DIR = r'/home/user/Desktop/projects/Egg-Shaped_Apostle/data/'
-DATA_IN_DIR = r'/media/user/data/'
+DATA_IN_DIR = r'/media/user/data/' #путь, откуда берутся файлы
 
-if 'converted' in os.listdir(os.getcwd()):
+if 'converted' in os.listdir(os.getcwd()): # проверяем, есть ли список уже сконвертированных файлов
     with open('converted', 'r') as converted:
-        converted_files = converted.read().split('\n')
+        converted_files = converted.read().split('\n') # читаем, если есть
 else:
-    open('converted', 'w').close()
+    open('converted', 'w').close() # иначе создаем
     converted_files = []
 recognizer = kaldi_recognition.Recognizer()
 
+# список файлов на конвертацию,
+# с фильтрацией по уже отконвертированным
 files = [i for i in converter.get_files() if i not in converted_files]
 
 for i in files:
     converter.split_and_convert(i, 60)
     print(i)
 
+#добавляем отконвретированное в список
 with open('converted', 'w') as converted:
     for i in files:
         converted.write(i+'\n')
@@ -28,6 +31,7 @@ with open('converted', 'w') as converted:
 print(files)
 print('files converted...')
 
+#аналогично с конверитрованными, делаем список распознанных
 if 'recognized' in os.listdir(os.getcwd()):
     with open('recognized', 'r') as recognized:
         recognized_files = recognized.read().split()
@@ -38,21 +42,38 @@ else:
 
 files_to_stt = [i for i in recognizer.get_data_listdir() if i not in recognized_files]
 
-mic_map = {0: [1, 1],
-           1: [2, 0],
-           2: [1, 0]}
+mic_map = {
+    # карта микрофонов.
+    # Первый уровень — номер распберри,
+    # второй — номер аудиокарты (он же номер микрофона, так как подключаем через usb-микро, там 1 к 1)
+    # по номеру микрофона принимаем список, в котором 1-ый элемент — номер стола, 2-ой — роль (0 - оператор, 1 - клиент)
+    0: {
+        0: [1, 1],
+        1: [2, 0],
+        2: [1, 0]},
+    1: {
+        0: [3, 0],
+        1: [3, 1],
+        2: [4, 0],
+        3: [4, 1]
+           }
+}
+
 
 print('recognizing and adding to DB...')
-for file in files_to_stt:
+for file in files_to_stt: # бежим по списку файлов на распознавание
     log = ''
-    mic_data = mic_map[int(file[0])]
-    place = mic_data[0]
-    role = mic_data[1]
-    date = file[4:-5]
-    try:
+    endpoint, card, device, date = file.split('_') #разбиваем название файла по "_", получаем метаданные расположения
+    endpoint_data = mic_map[int(endpoint)]
+    card_data = endpoint_data[card]
+    place = card_data[0]
+    role = card_data[1]
+    date = date[:-5]
+    try: # пытаемся отдать на распознавание
         text = recognizer.recognize(file)['raw_text']
         print(text)
         write_row(place, role, date, text)
+        log = log + f'{place}, {role}, {date}, {text}'
     except:
         e = sys.exc_info()[0]
         err_text = str(e)+f' on file {file}.\n'
