@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
@@ -67,7 +68,7 @@ def parallel_record(cards):
             timestamp = str(datetime.now()).replace(' ', 'T')
             try:
                 recording_processes.append(
-                    mp.Process(target=record, args=(q, card, mic, 3600, f'{config["ENV"]["DEV_NUM"]}_{card}_{mic}_{timestamp}.wav'))) #config["ENV"]["DEV_NUM"] - gets number of raspberry
+                    mp.Process(target=record, args=(q, card, mic, 3600, f'{config["ENV"]["DEV_NO"]}_{card}_{mic}_{timestamp}.wav'))) #config["ENV"]["DEV_NUM"] - gets number of raspberry
             except Exception as e:
                 with open('log.txt', 'w') as log_file:
                     log_file.write(f'[{datetime.now()}]: Record error: {e}')
@@ -104,7 +105,7 @@ def record_by_work_time(cards):
             sleep(10)
 
 
-cards = {0: [0,], 1: [0,], 2: [0,], 3:[0,]}
+cards = {0: [0,], 1: [0,], 2: [0,], 4:[0,]}
 
 record_by_work_time(cards)
 
