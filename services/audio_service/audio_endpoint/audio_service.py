@@ -68,7 +68,9 @@ def parallel_record(cards):
             try:
                 recording_processes.append(
                     mp.Process(target=record, args=(q, card, mic, 3600, f'{config["ENV"]["DEV_NUM"]}_{card}_{mic}_{timestamp}.wav'))) #config["ENV"]["DEV_NUM"] - gets number of raspberry
-            except:
+            except Exception as e:
+                with open('log.txt', 'w') as log_file:
+                    log_file.write(f'[{datetime.now()}]: Record error: {e}')
                 print(f'something wrong with {card}, {mic}')
 
     results = []
