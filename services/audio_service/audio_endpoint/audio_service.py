@@ -53,7 +53,9 @@ def record(q, card, mic, time, file):
     try:
         subprocess.call([r'/usr/bin/arecord', '-f', 'cd', '-D' f'plughw:{card},{mic}', '-c', '1', '-d', f'{time}', f'{config["ENV"]["DATA_DIR"]+file}'])
         q.put(file)
-    except:
+    except Exception as e:
+        with open('log.txt', 'w') as log_file:
+            log_file.write(f'[{datetime.now()}]: Record error: {e}')
         print(f'something wrong with {file} record')
 
 
@@ -102,11 +104,10 @@ def record_by_work_time(cards):
 
 cards = {0: [0,], 1: [0,], 2: [0,], 3:[0,]}
 
-#record_by_work_time(cards)
-
+record_by_work_time(cards)
 
 def get_devices():
     subprocess.call([r'/usr/bin/aplay', '-l'])
 
-print(get_devices())
+#print(get_devices())
 
