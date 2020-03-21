@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Place } from '../../model/place.model';
-import { PlaceService } from '../../service/place.service';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {Place} from '../../model/place.model';
+import {PlaceService} from '../../service/place.service';
+
 
 @Component({
   selector: 'place-info',
@@ -12,11 +13,16 @@ export class PlaceInfoComponent implements OnInit {
 
   place: Place;
 
-  constructor(private route: ActivatedRoute, private placeService: PlaceService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private placeService: PlaceService
+  ) {
+  }
 
   ngOnInit() {
     const id = +this.route.snapshot.paramMap.get('id');
 
     this.place = this.placeService.getById(id);
   }
+
 }
