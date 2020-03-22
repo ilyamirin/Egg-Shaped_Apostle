@@ -33,7 +33,22 @@ export class HomeComponent implements OnInit {
   }
 
   search() {
-    this.places = this.placeService.getByFilter(this.searchText, this.dateStart, this.dateEnd);
+    this.placeService.getByFilter(this.searchText, this.dateStart, this.dateEnd).subscribe(data => {
+      const cards = data.search_results;
+
+      this.places = [];
+
+      for (const card of cards) {
+        this.places.push((new Place()).deserialize({
+          id: card.id,
+          seatNumber: card.work_place,
+          date: new Date(card.date_time),
+          text: card.text
+        }));
+      }
+    });
+
+    // return JSON.parse(JSON.stringify(this.places));
   }
 
 }

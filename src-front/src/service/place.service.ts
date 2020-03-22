@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Place} from 'src/model/place.model';
 import {environment} from '../environments/environment';
+import {Observable} from 'rxjs';
 
 
 @Injectable({
@@ -14,12 +15,7 @@ export class PlaceService {
   places_dummy: Place[] = [
     (new Place()).deserialize({id: 1, seatNumber: 1, date: new Date(), text: this.exampleText}),
     (new Place()).deserialize({id: 2, seatNumber: 2, date: new Date(), text: this.exampleText}),
-    (new Place()).deserialize({id: 3, seatNumber: 3, date: new Date(), text: this.exampleText}),
-    (new Place()).deserialize({id: 4, seatNumber: 4, date: new Date(), text: this.exampleText}),
-    (new Place()).deserialize({id: 5, seatNumber: 5, date: new Date(), text: this.exampleText}),
-    (new Place()).deserialize({id: 6, seatNumber: 6, date: new Date(), text: this.exampleText}),
-    (new Place()).deserialize({id: 7, seatNumber: 7, date: new Date(), text: this.exampleText}),
-    (new Place()).deserialize({id: 8, seatNumber: 8, date: new Date(), text: this.exampleText}),
+    (new Place()).deserialize({id: 3, seatNumber: 3, date: new Date(), text: this.exampleText})o
   ];*/
 
   places: Place[] = [];
@@ -29,7 +25,7 @@ export class PlaceService {
   ) {
   }
 
-  getByFilter(searchText: string, dateStart: Date, dateEnd: Date): Place[] {
+  getByFilter(searchText: string, dateStart: Date, dateEnd: Date): Observable<any> {
     const query = {
       query: searchText,
       date_time_start: dateStart,
@@ -43,20 +39,7 @@ export class PlaceService {
 
     const options = {headers};
 
-    this.http.post<any>(`${environment.apiURL}/fts`, query, options).subscribe(data => {
-      const cards = data.search_results;
-
-      for (const card of cards) {
-        this.places.push((new Place()).deserialize({
-          id: card.id,
-          seatNumber: card.work_place,
-          date: new Date(card.date_time),
-          text: card.text
-        }));
-      }
-    });
-
-    return JSON.parse(JSON.stringify(this.places));
+    return this.http.post<any>(`${environment.apiURL}/fts`, query, options);
   }
 
   getById(id: number): Place {
