@@ -22,7 +22,9 @@ export class PlaceInfoComponent implements OnInit {
   ngOnInit() {
     const id = +this.route.snapshot.paramMap.get('id');
 
-    this.place = this.placeService.getById(id);
+    this.placeService.getById(id).subscribe((data: Place) => {
+      this.place = data;
+    });
   }
 
 }

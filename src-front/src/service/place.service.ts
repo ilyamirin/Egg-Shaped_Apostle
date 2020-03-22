@@ -14,8 +14,7 @@ export class PlaceService {
 
   places_dummy: Place[] = [
     (new Place()).deserialize({id: 1, seatNumber: 1, date: new Date(), text: this.exampleText}),
-    (new Place()).deserialize({id: 2, seatNumber: 2, date: new Date(), text: this.exampleText}),
-    (new Place()).deserialize({id: 3, seatNumber: 3, date: new Date(), text: this.exampleText})o
+    (new Place()).deserialize({id: 2, seatNumber: 2, date: new Date(), text: this.exampleText})
   ];*/
 
   places: Place[] = [];
@@ -42,8 +41,8 @@ export class PlaceService {
     return this.http.post<any>(`${environment.apiURL}/fts`, query, options);
   }
 
-  getById(id: number): Place {
-    return this.places.find((el: Place) => el.id === id);
+  getById(id: number): Observable<Place> {
+    return this.http.get<Place>(`${environment.apiURL}/fts/${id}`);
   }
 
 }

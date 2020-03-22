@@ -47,8 +47,6 @@ export class HomeComponent implements OnInit {
         }));
       }
     });
-
-    // return JSON.parse(JSON.stringify(this.places));
   }
 
 }
