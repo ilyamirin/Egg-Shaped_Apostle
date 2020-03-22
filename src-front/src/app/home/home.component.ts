@@ -13,7 +13,6 @@ export class HomeComponent implements OnInit {
   searchText: string;
 
   dateStart: Date;
-
   dateEnd: Date;
 
   placeNumbers: number[];
@@ -27,7 +26,9 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.searchText = '';
+
     this.placeNumbers = [1, 2, 3, 4, 5, 6, 7, 8];
+
     this.places = [];
   }
 

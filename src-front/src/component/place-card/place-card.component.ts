@@ -13,7 +13,7 @@ export class PlaceCardComponent implements OnInit {
   place: Place;
 
   @Input()
-  isFullText: boolean = true;
+  isFullText: boolean;
 
   @Input()
   searchText: string | null;
@@ -22,6 +22,8 @@ export class PlaceCardComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isFullText = true;
+
     if (!this.isFullText) {
       this.place.text = this.trancateText(this.place.text, 100);
     }
@@ -45,8 +47,9 @@ export class PlaceCardComponent implements OnInit {
     }
 
     let truncatedText = value.slice(0, length);
+
     while (truncatedText.length > length - elipses.length) {
-      let lastSpace = truncatedText.lastIndexOf(' ');
+      const lastSpace = truncatedText.lastIndexOf(' ');
 
       if (lastSpace === -1) {
         truncatedText = '';
