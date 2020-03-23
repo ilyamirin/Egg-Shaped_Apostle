@@ -1,4 +1,5 @@
-import { Deserializable } from './deserializable.model';
+import {Deserializable} from './deserializable.model';
+
 
 export class Place implements Deserializable {
   id: number;
@@ -14,4 +15,5 @@ export class Place implements Deserializable {
 
     return this;
   }
+
 }
