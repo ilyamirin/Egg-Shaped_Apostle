@@ -1,4 +1,5 @@
 #!/bin/bash
+sudo apt install -y postgresql postgresql-contrib
 sudo -u postgres bash -c : && RUNAS="sudo -u postgres"
 $RUNAS bash<<_
 echo "creating administrators role..."
