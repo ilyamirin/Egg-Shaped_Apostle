@@ -35,19 +35,23 @@ END_HOUR = datetime.time(datetime.strptime('19:00', '%H:%M'))
 
 files_list = [config["ENV"]["DATA_DIR"]+i for i in listdir(config["ENV"]["DATA_DIR"])]
 
+
 def send_to_file_server(input_file, output_file):
     global files_list
-
-    ssh = paramiko.SSHClient()
-    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh.connect(config['FILE_SERVER']['IP'], port=int(config['FILE_SERVER']['PORT']), username=config['FILE_SERVER']['USERNAME'], key_filename=config["ENV"]["RSA_DIR"])
-    sftp = ssh.open_sftp()
-    sftp.put(input_file, output_file)
-
-    files_list.append(input_file)
-    if len(files_list) > 10:
-        remove(files_list[0])
-        files_list = files_list[1:]
+    try:
+        ssh = paramiko.SSHClient()
+        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        ssh.connect(config['FILE_SERVER']['IP'], port=int(config['FILE_SERVER']['PORT']), username=config['FILE_SERVER']['USERNAME'], key_filename=config["ENV"]["RSA_DIR"])
+        sftp = ssh.open_sftp()
+        sftp.put(input_file, output_file)
+        files_list.append(input_file)
+        if len(files_list) > 10:
+            remove(files_list[0])
+            files_list = files_list[1:]
+    except Exception as e:
+        with open('log.txt', 'w') as log_file:
+            log_file.write(f'[{datetime.now()}]: Sending error: {e}')
+        print(f'something is wrong with {input_file} sending to server')
 
 
 def record(q, card, mic, time, file):
@@ -68,7 +72,7 @@ def parallel_record(cards):
             timestamp = str(datetime.now()).replace(' ', 'T')
             try:
                 recording_processes.append(
-                    mp.Process(target=record, args=(q, card, mic, 3600, f'{config["ENV"]["DEV_NO"]}_{card}_{mic}_{timestamp}.wav'))) #config["ENV"]["DEV_NUM"] - gets number of raspberry
+                    mp.Process(target=record, args=(q, card, mic, 10, f'{config["ENV"]["DEV_NO"]}_{card}_{mic}_{timestamp}.wav'))) #config["ENV"]["DEV_NUM"] - gets number of raspberry
             except Exception as e:
                 with open('log.txt', 'w') as log_file:
                     log_file.write(f'[{datetime.now()}]: Record error: {e}')
