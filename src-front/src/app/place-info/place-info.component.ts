@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Place} from '../../model/place.model';
-import {PlaceService} from '../../service/place.service';
 
 
 @Component({
@@ -14,16 +13,13 @@ export class PlaceInfoComponent implements OnInit {
   place: Place;
 
   constructor(
-    private route: ActivatedRoute,
-    private placeService: PlaceService
+    private route: ActivatedRoute
   ) {
   }
 
   ngOnInit() {
-    const id = +this.route.snapshot.paramMap.get('id');
-
-    this.placeService.getById(id).subscribe((data: Place) => {
-      this.place = data;
+    this.route.paramMap.subscribe(() => {
+      this.place = window.history.state.place;
     });
   }
 
