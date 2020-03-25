@@ -24,11 +24,12 @@ export class PlaceService {
   ) {
   }
 
-  getByFilter(searchText: string, dateStart: Date, dateEnd: Date): Observable<any> {
+  getByFilter(searchText: string, dateStart: Date, dateEnd: Date, places: number[]): Observable<any> {
     const query = {
       query: searchText,
       date_time_start: dateStart,
-      date_time_end: dateEnd
+      date_time_end: dateEnd,
+      places
     };
 
     const headers = new HttpHeaders({

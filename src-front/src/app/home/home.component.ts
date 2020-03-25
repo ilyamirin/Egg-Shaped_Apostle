@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Place} from '../../model/place.model';
 import {PlaceService} from '../../service/place.service';
+import {FormControl} from '@angular/forms';
 
 
 @Component({
@@ -15,9 +16,9 @@ export class HomeComponent implements OnInit {
   dateStart: Date;
   dateEnd: Date;
 
-  placeNumbers: number[];
-
   places: Place[];
+
+  placesForm: FormControl;
 
   constructor(
     private placeService: PlaceService
@@ -27,13 +28,13 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.searchText = '';
 
-    this.placeNumbers = [1, 2, 3, 4, 5, 6, 7, 8];
-
     this.places = [];
+
+    this.placesForm = new FormControl();
   }
 
   search() {
-    this.placeService.getByFilter(this.searchText, this.dateStart, this.dateEnd).subscribe(data => {
+    this.placeService.getByFilter(this.searchText, this.dateStart, this.dateEnd, this.placesForm.value).subscribe(data => {
       const cards = data.search_results;
 
       this.places = [];
