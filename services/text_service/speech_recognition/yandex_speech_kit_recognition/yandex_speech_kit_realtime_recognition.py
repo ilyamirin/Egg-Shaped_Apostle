@@ -1,24 +1,24 @@
 import argparse
 import yaml
-#import os
-#os.chdir('./cloudapi/output/')
+import os
+
 #import grpc
 #import socket
 #import yandex.cloud.ai.stt.v2.stt_service_pb2 as stt_service_pb2
 #import yandex.cloud.ai.stt.v2.stt_service_pb2_grpc as stt_service_pb2_grpc
 import requests as rq
-import wave
 
+path = os.getcwd()
+#print(path)
+os.chdir('/home/sde/Desktop/projects/Egg-Shaped_Apostle/services/text_service/speech_recognition/yandex_speech_kit_recognition/')
 with open('api-key.yaml') as file:
     api_key = yaml.load(file, Loader=yaml.FullLoader)['secret']
-
+os.chdir(path)
 folder_id = 'b1gs8d8gurpgig5h56km'
 
 url = 'https://stt.api.cloud.yandex.net/speech/v1/stt:recognize'
 
-headers = {
-    au
-}
+headers = {"Authorization": "Api-Key " + api_key}
 params = {
     "topic": "general",
     "profanityFilter": 	"true",
@@ -26,11 +26,11 @@ params = {
     "sampleRateHertz": "48000"
 }
 # Прочитать аудиофайл и отправить его содержимое порциями.
-with open('test.wav', 'rb') as f:
-    data = f.read()
-print(data)
-res = rq.post(url, params=params, data=data)
-print(res.text)
+def recognize(data_path, filename):
+    with open(data_path+filename, 'rb') as f:
+        data = f.read()
+    res = rq.post(url, params=params, headers=headers, data=data).json()
+    return res
 #chunk_size = 1024
 #s_ip = '127.0.0.1'
 #s_port = 12345

@@ -174,7 +174,7 @@ def full_text_search(work_place=1, role=1, date_time_start='2020-02-01', date_ti
     return results
 
 
-print(full_text_search(work_place=1, role=1, query='урод'))
+#print(full_text_search(work_place=1, role=1, query='урод'))
 
 
 def return_by_id(id):

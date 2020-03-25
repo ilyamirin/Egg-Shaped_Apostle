@@ -1,1 +1,1 @@
-cd src-front;sudo ng serve
+cd src-front; ng serve

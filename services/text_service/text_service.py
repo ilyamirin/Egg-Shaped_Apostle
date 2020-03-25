@@ -1,14 +1,15 @@
 import sys
 import os
 from services.text_service.speech_recognition.kaldi import kaldi_recognition
+from services.text_service.speech_recognition.yandex_speech_kit_recognition import yandex_speech_kit_realtime_recognition
 #from services.text_service.postgreSQL_write import write_row
 from services.fts_service.elasticsearch_full_text_search import write
 from datetime import datetime
 
 
-# DATA_IN_DIR = r'/home/user/Desktop/projects/Egg-Shaped_Apostle/data/'
+DATA_IN_DIR = r'/home/sde/Desktop/projects/Egg-Shaped_Apostle/data/'
 
-DATA_IN_DIR = r'/media/sde/Data/'  # путь, откуда берутся файлы
+#DATA_IN_DIR = r'/media/sde/Data/'  # путь, откуда берутся файлы
 SCRIPT_DIR = '/home/sde/Desktop/projects/Egg-Shaped_Apostle/services/text_service/'
 
 
@@ -53,7 +54,12 @@ def add_to_database():
             place = card_data[0]
             role = card_data[1]
             date = date[:-5]
-            text = kaldi_recognition.recognize(DATA_IN_DIR, file)['raw_text']
+            #text = kaldi_recognition.recognize(DATA_IN_DIR, file)['raw_text']
+            result_obj = yandex_speech_kit_realtime_recognition.recognize(DATA_IN_DIR, file)
+            if 'result' in result_obj.keys():
+                text = result_obj['result']
+            else:
+                text = ''
             print(text)
             write(work_place = place, role = role, date_time = date, text = text)
             recognized.write(file+'\n')
