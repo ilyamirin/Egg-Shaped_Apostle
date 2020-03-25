@@ -1,7 +1,8 @@
 import sys
 import os
 from services.text_service.speech_recognition.kaldi import kaldi_recognition
-from services.text_service.postgreSQL_write import write_row
+#from services.text_service.postgreSQL_write import write_row
+from services.fts_service.elasticsearch_full_text_search import write
 from datetime import datetime
 
 
@@ -54,7 +55,7 @@ def add_to_database():
             date = date[:-5]
             text = kaldi_recognition.recognize(DATA_IN_DIR, file)['raw_text']
             print(text)
-            write_row(place, role, date, text)
+            write(work_place = place, role = role, date_time = date, text = text)
             recognized.write(file+'\n')
             write_to_log(f'{place}, {role}, {date}, {text}')
         recognized.close()
