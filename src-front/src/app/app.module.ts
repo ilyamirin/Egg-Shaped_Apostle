@@ -15,10 +15,12 @@ import {
   NbCalendarModule,
   NbCardModule,
   NbDatepickerModule,
+  NbIconModule,
   NbInputModule,
   NbLayoutModule,
-  NbSelectModule,
-  NbThemeModule
+  NbSelectModule, NbSpinnerModule,
+  NbThemeModule,
+  NbTooltipModule
 } from '@nebular/theme';
 import {NbEvaIconsModule} from '@nebular/eva-icons';
 
@@ -33,6 +35,7 @@ import {NbEvaIconsModule} from '@nebular/eva-icons';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
 
@@ -47,7 +50,9 @@ import {NbEvaIconsModule} from '@nebular/eva-icons';
     NbCalendarModule,
     NbButtonModule,
     NbSelectModule,
-    ReactiveFormsModule
+    NbIconModule,
+    NbTooltipModule,
+    NbSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

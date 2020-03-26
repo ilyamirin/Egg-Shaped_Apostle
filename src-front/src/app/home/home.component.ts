@@ -1,7 +1,9 @@
 import {Component, OnInit} from '@angular/core';
+import {FormControl, Validators} from '@angular/forms';
 import {Place} from '../../model/place.model';
-import {PlaceService} from '../../service/place.service';
-import {FormControl} from '@angular/forms';
+import {PlaceService, RecordService} from '../../service';
+import {NbComponentStatus} from '@nebular/theme';
+import {delay} from 'rxjs/operators';
 
 
 @Component({
@@ -12,25 +14,42 @@ import {FormControl} from '@angular/forms';
 export class HomeComponent implements OnInit {
 
   searchText: string;
+  recognizedText: string;
 
   dateStart: Date;
   dateEnd: Date;
 
   places: Place[];
 
+  placeNumbers: number[];
+
   placesForm: FormControl;
+  recordTimeForm: FormControl;
+
+  isRecognized: boolean;
 
   constructor(
-    private placeService: PlaceService
+    private placeService: PlaceService,
+    private recordService: RecordService
   ) {
   }
 
   ngOnInit() {
     this.searchText = '';
+    this.recognizedText = '';
 
     this.places = [];
 
+    this.placeNumbers = [1, 2, 3, 4, 5, 6, 7, 8];
+
     this.placesForm = new FormControl();
+    this.recordTimeForm = new FormControl('', [
+      Validators.required,
+      Validators.min(5),
+      Validators.max(30)
+    ]);
+
+    this.isRecognized = true;
   }
 
   search() {
@@ -47,6 +66,26 @@ export class HomeComponent implements OnInit {
           text: card.text
         }));
       }
+    });
+  }
+
+  recordTimeChecker(status: boolean): NbComponentStatus {
+    return status ? 'danger' : 'basic';
+  }
+
+  record(time: number) {
+    this.isRecognized = false;
+
+    const ms = time * 1000;
+
+    this.recordService.record(time).pipe(delay(ms)).subscribe(data => {
+      this.isRecognized = true;
+    });
+  }
+
+  recognize() {
+    this.recordService.recognize().subscribe(data => {
+      this.recognizedText = data;
     });
   }
 

@@ -34,7 +34,7 @@ export class PlaceService {
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': `${environment.apiURL}`,
+      'Access-Control-Allow-Origin': `${environment.apiURL}`
     });
 
     const options = {headers};
