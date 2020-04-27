@@ -102,8 +102,8 @@ def read_true_map(path):
                 dt_start = datetime.strptime(start, '%M:%S.%f')
                 dt_stop = datetime.strptime(stop, '%M:%S.%f')
 
-                start = dt_start.second * 1000 + dt_start.microsecond / 1000
-                stop = dt_stop.second * 1000 + dt_stop.microsecond / 1000
+                start = dt_start.minute * 60_000 + dt_start.second * 1000 + dt_start.microsecond / 1000
+                stop = dt_stop.minute * 60_000 + dt_stop.second * 1000 + dt_stop.microsecond / 1000
 
                 true_map[spk_number].append({'start': start, 'stop': stop})
 
@@ -240,7 +240,7 @@ def main(wav_path, embedding_per_second=1.0, overlap_rate=0.5):
     true_map = read_true_map('./sample/true.txt')
 
     p = PlotDiar(map=speaker_slice, true_map=true_map, wav=wav_path, gui=True, size=(24, 6))
-    # p.draw_true_map() Содержит баги, которые я сейчас фиксю
+    p.draw_true_map()
     p.draw_map()
     p.show()
 

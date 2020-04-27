@@ -51,18 +51,15 @@ class PlotDiar:
         self.end_play = 0
 
     def draw_true_map(self):
+        self._draw_info(self.true_ax, 'True segments', 'True speakers', f'True diarization map for {self.wav}')
         self._draw_segments(self.true_ax, self.true_map, self.true_timestamps)
-        if self.gui:
-            self._draw_info(self.true_ax, 'True segments', 'True speakers',
-                            f'True diarization map for {self.wav}')
 
     def draw_map(self):
         self._draw_segments(self.ax, self.map, self.timestamps)
-        if self.gui:
-            self._draw_info(self.ax, 'Detected segments', 'Detected speakers',
-                            f'Detected diarization map for {self.wav}')
+        self._draw_info(self.ax, 'Detected segments', 'Detected speakers', f'Detected diarization map for {self.wav}')
 
     def show(self):
+        self.plt.tight_layout()
         self.plt.show()
 
     def _draw_info(self, ax, xlabel, ylabel, title):
@@ -102,8 +99,8 @@ class PlotDiar:
         else:
             ax.set_xlim([0, self.max_x])
 
-        self.plt.ylim([0, y])
-        self.plt.yticks(labels_position, labels)
+        ax.set_ylim([0, y])
+        ax.set_yticks(labels_position, labels)
         self.max_y = y
         self.end_play = self.max_x
 
@@ -111,7 +108,6 @@ class PlotDiar:
             ax.plot([0, self.max_x], [y, y], linestyle=':', color='#AAAAAA')
             y -= self.height
 
-        self.plt.tight_layout()
         timestamps = list(set(self.timestamps)).sort()
 
         return timestamps
