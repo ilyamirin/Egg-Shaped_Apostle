@@ -103,7 +103,7 @@ def write(work_place, role, date_time, text):
 #print(write(1, 1, '2020-02-28T20:00:00.000Z', 'почему эти уроды не сделали нормальный анализатор'))
 
 
-def full_text_search(work_place=1, role=1, date_time_start='2020-02-01', date_time_end='2020-02-28', query='', top=5):
+def full_text_search(work_place=1, role=1, date_time_start=None, date_time_end=None, query='', top=5):
 
     path_params = f'{index}/_search/'
 

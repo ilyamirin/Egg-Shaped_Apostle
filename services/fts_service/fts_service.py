@@ -1,13 +1,33 @@
 #!flask/bin/python
 #from postgresql_full_text_search import full_text_search # <- он наказанный
+import os
+import subprocess
+import configparser
 from elasticsearch_full_text_search import full_text_search
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, abort
 from flask_cors import CORS, cross_origin
-#from json importС
+from datetime import datetime
+
 
 app = Flask(__name__)
 cors = CORS(app, resources={r"*": {"origins": "*"}})
 app.config['CORS_HEADERS'] = 'Content-Type'
+
+config = configparser.ConfigParser()
+print('Reading configuration file...', end='\n')
+
+if not 'config.ini' in os.listdir('.'):
+    print('Unable to find config file, create one with default settings...')
+    config['ENV'] = {
+        'ROOT_ABS_PATH': os.getcwd(),
+        'EXT_DATA_DIR': '/home/sde/Desktop/projects/Egg-Shaped_Apostle/data/'
+    }
+
+    with open('config.ini', 'w') as configfile:
+        config.write(configfile)
+
+config.read('config.ini')
+print('OK')
 
 @app.route('/fts', methods=['POST'])
 def get_fts_results():
@@ -36,6 +56,27 @@ def get_fts_results():
     print(results)
 
     return resp
+
+
+@app.route('/record', methods=['POST'])
+def record():
+    file_name = f'{config["ENV"]["EXT_DATA_DIR"]}0_0_0_{str(datetime.now()).replace(" ", "T")}.wav'
+    #if not request.json or not 'title' in request.json:
+    #    abort(400)
+    print(request.json)
+    #if "card" in request.json and "mic" in request.json:
+    #    rec_ps = subprocess.Popen(
+    #        [r'/usr/bin/arecord', '-f', 'cd', '-D' f'plughw:{request.json["card"]},{request.json["mic"]}', '-c', '1', '-d', f'{request.json["time"]}',
+    #         file_name])
+    #else:
+    rec_ps = subprocess.Popen(
+        [r'/usr/bin/arecord', '-f', 'cd', '-D' f'plughw:{0},{0}', '-c', '1', '-d', f'{request.json["time"]}',
+         file_name])
+    result = rec_ps.wait()
+    resp = jsonify({"res": result})
+    print(result)
+    return resp
+
 
 if __name__ == '__main__':
     app.run()
