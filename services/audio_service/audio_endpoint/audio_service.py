@@ -8,6 +8,7 @@ import multiprocessing as mp
 from datetime import datetime
 from time import sleep
 
+
 from audio_logger import get_logger
 from config_gen import get_config
 
@@ -149,3 +150,4 @@ def record_by_work_time(cards):
 if __name__ == '__main__':
     devices = get_devices()
     record_by_work_time(devices)
+                
