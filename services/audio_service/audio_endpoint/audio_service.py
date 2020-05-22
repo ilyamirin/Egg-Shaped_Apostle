@@ -45,20 +45,6 @@ def get_devices():
     return device_map
 
 
-class FilesCountHandler:
-    def __init__(self):
-        if 'data' not in os.listdir('.'):
-            os.mkdir('data')
-        self.files_list = [os.path.join(config["ENV"]["DATA_DIR"], i) for i in os.listdir(config["ENV"]["DATA_DIR"])]
-
-    def append(self, file):
-        self.files_list.append(file)
-        while len(self.files_list) > 10:
-            logger.debug(f'Amount of files exceeded ({len(self.files_list)}/10). Deleting  {self.files_list[0]}...')
-            os.remove(self.files_list[0])
-            self.files_list = self.files_list[1:]
-
-
 def send(input_file, output_file, queue=None):
     try:
         dest = f"{config['FILE_SERVER']['USERNAME']}@{config['FILE_SERVER']['IP']}"
@@ -140,6 +126,7 @@ def parallel_record(cards):
 
 
 def record_by_work_time(cards):
+    # takes the dict as described in get_devices, counts time and starts to record in working hours
     start_hour = datetime.time(datetime.strptime(config["SETTINGS"]["START_HOUR"], '%H:%M'))
     end_hour = datetime.time(datetime.strptime(config["SETTINGS"]["END_HOUR"], '%H:%M'))
     logger.info(f'start record by time between {config["SETTINGS"]["START_HOUR"]} and {config["SETTINGS"]["END_HOUR"]}...')
@@ -159,8 +146,6 @@ def record_by_work_time(cards):
             sleep(10)
 
 
-devices = get_devices()
-filesHandler = FilesCountHandler()
-
 if __name__ == '__main__':
+    devices = get_devices()
     record_by_work_time(devices)
