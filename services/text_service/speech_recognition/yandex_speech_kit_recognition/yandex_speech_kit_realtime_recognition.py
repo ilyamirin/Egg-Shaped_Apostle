@@ -1,27 +1,46 @@
 import argparse
 import yaml
-#import os
-#os.chdir('./cloudapi/output/')
-import grpc
-import socket
-import yandex.cloud.ai.stt.v2.stt_service_pb2 as stt_service_pb2
-import yandex.cloud.ai.stt.v2.stt_service_pb2_grpc as stt_service_pb2_grpc
+import os
 
+#import grpc
+#import socket
+#import yandex.cloud.ai.stt.v2.stt_service_pb2 as stt_service_pb2
+#import yandex.cloud.ai.stt.v2.stt_service_pb2_grpc as stt_service_pb2_grpc
+import requests as rq
+
+path = os.getcwd()
+#print(path)
+os.chdir('/home/sde/Desktop/projects/Egg-Shaped_Apostle/services/text_service/speech_recognition/yandex_speech_kit_recognition/')
 with open('api-key.yaml') as file:
     api_key = yaml.load(file, Loader=yaml.FullLoader)['secret']
-
+os.chdir(path)
 folder_id = 'b1gs8d8gurpgig5h56km'
 
-chunk_size = 1024
-s_ip = '127.0.0.1'
-s_port = 12345
-s_addr = (s_ip, s_port)
+url = 'https://stt.api.cloud.yandex.net/speech/v1/stt:recognize'
 
-s = socket.socket()
-s.connect(s_addr)
+headers = {"Authorization": "Api-Key " + api_key}
+params = {
+    "topic": "general",
+    "profanityFilter": 	"true",
+    "format": "lpcm",
+    "sampleRateHertz": "48000"
+}
+# Прочитать аудиофайл и отправить его содержимое порциями.
+def recognize(data_path, filename):
+    with open(data_path+filename, 'rb') as f:
+        data = f.read()
+    res = rq.post(url, params=params, headers=headers, data=data).json()
+    return res
+#chunk_size = 1024
+#s_ip = '127.0.0.1'
+#s_port = 12345
+#s_addr = (s_ip, s_port)
+
+#s = socket.socket()
+#s.connect(s_addr)
 
 
-def gen(folder_id):
+'''def gen(folder_id):
     # Задать настройки распознавания.
     specification = stt_service_pb2.RecognitionSpec(
         language_code='ru-RU',
@@ -45,13 +64,9 @@ def gen(folder_id):
         yield stt_service_pb2.StreamingRecognitionRequest(audio_content=data)
         n += 1
 
-'''    # Прочитать аудиофайл и отправить его содержимое порциями.
-    with open(audio_file_name, 'rb') as f:
-        data = f.read(CHUNK_SIZE)
-        while data != b'':
-            yield stt_service_pb2.StreamingRecognitionRequest(audio_content=data)
-            data = f.read(CHUNK_SIZE)'''
+'''
 
+'''
 def run(folder_id):
     # Установить соединение с сервером.
     cred = grpc.ssl_channel_credentials()
@@ -75,4 +90,4 @@ def run(folder_id):
         print('Error code %s, message: %s' % (err._state.code, err._state.details))
     s.close()
 
-run(folder_id)
+run(folder_id)'''

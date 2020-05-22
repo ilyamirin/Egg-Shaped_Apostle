@@ -1,6 +1,6 @@
 <nb-card>
   <nb-card-header>
-    <a [routerLink]="['/place', place.id]">Место {{ place.seatNumber }}</a>
+    <a [routerLink]="['/place', place.id]" [state]="{ place: place }">Место {{ place.seatNumber }}</a>
   </nb-card-header>
   <nb-card-body [innerHTML]="place.text">
   </nb-card-body>

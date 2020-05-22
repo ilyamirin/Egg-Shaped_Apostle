@@ -6,7 +6,7 @@
 
 @include nb-install() {
   @include nb-theme-global();
-};
+}
 
 .col-10 {
   padding: 0;
