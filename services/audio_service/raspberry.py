@@ -104,10 +104,10 @@ class Microphone:
     def workplace(self, role):
         self.__workplace = role
 
-    def listen(self, sample_rate, duration):
+    def listen(self, duration):
         logger.debug(f'Listening of microphone with #{self.no} on card #{self.card.no} on Raspberry #{self.card.raspberry.no} for {duration} seconds...')
-        command = f'ssh {self.raspberry.user}@{self.raspberry.ip} "arecord -f S16_LE --rate {sample_rate} --duration {duration} -c 2 -D hw:{self.card.no},{self.no}" | aplay --duration {duration}'
-        pro = subprocess.run(command, stdout=None, shell=True)
+        command = f'ssh {self.raspberry.user}@{self.raspberry.ip} "arecord -f S16_LE  --duration {duration} -c 2 -D hw:{self.card.no},{self.no}" | aplay'
+        os.system(command)
 
     def stream(self, sample_rate, target):
         logger.debug(f'Streaming from microphone with #{self.no} on card #{self.card.no} on Raspberry #{self.card.raspberry.no}...')

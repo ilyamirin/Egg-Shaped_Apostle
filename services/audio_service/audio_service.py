@@ -5,6 +5,7 @@
 
 from datetime import datetime
 from time import sleep
+import os
 
 from raspberry import Raspberry
 from network_utils import get_active_addresses
@@ -22,7 +23,9 @@ def get_raspberries():
     raspberries = []
     i = 0
     for ip in addresses:
-        with open('raspberries_list', 'r') as list:
+        if 'raspberries_list' not in os.listdir():
+            os.system('touch raspberries_list')
+        with open('raspberries_list', 'r+') as list:
             rasp_list = list.read().split('\n')
             if ip not in rasp_list:
                 with open('raspberries_list', 'a+') as list:
