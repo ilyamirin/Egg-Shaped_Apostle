@@ -1,51 +1,59 @@
-import socket
-import os
-import keyboard
-import sounddevice as sd
+# берет все устройства из локальной сети
+# подключается к ним через SSH
+# отправляет на них требование записи
+# принимает запись в файл в указанную папку.
+
 from datetime import datetime
-import configparser
-import paramiko
+from time import sleep
 
-from devices_wrapper import Microphone, AudioFile, Speaker
-import config
+from raspberry import Raspberry
+from network_utils import get_active_addresses
+from audio_logger import get_logger
+from config_gen import get_config
+from ssh_connect import no_pass_ssh
 
-config = configparser.ConfigParser()
-print('Reading configuration file...', end='')
+logger = get_logger("audio_service", '1')
 
-config.read('config.ini')
-print('OK')
+config = get_config()
 
-FILE_SERVER_IP = config['NETWORK']['file_server_ip']
-FILE_SERVER_PORT = config['NETWORK']['file_server_port']
-SERVICE_USERNAME = config['AUTHENTIFICATION']['service_username']
 
-SERVICE_DATA_PATH = config['ENV']['SERVICE_DATA_PATH']
+def get_raspberries():
+    addresses = get_active_addresses()
+    raspberries = []
+    i = 0
+    for ip in addresses:
+        with open('raspberries_list', 'r') as list:
+            rasp_list = list.read().split('\n')
+            if ip not in rasp_list:
+                with open('raspberries_list', 'a+') as list:
+                    no_pass_ssh(ip, config['RASPBERRY']['USERNAME'], config['RASPBERRY']['PASSWORD'])
+                    list.write(ip+'\n')
+        raspberries.append(Raspberry(ip, config['RASPBERRY']['USERNAME'], i))
+        i += 1
+    return raspberries
 
-def record_stop_by_time(**kwargs):
-    file = AudioFile(**kwargs)
-    print('start recording')
-    file.start_record_from_mic(**kwargs)
+
+def record_by_work_time(raspberries):
+    # takes the dict as described in get_devices, counts time and starts to record in working hours
+    start_hour = datetime.time(datetime.strptime(config["SETTINGS"]["START_HOUR"], '%H:%M'))
+    end_hour = datetime.time(datetime.strptime(config["SETTINGS"]["END_HOUR"], '%H:%M'))
+    logger.info(f'start record by time between {config["SETTINGS"]["START_HOUR"]} and {config["SETTINGS"]["END_HOUR"]}...')
     while True:
-        now = datetime.now()
-        data = file.mic.stream.read(file.chunk)
-        file.frames.append(data)
-        if now.hour == 18 and now.minute == 0:
-            print('Working day is over!')
-            data = file.mic.stream.read(file.chunk)
-            file.frames.append(data)
-            break
-    print("* done recording")
-    file.mic.close_stream()
-    file.save_file()
-    print(f'Saved to file {file.name}.wav')
+        # if keyboard.is_pressed('space'): break
+        date_now = datetime.date(datetime.now())
+        start_datetime = datetime.combine(date_now, start_hour)
+        end_datetime = datetime.combine(date_now, end_hour)
+        start_delta = datetime.now().timestamp() - start_datetime.timestamp()
+        end_delta = datetime.now().timestamp() - end_datetime.timestamp()
+        if start_delta > 0 > end_delta:
+            logger.debug(f'Working hours, start recording...')
+            for rasp in raspberries:
+                rasp.parallel_record(config['ENV']['DATA_DIR'], config['SETTINGS']['RECORD_DUR'])
+        else:
+            logger.debug(f'Not working hours, sleeping...')
+            sleep(10)
 
 
-def send_file(input_file, output_file):
-    ssh = paramiko.SSHClient()
-    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    print(SERVICE_USERNAME)
-    ssh.connect(FILE_SERVER_IP, port=int(FILE_SERVER_PORT), username=SERVICE_USERNAME, key_filename='id_rsa')
-    sftp = ssh.open_sftp()
-    sftp.put(input_file, output_file)
-
-send_file('config.ini', 'projects/Egg-Shaped_apostle/services/audio_service/config.ini')
+if __name__ == '__main__':
+    raspberries = get_raspberries()
+    record_by_work_time(raspberries)

@@ -10,3 +10,6 @@ __pycache__
 *.exe 
 *.ini 
 flask 
+log.txt
+*.gz
+test.wav
