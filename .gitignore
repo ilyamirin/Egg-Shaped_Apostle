@@ -13,3 +13,5 @@ flask
 log.txt
 *.gz
 test.wav
+**/.venv
+**/__pycache__
