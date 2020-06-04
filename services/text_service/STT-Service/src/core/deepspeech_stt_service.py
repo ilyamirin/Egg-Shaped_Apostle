@@ -6,7 +6,7 @@ import numpy as np
 from core.stt_service import SttService
 from core.utils import log_load
 
-WEIGHTS_PATH = 'resources/deepspeech-weights.pbmm'
+WEIGHTS_PATH = 'resources/deepspeech-weights.pb'
 LM_PATH = 'resources/kenlm.scorer'
 
 class DeepspeechSttService(SttService):
