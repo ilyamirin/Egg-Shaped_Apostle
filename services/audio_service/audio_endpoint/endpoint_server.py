@@ -31,8 +31,8 @@ def wrap_response(response):
 @app.route('/record', methods=['POST'])
 def start_record():
     try:
-        print(request)
-        file = audio_service.record(**request.json)
+        print(request.args)
+        file = audio_service.record(**request.args)
         resp = wrap_response({'response': f'file {file} was recorded'})
     except Exception as e:
         logger.error(e)
@@ -46,7 +46,7 @@ def get_records():
         resp = wrap_response(audio_service.get_files_list())
     except Exception as e:
         logger.error(e)
-        resp = wrap_response({'error': e})
+        resp = wrap_response({'error': str(e)})
     return resp
 
 
@@ -58,7 +58,7 @@ def record():
         resp = wrap_response({'response': f'file {file} was sended to {output_file} in main storage server'})
     except Exception as e:
         logger.error(e)
-        resp = wrap_response({'error': e})
+        resp = wrap_response({'error': str(e)})
     return resp
 
 
@@ -68,7 +68,7 @@ def get_devices():
         resp = wrap_response(audio_service.get_devices())
     except Exception as e:
         logger.error(e)
-        resp = wrap_response({'error': e})
+        resp = wrap_response({'error': str(e)})
     return resp
 
 
@@ -87,6 +87,26 @@ def set_config():
     with open('config.ini', 'w') as config:
         config.write(request.json['config'])
     resp = jsonify({'response': 'successful overwriting of config.ini'})
+    return resp
+
+
+@app.route('/parallel_rec/start', methods=['POST'])
+def start_parallel_record():
+    try:
+        resp = wrap_response({'response': audio_service.start_standalone_recording(request.args['time'])})
+    except Exception as e:
+        logger.error(e)
+        resp = wrap_response({'error': str(e)})
+    return resp
+
+
+@app.route('/parallel_rec/stop', methods=['GET'])
+def stop_parallel_record():
+    try:
+        resp = wrap_response({'response': audio_service.stop_standalone_recording()})
+    except Exception as e:
+        logger.error(e)
+        resp = wrap_response({'error': str(e)})
     return resp
 
 

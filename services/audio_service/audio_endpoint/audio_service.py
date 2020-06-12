@@ -3,6 +3,7 @@
 import os
 import subprocess
 import multiprocessing as mp
+import threading
 
 from datetime import datetime
 from time import sleep
@@ -95,7 +96,6 @@ def parallel_send(files):
 def record(card, mic, time, file=None, queue=None):
     try:
         if file:
-            print('get here')
             file_name = os.path.join(config["ENV"]["DATA_DIR"], file)
         else:
             timestamp = str(datetime.now()).replace(' ', 'T')
@@ -117,7 +117,11 @@ def record(card, mic, time, file=None, queue=None):
         logger.error(e)
 
 
-def parallel_record(cards):
+def parallel_record(cards, time=None):
+
+    if not time:
+        time = int(config['SETTINGS']['RECORD_DUR'])
+
     recording_processes = []
     q = mp.Queue()
     for card in cards:
@@ -125,7 +129,7 @@ def parallel_record(cards):
             timestamp = str(datetime.now()).replace(' ', 'T')
             try:
                 recording_processes.append(
-                    mp.Process(target=record, args=(card, mic, int(config['SETTINGS']['RECORD_DUR']), f'{config["ENV"]["DEV_NO"]}_{card}_{mic}_{timestamp}.wav', q)))
+                    mp.Process(target=record, args=(card, mic, time, f'{config["ENV"]["DEV_NO"]}_{card}_{mic}_{timestamp}.wav', q)))
             except Exception as e:
                 logger.error(e)
     logger.debug(f'Parallel records: {len(recording_processes)}')
@@ -138,12 +142,14 @@ def parallel_record(cards):
     return results
 
 
-def record_by_work_time(cards):
+def record_by_work_time(cards, time=None):
+    global stop_recording_flag
     # takes the dict as described in get_devices, counts time and starts to record in working hours
     start_hour = datetime.time(datetime.strptime(config["SETTINGS"]["START_HOUR"], '%H:%M'))
     end_hour = datetime.time(datetime.strptime(config["SETTINGS"]["END_HOUR"], '%H:%M'))
     logger.info(f'start record by time between {config["SETTINGS"]["START_HOUR"]} and {config["SETTINGS"]["END_HOUR"]}...')
     while True:
+        if stop_recording_flag: break
         # if keyboard.is_pressed('space'): break
         date_now = datetime.date(datetime.now())
         start_datetime = datetime.combine(date_now, start_hour)
@@ -152,7 +158,7 @@ def record_by_work_time(cards):
         end_delta = datetime.now().timestamp() - end_datetime.timestamp()
         if start_delta > 0 > end_delta:
             logger.debug(f'Working hours, start recording...')
-            results = parallel_record(cards)
+            results = parallel_record(cards, time)
             parallel_send(results)
         else:
             logger.debug(f'Not working hours, sleeping...')
@@ -164,7 +170,37 @@ def get_files_list():
     return files_list
 
 
+class AnotherProcessError(Exception):
+    def __init__(self, message):
+        self.message = message
+
+
+stop_recording_flag = False
+standalone_recording = False
+
+
+def start_standalone_recording(time):
+    global standalone_recording
+    if standalone_recording:
+        raise AnotherProcessError('There are another process recording')
+    try:
+        devices = get_devices()
+        print(devices)
+        recording_thread = threading.Thread(target=record_by_work_time, args=[devices, time])
+        recording_thread.start()
+        standalone_recording = True
+        return standalone_recording
+    except Exception as e:
+        return logger.error(e)
+
+
+def stop_standalone_recording():
+    global stop_recording_flag
+    stop_recording_flag = True
+    logger.debug('Process will finish with last recording done')
+    return 'Process will finish when last recording is done'
+
+
 if __name__ == '__main__':
-    devices = get_devices()
-    record_by_work_time(devices)
+    start_standalone_recording()
 
