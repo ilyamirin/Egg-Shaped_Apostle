@@ -1,20 +1,22 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import os
-import sys
 import subprocess
 import multiprocessing as mp
 
 from datetime import datetime
 from time import sleep
 
-
 from audio_logger import get_logger
 from config_gen import get_config
 
-config = get_config()
 
-logger = get_logger("audio_service", config['SETTINGS']['DEBUG'])
+config = get_config()
+if config.has_section('SETTINGS'):
+    if 'DEBUG' in config['SETTINGS'].keys():
+        logger = get_logger("audio_service", config['SETTINGS']['DEBUG'])
+else:
+    logger = get_logger("audio_service", '1')
 
 
 def get_devices():
@@ -46,8 +48,10 @@ def get_devices():
     return device_map
 
 
-def send(input_file, output_file, queue=None):
+def send(file, queue=None):
     try:
+        input_file = os.path.join(config["ENV"]["DATA_DIR"], file)
+        output_file = os.path.join(config['FILE_SERVER']['DIR'], file)
         dest = f"{config['FILE_SERVER']['USERNAME']}@{config['FILE_SERVER']['IP']}"
         logger.debug(f'Sending {input_file} to {dest}\'s {output_file}...')
         process = subprocess.Popen(["scp", '-i', f"{config['ENV']['RSA_DIR']}", input_file, f"{dest}:{output_file}"])
@@ -56,7 +60,6 @@ def send(input_file, output_file, queue=None):
             logger.info(out)
         if err:
             logger.error(err)
-
         files_list = [os.path.join(config["ENV"]["DATA_DIR"], i) for i in os.listdir(config["ENV"]["DATA_DIR"])]
         while len(files_list) > 10:
                 file_to_del = files_list[0]
@@ -65,6 +68,7 @@ def send(input_file, output_file, queue=None):
                 files_list = files_list[1:]
         if queue:
             queue.put(input_file)
+        return input_file, output_file
     except Exception as e:
         logger.error(e)
 
@@ -75,9 +79,7 @@ def parallel_send(files):
     q = mp.Queue()
     for file in files:
         try:
-            fs = os.path.join(config["ENV"]["DATA_DIR"], file)
-            fr = os.path.join(config['FILE_SERVER']['DIR'], file)
-            sending_processes.append(mp.Process(target=send, args=(fs, fr, q)))
+            sending_processes.append(mp.Process(target=send, args=(file, q)))
         except Exception as e:
             logger.error(e)
     logger.debug(f'Parallel sendings: {len(sending_processes)}')
@@ -90,10 +92,19 @@ def parallel_send(files):
     return results
 
 
-def record(card, mic, time, file, queue=None):
+def record(card, mic, time, file=None, queue=None):
     try:
+        if file:
+            print('get here')
+            file_name = os.path.join(config["ENV"]["DATA_DIR"], file)
+        else:
+            timestamp = str(datetime.now()).replace(' ', 'T')
+            file_name = os.path.join(config["ENV"]["DATA_DIR"],
+                                     f'{config["ENV"]["DEV_NO"]}_{card}_{mic}_{timestamp}.wav')
         logger.debug(f'recording {file} (card: {card}, mic: {mic}, time: {time})')
-        process = subprocess.Popen([f'/usr/bin/arecord -f cd -D plughw:{card},{mic} -c 1 -d {time} {os.path.join(config["ENV"]["DATA_DIR"], file)}'], stdout=subprocess.PIPE, shell=True)
+        process = subprocess.Popen([f'/usr/bin/arecord -f cd -D plughw:{card},{mic} -c 1 -d {time} {file_name}'],
+                                   stdout=subprocess.PIPE,
+                                   shell=True)
         (out, err) = process.communicate()
         if out:
             logger.info(out)
@@ -101,6 +112,7 @@ def record(card, mic, time, file, queue=None):
             logger.error(err)
         if queue:
             queue.put(file)
+        return file_name
     except Exception as e:
         logger.error(e)
 
@@ -147,7 +159,12 @@ def record_by_work_time(cards):
             sleep(10)
 
 
+def get_files_list():
+    files_list = os.listdir(config["ENV"]["DATA_DIR"])
+    return files_list
+
+
 if __name__ == '__main__':
     devices = get_devices()
     record_by_work_time(devices)
-                
+
