@@ -31,6 +31,18 @@ class Raspberry(Tree):
             for mic_no in devices[card_no]:
                 card.add_node(Microphone(card, mic_no))
 
+    def record(self, card, mic, time, file=None):
+        params = {
+            'card': card,
+            'mic': mic,
+            'time': time,
+            'file': file
+        }
+        print(params)
+        r = requests.post(self.api + '/record', data=params)
+        print(r.url)
+        return r.json()
+
     def get_records(self):
         r = requests.get(self.api+'/records')
         return r.json()
@@ -55,7 +67,7 @@ class Raspberry(Tree):
             'time': time,
         }
 
-        r = requests.post(self.api + '/parallel_rec/start', params=params)
+        r = requests.post(self.api + '/parallel_rec/start', data=params)
         return r.json()
 
     def stop_parallel_record(self):
@@ -91,4 +103,4 @@ class Microphone:
         return r.json()
 
 
-a1 = Raspberry('127.0.0.1', 1)
+# a1 = Raspberry('127.0.0.1', 1)

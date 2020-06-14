@@ -18,7 +18,7 @@ else:
 app = Flask(__name__)
 cors = CORS(app, resources={r"*": {"origins": "*"}})
 app.config['CORS_HEADERS'] = 'Content-Type'
-destination = 'localhost:4200'
+destination = 'localhost:5722'
 
 
 def wrap_response(response):
@@ -32,7 +32,10 @@ def wrap_response(response):
 def start_record():
     try:
         print(request.args)
-        file = audio_service.record(**request.args)
+        print(request.form)
+        file = audio_service.record(request.form['card'],
+                                    request.form['mic'],
+                                    request.form['time'])
         resp = wrap_response({'response': f'file {file} was recorded'})
     except Exception as e:
         logger.error(e)
@@ -52,9 +55,10 @@ def get_records():
 
 #  filename
 @app.route('/send', methods=['POST'])
-def record():
+def send():
     try:
-        file, output_file = audio_service.send(request.json['filename'])
+        print(request.form)
+        file, output_file = audio_service.send(request.form['filename'])
         resp = wrap_response({'response': f'file {file} was sended to {output_file} in main storage server'})
     except Exception as e:
         logger.error(e)
@@ -93,7 +97,7 @@ def set_config():
 @app.route('/parallel_rec/start', methods=['POST'])
 def start_parallel_record():
     try:
-        resp = wrap_response({'response': audio_service.start_standalone_recording(request.args['time'])})
+        resp = wrap_response({'response': audio_service.start_standalone_recording(request.form['time'])})
     except Exception as e:
         logger.error(e)
         resp = wrap_response({'error': str(e)})

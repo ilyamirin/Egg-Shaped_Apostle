@@ -1,23 +1,12 @@
-import os
 from datetime import datetime
 import configparser
 import subprocess
 
 config = configparser.ConfigParser()
 print('Reading configuration file...', end='\n')
-
-if not 'config.ini' in os.listdir('.'):
-    print('Unable to find config file, create one with default settings...')
-    config['ENV'] = {
-        'ROOT_ABS_PATH': os.getcwd(),
-        'EXT_DATA_DIR': '/media/sde/Data/'
-    }
-
-    with open('config.ini', 'w') as configfile:
-        config.write(configfile)
-
 config.read('config.ini')
 print('OK')
+
 
 def ui():
 
