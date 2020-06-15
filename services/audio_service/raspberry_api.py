@@ -1,6 +1,9 @@
 from audio_logger import get_logger
 import requests
+from config_gen import get_config
+import os
 
+config = get_config()
 logger = get_logger("rasbperry", '1')
 PORT = '5721'
 
@@ -47,9 +50,12 @@ class Raspberry(Tree):
         r = requests.get(self.api+'/records')
         return r.json()
 
-    def send(self, filename):
+    def send(self, path, filename):
         r = requests.post(self.api+'/send', data={'filename': filename})
-        return r.json()
+        content = r.content
+        with open(os.path.join(path, filename), 'wb') as file:
+            file.write(content)
+        return f'file {filename} downloaded to {path}'
 
     def get_devices(self):
         r = requests.get(self.api+'/devices')
@@ -101,6 +107,5 @@ class Microphone:
 
         r = requests.post(self.raspberry.api + '/record', params=params)
         return r.json()
-
 
 # a1 = Raspberry('127.0.0.1', 1)

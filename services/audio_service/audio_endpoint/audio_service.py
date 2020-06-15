@@ -4,15 +4,15 @@ import os
 import subprocess
 import multiprocessing as mp
 import threading
+import asyncio
 
 from datetime import datetime
 from time import sleep
 
 from audio_logger import get_logger
 from config_gen import get_config
-
-
 config = get_config()
+
 if config.has_section('SETTINGS'):
     if 'DEBUG' in config['SETTINGS'].keys():
         logger = get_logger("audio_service", config['SETTINGS']['DEBUG'])

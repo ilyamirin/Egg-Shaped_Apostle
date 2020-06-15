@@ -1,7 +1,7 @@
 import os
-import subprocess
-import configparser
-from flask import Flask, jsonify, request, abort
+# import subprocess
+# import configparser
+from flask import Flask, jsonify, request, abort, send_from_directory
 from flask_cors import CORS, cross_origin
 
 from config_gen import get_config
@@ -36,7 +36,7 @@ def start_record():
         file = audio_service.record(request.form['card'],
                                     request.form['mic'],
                                     request.form['time'])
-        resp = wrap_response({'response': f'file {file} was recorded'})
+        resp = wrap_response({'response': f'{file}'})
     except Exception as e:
         logger.error(e)
         resp = wrap_response({'error': str(e)})
@@ -53,13 +53,27 @@ def get_records():
     return resp
 
 
-#  filename
+# #  filename
+# @app.route('/send', methods=['POST'])
+# def send():
+#     try:
+#         print(request.form)
+#         file, output_file = audio_service.send(request.form['filename'])
+#         resp = wrap_response({'response': f'file {file} was sended to {output_file} in main storage server'})
+#     except Exception as e:
+#         logger.error(e)
+#         resp = wrap_response({'error': str(e)})
+#     return resp
+
+
+# filename
 @app.route('/send', methods=['POST'])
 def send():
     try:
         print(request.form)
-        file, output_file = audio_service.send(request.form['filename'])
-        resp = wrap_response({'response': f'file {file} was sended to {output_file} in main storage server'})
+        resp = send_from_directory(config['ENV']['DATA_DIR'], request.form['filename'])
+        # resp = wrap_response({'response': 'file sended'})
+        # resp = wrap_response({'response': f'file {file} was sended to {output_file} in main storage server'})
     except Exception as e:
         logger.error(e)
         resp = wrap_response({'error': str(e)})
@@ -115,4 +129,4 @@ def stop_parallel_record():
 
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port='5721')
+    app.run(host='127.0.0.1', port=config['FILE_SERVER']['WEB_API_PORT'])
