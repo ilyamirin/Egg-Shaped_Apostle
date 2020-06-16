@@ -4,7 +4,6 @@ import os
 import subprocess
 import multiprocessing as mp
 import threading
-import asyncio
 
 from datetime import datetime
 from time import sleep
@@ -95,6 +94,12 @@ def parallel_send(files):
 
 def record(card, mic, time, file=None, queue=None):
     try:
+        if not os.path.exists(config['ENV']['DATA_DIR']):
+            logger.debug('can\'t find data dir, trying to create...')
+            try:
+                os.makedirs(config['ENV']['DATA_DIR'])
+            except Exception as e:
+                logger.error(e)
         if file:
             file_name = os.path.join(config["ENV"]["DATA_DIR"], file)
         else:

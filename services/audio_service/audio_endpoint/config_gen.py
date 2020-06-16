@@ -36,7 +36,6 @@ def get_config():
             'IP': namespace.ip,
             'PORT': namespace.port,
             'WEB_API_PORT': 5721,
-            'STREAM_PORT': 5722,
             'USERNAME': namespace.username,
             'DIR': namespace.dir,
         }

@@ -11,11 +11,16 @@ from config_gen import get_config
 
 
 config = get_config()
-if config.has_section('SETTINGS'):
-    if 'DEBUG' in config['SETTINGS'].keys():
-        logger = get_logger("audio_service", config['SETTINGS']['DEBUG'])
-else:
-    logger = get_logger("audio_service", '1')
+if config.has_section('SETTINGS') and 'DEBUG' in config['SETTINGS'].keys():
+    logger = get_logger("audio_service", config['SETTINGS']['DEBUG'])
+else: logger = get_logger("audio_service", '1')
+
+if not os.path.exists(config['ENV']['EXT_DATA_DIR']):
+    logger.debug('can\'t find data dir, trying to create...')
+    try:
+        os.makedirs(config['ENV']['DATA_DIR'])
+    except Exception as e:
+        logger.error(e)
 
 app = Flask(__name__)
 cors = CORS(app, resources={r"*": {"origins": "*"}})
@@ -72,13 +77,38 @@ def get_raspberry_by_ip(ip='127.0.0.1'):
 
 @app.route('/records', methods=['GET'])
 def get_records():
-    return wrap_response([i for i in os.listdir(config['ENV']['EXT_DATA_DIR']) if i.endswith('.wav')])
+    try:
+        return wrap_response([i for i in os.listdir(config['ENV']['EXT_DATA_DIR']) if i.endswith('.wav')])
+    except Exception as e:
+        logger.error(e)
+        resp = wrap_response({'error': str(e)})
+    return resp
+
+
+@app.route('/records/update', methods=['GET'])
+def get_update():
+    try:
+        records = []
+        old_records = set(get_records().json)
+        for raspberry in raspberries:
+            local_records = set(raspberry.get_records())
+            new_records = local_records - old_records
+            for filename in new_records:
+                raspberry.send(config['ENV']['EXT_DATA_DIR'], filename)
+            records.append(list(new_records))
+        print(records)
+        resp = wrap_response({'response': records})
+    except Exception as e:
+        logger.error(e)
+        resp = wrap_response({'error': str(e)})
+    return resp
 
 
 @app.route('/records/send', methods=['GET'])
 def send():
     try:
         print(request.form)
+        print(config['ENV']['EXT_DATA_DIR'], request.form['filename'])
         resp = send_from_directory(config['ENV']['EXT_DATA_DIR'], request.form['filename'])
     except Exception as e:
         logger.error(e)
@@ -86,7 +116,8 @@ def send():
     return resp
 
 
-raspberries = get_raspberry_by_ip()
+raspberries = get_raspberry_by_ip('127.0.0.1')
+print(raspberries)
 
 
 @app.route('/raspberry', methods=['GET'])
@@ -137,4 +168,4 @@ def to_raspberry(no, command, subcommand=None):
 
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port='5722')
+    app.run(host='127.0.0.1', port=config['NETWORK']['WEB_API_PORT'])
