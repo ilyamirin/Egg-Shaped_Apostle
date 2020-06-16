@@ -1,5 +1,6 @@
 # creates config.ini and sets default settings if not exists
-import sys, os
+import sys
+import os
 import configparser
 
 pathname = os.path.dirname(sys.argv[0])
@@ -18,10 +19,6 @@ def get_config():
             'WEB_API_PORT': '5726',
             'AUDIO_SERVICE_IP': '127.0.0.1',
             'AUDIO_SERVICE_PORT': '5722',
-            'PG_SERVER_IP': '127.0.0.1',
-            'PG_SERVER_PORT': '5432',
-            'PG_DB_NAME': 'text',
-            'PG_USER': 'text_service',
         }
         config['SETTINGS'] = {
             'DEBUG': 1,
