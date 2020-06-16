@@ -149,6 +149,7 @@ def parallel_record(cards, time=None):
 
 def record_by_work_time(cards, time=None):
     global stop_recording_flag
+    global standalone_recording
     # takes the dict as described in get_devices, counts time and starts to record in working hours
     start_hour = datetime.time(datetime.strptime(config["SETTINGS"]["START_HOUR"], '%H:%M'))
     end_hour = datetime.time(datetime.strptime(config["SETTINGS"]["END_HOUR"], '%H:%M'))
@@ -156,6 +157,7 @@ def record_by_work_time(cards, time=None):
     while True:
         if stop_recording_flag:
             stop_recording_flag = False
+            standalone_recording = False
             break
         # if keyboard.is_pressed('space'): break
         date_now = datetime.date(datetime.now())
@@ -206,7 +208,6 @@ def start_standalone_recording(time=None):
 def stop_standalone_recording():
     global stop_recording_flag
     stop_recording_flag = True
-    standalone_recording = False
     logger.debug('Process will finish with last recording done')
     return 'Process will finish when last recording is done'
 
