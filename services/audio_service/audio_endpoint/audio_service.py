@@ -184,7 +184,9 @@ stop_recording_flag = False
 standalone_recording = False
 
 
-def start_standalone_recording(time):
+def start_standalone_recording(time=None):
+    if not time:
+        time = int(config['SETTINGS']['RECORD_DUR'])
     global standalone_recording
     if standalone_recording:
         raise AnotherProcessError('There are another process recording')
