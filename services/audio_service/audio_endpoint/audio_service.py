@@ -60,12 +60,6 @@ def send(file, queue=None):
             logger.info(out)
         if err:
             logger.error(err)
-        files_list = [os.path.join(config["ENV"]["DATA_DIR"], i) for i in os.listdir(config["ENV"]["DATA_DIR"])]
-        while len(files_list) > 10:
-                file_to_del = files_list[0]
-                logger.debug(f'Amount of files exceeded ({len(files_list)}/10). Deleting  {file_to_del}...')
-                os.remove(file_to_del)
-                files_list = files_list[1:]
         if queue:
             queue.put(input_file)
         return input_file, output_file
@@ -89,6 +83,12 @@ def parallel_send(files):
     for i in sending_processes:
         results.append(q.get())
         i.join()
+    files_list = [os.path.join(config["ENV"]["DATA_DIR"], i) for i in os.listdir(config["ENV"]["DATA_DIR"])]
+    while len(files_list) > 10:
+        file_to_del = files_list[0]
+        logger.debug(f'Amount of files exceeded ({len(files_list)}/10). Deleting  {file_to_del}...')
+        os.remove(file_to_del)
+        files_list = files_list[1:]
     return results
 
 
