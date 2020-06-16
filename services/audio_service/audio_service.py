@@ -132,9 +132,63 @@ def raspberries_list():
     return wrap_response(rasp_dict)
 
 
+def resolve_command_to_rasp(request, raspberry, command, subcommand):
+    if request.method == 'GET':
+        if command == 'records':
+            return wrap_response(raspberry.get_records())
+        elif command == 'devices':
+            return wrap_response(raspberry.get_devices())
+        elif command == 'config':
+            return wrap_response(raspberry.get_config())
+        elif command == 'parallel_rec' and subcommand == 'stop':
+            return wrap_response(raspberry.stop_parallel_record())
+    elif request.method == 'POST':
+        if command == 'record':
+            print(request.form)
+            return wrap_response(raspberry.record(request.form['card'], request.form['mic'], request.form['time']))
+        if command == 'send':
+            return wrap_response(raspberry.send(config['ENV']['EXT_DATA_DIR'], request.form['filename']))
+        elif command == 'config':
+            return wrap_response(raspberry.set_config(request.json['config']))
+        elif command == 'parallel_rec' and (not subcommand or subcommand == 'start'):
+            return wrap_response(raspberry.start_parallel_record(request.form['time']))
+    else:
+        return wrap_response({'error': 'no such command'})
+
+
+@app.route('/raspberry/all/<command>', methods=['GET', 'POST'])
+@app.route('/raspberry/all/<command>/<subcommand>', methods=['GET', 'POST'])
+def to_all_raspberries(command, subcommand=None):
+    resp = []
+    for raspberry in raspberries:
+        if request.method == 'GET':
+            if command == 'records':
+                return wrap_response(raspberry.get_records())
+            elif command == 'devices':
+                return wrap_response(raspberry.get_devices())
+            elif command == 'config':
+                return wrap_response(raspberry.get_config())
+            elif command == 'parallel_rec' and subcommand == 'stop':
+                return wrap_response(raspberry.stop_parallel_record())
+        elif request.method == 'POST':
+            if command == 'record':
+                print(request.form)
+                return wrap_response(raspberry.record(request.form['card'], request.form['mic'], request.form['time']))
+            if command == 'send':
+                return wrap_response(raspberry.send(config['ENV']['EXT_DATA_DIR'], request.form['filename']))
+            elif command == 'config':
+                return wrap_response(raspberry.set_config(request.json['config']))
+            elif command == 'parallel_rec' and (not subcommand or subcommand == 'start'):
+                return wrap_response(raspberry.start_parallel_record(request.form['time']))
+        else:
+            return wrap_response({'error': 'no such command'})
+    return wrap_response(resp)
+
+
 @app.route('/raspberry/<int:no>/<command>', methods=['GET', 'POST'])
 @app.route('/raspberry/<int:no>/<command>/<subcommand>', methods=['GET', 'POST'])
 def to_raspberry(no, command, subcommand=None):
+    logger.debug(f'{no}, {command}, {subcommand}')
     raspberry = None
     for i in raspberries:
         if i.no == no:
@@ -150,11 +204,9 @@ def to_raspberry(no, command, subcommand=None):
                 return wrap_response(raspberry.get_config())
             elif command == 'parallel_rec' and subcommand == 'stop':
                 return wrap_response(raspberry.stop_parallel_record())
-            else:
-                return wrap_response({'error': 'no such command'})
         elif request.method == 'POST':
             if command == 'record':
-                print(request.form)
+                print(request.form, request.args)
                 return wrap_response(raspberry.record(request.form['card'], request.form['mic'], request.form['time']))
             if command == 'send':
                 return wrap_response(raspberry.send(config['ENV']['EXT_DATA_DIR'], request.form['filename']))
@@ -162,9 +214,10 @@ def to_raspberry(no, command, subcommand=None):
                 return wrap_response(raspberry.set_config(request.json['config']))
             elif command == 'parallel_rec' and (not subcommand or subcommand == 'start'):
                 return wrap_response(raspberry.start_parallel_record(request.form['time']))
-            else:
-                return wrap_response({'error' : 'no such command'})
-    else: return wrap_response({'error': 'No raspberry with that number'})
+        else:
+            return wrap_response({'error': 'no such command'})
+    else:
+        return wrap_response({'error': 'No raspberry with that number'})
 
 
 if __name__ == '__main__':

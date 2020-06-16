@@ -76,7 +76,28 @@ def full_text_search(work_place=None, role=None, date_time_start='2020-02-01', d
             f"limit {top};"
     return __execute(query)
 
-#
-# print(table_read())
-# print(full_text_search(query='здорова бандиты'))
+
+def filter_by(work_place=None, role=None, date_time_start='2020-02-01', date_time_end='2999-02-28'):
+    print(work_place, role, date_time_start, date_time_end)
+    filter_ = ''
+    filter_work_place = f"text.work_place = '{work_place}' AND "
+    filter_role = f"text.role = '{role}' AND "
+    if work_place is not None and role is not None:
+        filter_ = filter_work_place + filter_role
+    elif work_place is not None:
+        filter_ = filter_work_place
+    elif role is not None:
+        filter_ = filter_role
+    # print(work_place, role, date_time_start, date_time_end, query, top)
+    query = f"SELECT id, work_place, role, date_time, text FROM text " \
+            f"WHERE {filter_}" \
+            f"(text.date_time BETWEEN to_timestamp('{date_time_start}','YYYY-MM-DD HH24:MI:SS.SSS') AND to_timestamp('{date_time_end}','YYYY-MM-DD HH24:MI:SS.SSS')) "
+    return __execute(query)
+
+
+# for i in table_read():
+#     print(i)
+# # print(full_text_search(query='здорова бандиты'))
+# for i in filter_by(1):
+#     print(i)
 

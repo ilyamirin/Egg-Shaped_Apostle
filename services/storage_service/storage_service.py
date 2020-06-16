@@ -7,7 +7,7 @@ __version__ = "1.0.0"
 __maintainer__ = "Paul Maksimov"
 __email__ = "work.xenus@gmail.com"
 __status__ = "Production"
-from flask_web_server import app, wrap_response, request
+from flask_web_server import app, wrap_response, request, jsonify
 from postgre_api import *
 from logger import get_logger
 from config_gen import get_config
@@ -66,6 +66,22 @@ def fts_q():
         kwargs = request.form
         # print(kwargs)
         resp = full_text_search(**kwargs)
+        return wrap_response(resp)
+    except Exception as e:
+        logger.error(e)
+        resp = wrap_response({'error': str(e)})
+    return resp
+
+
+@app.route('/filter', methods=['GET'])
+def filter_by_q():
+    logger.debug(f'got filter request with form: {request.form}; json: {request.json}')
+    try:
+        work_place = request.json['work_place']
+        role = request.json['role']
+        date_time_start = request.json['date_time_start']
+        date_time_end = request.json['date_time_end']
+        resp = filter_by(work_place, role, date_time_start, date_time_end)
         return wrap_response(resp)
     except Exception as e:
         logger.error(e)

@@ -27,6 +27,21 @@ GET /records
 [filename1, filename2, filename3]
 ```
 
+#### Начало и остановка параллельной записи:
+```
+POST /parallel_rec/start?time=10
+GET /parallel_rec/stop
+```
+#### Ответ:
+
+```
+{'response': 'true'}
+```
+####curl:
+```
+curl -d "time=10" -X POST 127.0.0.1:5721/parallel_rec/start
+```
+
 ## - отправка аудиозаписи по имени файла
 #### Запрос:
 ```

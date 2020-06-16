@@ -4,7 +4,7 @@ from logging.handlers import RotatingFileHandler
 
 # logger
 formatter = logging.Formatter("%(asctime)s — %(name)s — %(levelname)s — %(message)s")
-log_file = "text_service.py"
+log_file = "text_service.log"
 
 
 def get_console_handler():

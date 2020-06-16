@@ -2,6 +2,7 @@ from audio_logger import get_logger
 import requests
 from config_gen import get_config
 import os
+import json
 
 config = get_config()
 logger = get_logger("rasbperry", '1')
@@ -35,14 +36,13 @@ class Raspberry(Tree):
                 card.add_node(Microphone(card, mic_no))
 
     def record(self, card, mic, time, file=None):
-        params = {
+        payload = {
             'card': card,
             'mic': mic,
             'time': time,
             'file': file
         }
-        print(params)
-        r = requests.post(self.api + '/record', data=params)
+        r = requests.post(self.api + '/record', params=payload)
         print(r.url)
         return r.json()
 

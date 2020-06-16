@@ -24,11 +24,9 @@ def wrap_response(response):
 @app.route('/record', methods=['POST'])
 def start_record():
     try:
-        print(request.args)
-        print(request.form)
-        file = audio_service.record(request.form['card'],
-                                    request.form['mic'],
-                                    request.form['time'])
+        file = audio_service.record(request.args['card'],
+                                    request.args['mic'],
+                                    request.args['time'])
         resp = wrap_response({'response': f'{file}'})
     except Exception as e:
         logger.error(e)

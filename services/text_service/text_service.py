@@ -2,13 +2,13 @@ import os
 import json
 from time import sleep
 import threading
-from flask import Flask, jsonify, request, abort
-from flask_cors import CORS
 
+from flask_web_server import app, request, wrap_response
 from interface import *
 
 from config_gen import get_config
 from logger import get_logger
+
 config = get_config()
 if config.has_section('SETTINGS'):
     if 'DEBUG' in config['SETTINGS'].keys():
@@ -24,14 +24,6 @@ elif config['SETTINGS']['RECOGNIZER'] == 'kaldi':
     print('Kaldi is settled as recognizer')
     from speech_recognition.kaldi import kaldi_recognition as recognizer
 
-# from services.text_service.postgreSQL_write import write_row
-# from fts_service.elasticsearch_full_text_search import write
-
-app = Flask(__name__)
-cors = CORS(app, resources={r"*": {"origins": "*"}})
-app.config['CORS_HEADERS'] = 'Content-Type'
-destination = 'localhost:5722'
-
 
 def get_recognized_files():
     if 'recognized.txt' in os.listdir('./'):  # проверяем, есть ли список уже сконвертированных файлов
@@ -46,15 +38,13 @@ def get_recognized_files():
 
 # получаем дополнение мн-ва распознанных файлов ко всем, set быстрее в таких операциях
 def get_new_records():
-    records = set(get_list_of_records())
     old_records = set(get_recognized_files())
+    try:
+        records = set(get_list_of_records())
+    except Exception as e:
+        records = old_records
+        logger.error(e)
     return records - old_records
-
-
-def wrap_response(response):
-    resp = jsonify(response)
-    resp.headers.add('Access-Control-Allow-Origin', destination)
-    return resp
 
 
 @app.route('/recognize', methods=['POST'])
@@ -69,7 +59,7 @@ def recognize_ext():
     elif config['SETTINGS']['RECOGNIZER'] == 'yandex':
         text = recognizer.recognize_audio(audio)['result']
     with open('recognized.txt', 'a+') as recognized_files:
-        recognized_files.write(record+'\n')
+        recognized_files.write(record + '\n')
     return wrap_response({'response': text})
 
 
@@ -80,15 +70,16 @@ def recognize(record):
             file.write(audio)
             file.close()
             text = recognizer.recognize_audio(config['ENV']['ROOT_ABS_PATH'], '/audio_recognize.wav')
-    else: # config['SETTINGS']['RECOGNIZER'] == 'yandex':
+    else:  # config['SETTINGS']['RECOGNIZER'] == 'yandex':
         text = recognizer.recognize_audio(audio)['result']
     with open('recognized.txt', 'a+') as recognized_files:
-        recognized_files.write(record+'\n')
+        recognized_files.write(record + '\n')
     return text
 
 
 def extract_metadata(filename):
-    raspberry, card, device, date = filename[:-4].split('_')  # разбиваем название файла по "_", получаем метаданные расположения
+    raspberry, card, device, date = filename[:-4].split(
+        '_')  # разбиваем название файла по "_", получаем метаданные расположения
     if 'mic_map.txt' in os.listdir('.'):
         with open('mic_map.txt', 'r') as map_file:
             map = json.load(map_file)
@@ -106,9 +97,15 @@ def main():
         if new_records:
             for record in new_records:
                 text = recognize(record)
-                workplace, role, datetime = extract_metadata(record)
-                # write_es(workplace, role, datetime, text)
-                write_pg(workplace, role, datetime, text)
+                if not text:
+                    continue
+                else:
+                    workplace, role, datetime = extract_metadata(record)
+                    logger.debug(f'text:{text}')
+                    try:
+                        record_create(work_place=workplace, role=role, datetime=datetime, text=text)
+                    except Exception as e:
+                        logger.error(e)
         else:
             sleep(1)
 
@@ -116,4 +113,4 @@ def main():
 if __name__ == '__main__':
     a = threading.Thread(target=main)
     a.start()
-    app.run(host='127.0.0.1', port=config['NETWORK']['WEB_API_PORT'])
+    app.run(host=config['NETWORK']['WEB_API_IP'], port=config['NETWORK']['WEB_API_PORT'])
