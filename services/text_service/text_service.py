@@ -1,70 +1,116 @@
-import sys
 import os
-from services.text_service.speech_recognition.kaldi import kaldi_recognition
-from services.text_service.speech_recognition.yandex_speech_kit_recognition import yandex_speech_kit_realtime_recognition
-#from services.text_service.postgreSQL_write import write_row
-from services.fts_service.elasticsearch_full_text_search import write
-from datetime import datetime
+import json
+from time import sleep
+import threading
 
+from flask_web_server import app, request, wrap_response
+from interface import *
 
-DATA_IN_DIR = r'/home/sde/Desktop/projects/Egg-Shaped_Apostle/data/'
+from config_gen import get_config
+from logger import get_logger
 
-#DATA_IN_DIR = r'/media/sde/Data/'  # путь, откуда берутся файлы
-SCRIPT_DIR = '/home/sde/Desktop/projects/Egg-Shaped_Apostle/services/text_service/'
+config = get_config()
+if config.has_section('SETTINGS'):
+    if 'DEBUG' in config['SETTINGS'].keys():
+        logger = get_logger("text_service", config['SETTINGS']['DEBUG'])
+else:
+    logger = get_logger("audio_service", '1')
+
+if config['SETTINGS']['RECOGNIZER'] == 'yandex':
+    print('yandex Speech Kit is settled as recognizer')
+    from speech_recognition.yandex_speech_kit_recognition import yandex_speech_kit_realtime_recognition as recognizer
+
+elif config['SETTINGS']['RECOGNIZER'] == 'kaldi':
+    print('Kaldi is settled as recognizer')
+    from speech_recognition.kaldi import kaldi_recognition as recognizer
 
 
 def get_recognized_files():
-    if 'recognized.txt' in os.listdir(SCRIPT_DIR):  # проверяем, есть ли список уже сконвертированных файлов
-        with open(SCRIPT_DIR+'recognized.txt', 'r') as recognized:
+    if 'recognized.txt' in os.listdir('./'):  # проверяем, есть ли список уже сконвертированных файлов
+        with open('recognized.txt', 'r') as recognized:
             recognized_files = recognized.read().split('\n')  # читаем, если есть
-        recognized.close()
     else:
-        with open(SCRIPT_DIR + 'recognized.txt', 'w') as recognized:
+        with open('recognized.txt', 'w') as recognized:
             recognized.close()
         recognized_files = []
     return recognized_files
 
 
-def write_to_log(record):
-    with open('log.txt', 'w') as log_file:
-        log_file.write(record)
+# получаем дополнение мн-ва распознанных файлов ко всем, set быстрее в таких операциях
+def get_new_records():
+    old_records = set(get_recognized_files())
+    try:
+        records = set(get_list_of_records())
+    except Exception as e:
+        records = old_records
+        logger.error(e)
+    return records - old_records
 
 
-def get_wav_files(DIR):
-    return [i for i in os.listdir(DIR) if i.endswith('.wav')]
+@app.route('/recognize', methods=['POST'])
+def recognize_ext():
+    record = request.form['filename']
+    audio = download_record(record)
+    if config['SETTINGS']['RECOGNIZER'] == 'kaldi':
+        with open('audio_recognize.wav', 'wb+') as file:
+            file.write(audio)
+            file.close()
+            text = recognizer.recognize_audio(config['ENV']['ROOT_ABS_PATH'], '/audio_recognize.wav')
+    elif config['SETTINGS']['RECOGNIZER'] == 'yandex':
+        text = recognizer.recognize_audio(audio)['result']
+    with open('recognized.txt', 'a+') as recognized_files:
+        recognized_files.write(record + '\n')
+    return wrap_response({'response': text})
 
 
-def add_to_database():
-    # список файлов на распознввание
-    files = [i for i in get_wav_files(DATA_IN_DIR) if i not in get_recognized_files()]
+def recognize(record):
+    audio = download_record(record)
+    if config['SETTINGS']['RECOGNIZER'] == 'kaldi':
+        with open('audio_recognize.wav', 'wb+') as file:
+            file.write(audio)
+            file.close()
+            text = recognizer.recognize_audio(config['ENV']['ROOT_ABS_PATH'], '/audio_recognize.wav')
+    else:  # config['SETTINGS']['RECOGNIZER'] == 'yandex':
+        text = recognizer.recognize_audio(audio)['result']
+    with open('recognized.txt', 'a+') as recognized_files:
+        recognized_files.write(record + '\n')
+    return text
 
-    mic_map = {
-        # карта микрофонов.
-        # Первый уровень — номер распберри,
-        # второй — номер аудиокарты (он же номер микрофона, так как подключаем через usb-микро, там 1 к 1)
-        # по номеру микрофона принимаем список, в котором 1-ый элемент — номер стола, 2-ой — роль (0 - оператор, 1 - клиент)
-        0: {
-            0: [1, 1],},
-        1: {1: [2, 0]}
-    }
-    with open(SCRIPT_DIR+'recognized.txt', 'a+') as recognized:
-        for file in files:
-            print(file)
-            endpoint, card, device, date = file[:-4].split('_')  # разбиваем название файла по "_", получаем метаданные расположения
-            endpoint_data = mic_map[int(endpoint)]
-            card_data = endpoint_data[int(card)]
-            place = card_data[0]
-            role = card_data[1]
-            date = date[:-5]
-            #text = kaldi_recognition.recognize(DATA_IN_DIR, file)['raw_text']
-            result_obj = yandex_speech_kit_realtime_recognition.recognize(DATA_IN_DIR, file)
-            if 'result' in result_obj.keys():
-                text = result_obj['result']
-            else:
-                text = ''
-            print(text)
-            write(work_place = place, role = role, date_time = date, text = text)
-            recognized.write(file+'\n')
-            write_to_log(f'{place}, {role}, {date}, {text}')
-        recognized.close()
-    return True
+
+def extract_metadata(filename):
+    raspberry, card, device, date = filename[:-4].split(
+        '_')  # разбиваем название файла по "_", получаем метаданные расположения
+    if 'mic_map.txt' in os.listdir('.'):
+        with open('mic_map.txt', 'r') as map_file:
+            map = json.load(map_file)
+            workplace = map[raspberry][card][device]['workplace']
+            role = map[raspberry][card][device]['role']
+    else:
+        workplace = raspberry
+        role = 0
+    return workplace, role, date
+
+
+def main():
+    while True:
+        new_records = get_new_records()
+        if new_records:
+            for record in new_records:
+                text = recognize(record)
+                if not text:
+                    continue
+                else:
+                    workplace, role, datetime = extract_metadata(record)
+                    logger.debug(f'text:{text}')
+                    try:
+                        record_create(work_place=workplace, role=role, datetime=datetime, text=text)
+                    except Exception as e:
+                        logger.error(e)
+        else:
+            sleep(1)
+
+
+if __name__ == '__main__':
+    a = threading.Thread(target=main)
+    a.start()
+    app.run(host=config['NETWORK']['WEB_API_IP'], port=config['NETWORK']['WEB_API_PORT'])

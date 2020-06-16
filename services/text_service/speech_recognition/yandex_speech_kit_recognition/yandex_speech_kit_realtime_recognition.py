@@ -25,10 +25,17 @@ params = {
     "format": "lpcm",
     "sampleRateHertz": "48000"
 }
+
+
 # Прочитать аудиофайл и отправить его содержимое порциями.
-def recognize(data_path, filename):
+def recognize_file(data_path, filename):
     with open(data_path+filename, 'rb') as f:
         data = f.read()
+    res = rq.post(url, params=params, headers=headers, data=data).json()
+    return res
+
+
+def recognize_audio(data):
     res = rq.post(url, params=params, headers=headers, data=data).json()
     return res
 #chunk_size = 1024

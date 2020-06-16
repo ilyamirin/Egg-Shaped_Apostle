@@ -16,7 +16,14 @@ def get_config():
             'EXT_DATA_DIR': os.path.join(path, 'data')
         }
         config['NETWORK'] = {
-            'WEB_API_PORT': 5722,
+            'WEB_API_IP': '127.0.0.1',
+            'WEB_API_PORT': 5727,
+            'ES_IP': '127.0.0.1',
+            'ES_PORT': 9200,
+
+        }
+        config['SETTINGS'] = {
+            'ES_INDEX': 'testindex1',
         }
         with open('config.ini', 'w') as config_file:
             config.write(config_file)
