@@ -35,6 +35,7 @@ def get_config():
         config['FILE_SERVER'] = {
             'IP': namespace.ip,
             'PORT': namespace.port,
+            'WEB_API_IP': '127.0.0.1',
             'WEB_API_PORT': 5721,
             'USERNAME': namespace.username,
             'DIR': namespace.dir,

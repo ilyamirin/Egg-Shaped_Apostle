@@ -60,12 +60,6 @@ def send(file, queue=None):
             logger.info(out)
         if err:
             logger.error(err)
-        files_list = [os.path.join(config["ENV"]["DATA_DIR"], i) for i in os.listdir(config["ENV"]["DATA_DIR"])]
-        while len(files_list) > 10:
-                file_to_del = files_list[0]
-                logger.debug(f'Amount of files exceeded ({len(files_list)}/10). Deleting  {file_to_del}...')
-                os.remove(file_to_del)
-                files_list = files_list[1:]
         if queue:
             queue.put(input_file)
         return input_file, output_file
@@ -89,6 +83,12 @@ def parallel_send(files):
     for i in sending_processes:
         results.append(q.get())
         i.join()
+    files_list = [os.path.join(config["ENV"]["DATA_DIR"], i) for i in os.listdir(config["ENV"]["DATA_DIR"])]
+    while len(files_list) > 10:
+        file_to_del = files_list[0]
+        logger.debug(f'Amount of files exceeded ({len(files_list)}/10). Deleting  {file_to_del}...')
+        os.remove(file_to_del)
+        files_list = files_list[1:]
     return results
 
 
@@ -149,12 +149,16 @@ def parallel_record(cards, time=None):
 
 def record_by_work_time(cards, time=None):
     global stop_recording_flag
+    global standalone_recording
     # takes the dict as described in get_devices, counts time and starts to record in working hours
     start_hour = datetime.time(datetime.strptime(config["SETTINGS"]["START_HOUR"], '%H:%M'))
     end_hour = datetime.time(datetime.strptime(config["SETTINGS"]["END_HOUR"], '%H:%M'))
     logger.info(f'start record by time between {config["SETTINGS"]["START_HOUR"]} and {config["SETTINGS"]["END_HOUR"]}...')
     while True:
-        if stop_recording_flag: break
+        if stop_recording_flag:
+            stop_recording_flag = False
+            standalone_recording = False
+            break
         # if keyboard.is_pressed('space'): break
         date_now = datetime.date(datetime.now())
         start_datetime = datetime.combine(date_now, start_hour)
@@ -184,7 +188,9 @@ stop_recording_flag = False
 standalone_recording = False
 
 
-def start_standalone_recording(time):
+def start_standalone_recording(time=None):
+    if not time:
+        time = int(config['SETTINGS']['RECORD_DUR'])
     global standalone_recording
     if standalone_recording:
         raise AnotherProcessError('There are another process recording')
