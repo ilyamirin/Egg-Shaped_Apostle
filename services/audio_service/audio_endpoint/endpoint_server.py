@@ -1,6 +1,5 @@
 import os
 from flask import Flask, jsonify, request, send_from_directory
-from flask_cors import CORS
 
 from config_gen import get_config
 from audio_logger import get_logger
@@ -14,14 +13,10 @@ else:
     logger = get_logger("audio_service", '1')
 
 app = Flask(__name__)
-cors = CORS(app, resources={r"*": {"origins": "*"}})
-app.config['CORS_HEADERS'] = 'Content-Type'
-destination = 'localhost:5722'
 
 
 def wrap_response(response):
     resp = jsonify(response)
-    resp.headers.add('Access-Control-Allow-Origin', destination)
     return resp
 
 
