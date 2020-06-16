@@ -35,6 +35,7 @@ def get_config():
         config['FILE_SERVER'] = {
             'IP': namespace.ip,
             'PORT': namespace.port,
+            'WEB_API_PORT': 5721,
             'USERNAME': namespace.username,
             'DIR': namespace.dir,
         }
@@ -49,4 +50,6 @@ def get_config():
             config.write(config_file)
     return config
 
-get_config()
+
+if __name__ == '__main__':
+    config = get_config()
