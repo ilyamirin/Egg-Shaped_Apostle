@@ -154,7 +154,9 @@ def record_by_work_time(cards, time=None):
     end_hour = datetime.time(datetime.strptime(config["SETTINGS"]["END_HOUR"], '%H:%M'))
     logger.info(f'start record by time between {config["SETTINGS"]["START_HOUR"]} and {config["SETTINGS"]["END_HOUR"]}...')
     while True:
-        if stop_recording_flag: break
+        if stop_recording_flag:
+            stop_recording_flag = False
+            break
         # if keyboard.is_pressed('space'): break
         date_now = datetime.date(datetime.now())
         start_datetime = datetime.combine(date_now, start_hour)
@@ -204,6 +206,7 @@ def start_standalone_recording(time=None):
 def stop_standalone_recording():
     global stop_recording_flag
     stop_recording_flag = True
+    standalone_recording = False
     logger.debug('Process will finish with last recording done')
     return 'Process will finish when last recording is done'
 
