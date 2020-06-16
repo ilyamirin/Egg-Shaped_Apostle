@@ -106,4 +106,4 @@ def stop_parallel_record():
 
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=config['FILE_SERVER']['WEB_API_PORT'])
+    app.run(host=config['FILE_SERVER']['WEB_API_IP'], port=config['FILE_SERVER']['WEB_API_PORT'])
