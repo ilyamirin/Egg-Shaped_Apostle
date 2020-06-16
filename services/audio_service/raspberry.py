@@ -37,7 +37,7 @@ class Raspberry(Tree):
         #   ...,
         #   card_n: [device_1, ..., device_n],
         # }
-        process = subprocess.Popen(['/usr/bin/arecord -l'], stdout=subprocess.PIPE, shell=True)
+        process = subprocess.Popen([f'ssh {self.user}@{self.ip} "arecord -l"'], stdout=subprocess.PIPE, shell=True)
         (out, err) = process.communicate()
         if err:
             logger.error(err)
@@ -127,7 +127,7 @@ class Microphone:
         else:
             filename = f'{self.card.raspberry.no}_{self.card.no}_{self.no}_{str(datetime.now()).replace(" ", "T")}.wav'
         logger.debug(f'Recording {filename} with duration of {duration} seconds from microphone with #{self.no} on card #{self.card.no} on Raspberry #{self.card.raspberry.no}...')
-        command = f'ssh {self.raspberry.user}@{self.raspberry.ip} "arecord -f S16_LE --rate {sample_rate} --duration {duration} hw:{self.card.no},{self.no}" | arecord -f s16_LE --rate {sample_rate} --duration {duration} --file-type wav {directory}{filename}'
+        command = f'ssh {self.raspberry.user}@{self.raspberry.ip} "arecord --duration {duration} -D plughw:{self.card.no},{self.no}" | arecord --duration {duration} --file-type wav {directory}{filename}'
         print(command)
         # process = subprocess.Popen(command, shell=True)
         # process.communicate()
@@ -135,5 +135,5 @@ class Microphone:
         logger.debug(f'Recording {filename} with duration of {duration} seconds from microphone with #{self.no} on card #{self.card.no} on Raspberry #{self.card.raspberry.no} done.')
         return True
 
-# a1 = Raspberry('127.0.0.1', 'sde', 1)
-# a1.parallel_record('.', '10')
+# a1 = Raspberry('192.168.0.102', 'pi', 1)
+# a1.parallel_record('/media/user/data', 10)

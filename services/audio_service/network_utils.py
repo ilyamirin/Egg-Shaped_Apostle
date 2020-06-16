@@ -14,7 +14,7 @@ def get_my_ip():
 
 
 def scan_ip(ip, addr_list):
-    my_ip = get_my_ip()
+    my_ip = '192.168.0.1'
     net_split = my_ip.split('.')
     net = '.'.join(net_split[:-1])+'.'
     addr = net + str(ip)
@@ -44,3 +44,5 @@ def get_active_addresses():
         logger.warning('no ip found while scanning. Check connection.')
         return []
     return addr_list
+
+print(get_active_addresses())

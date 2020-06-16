@@ -25,4 +25,6 @@ def no_pass_ssh(ip, user, password):
     exec_with_pass(add_key, ip, user, password)
     print(f'SSH key added to {ip}')
 
+# no_pass_ssh('192.168.0.102', 'pi', 'raspberry')
+
 
