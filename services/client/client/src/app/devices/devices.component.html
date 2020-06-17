@@ -1,0 +1,21 @@
+<div class="grid-container">
+  <h1 class="mat-h1">Микрофоны</h1>
+  <mat-grid-list cols="8" rowHeight="350px">
+    <mat-grid-tile *ngFor="let device of devices">
+      <mat-card class="dashboard-card">
+        <mat-card-header>
+          <mat-card-title>
+            {{device.id}}
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="dashboard-card-content">
+          <p>Микрофон: {{device.id}}</p>
+          <p>Raspberry: {{device.raspberry}}</p>
+          <p>аудиокарта: {{device.card}}</p>
+          <p>Рабочее место: {{device.workplace}}</p>
+          <p>Роль: {{device.role}}</p>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

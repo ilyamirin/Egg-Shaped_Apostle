@@ -1,0 +1,34 @@
+<mat-table [dataSource]="records" class="mat-elevation-z8">
+  <ng-container matColumnDef="id">
+    <mat-header-cell *matHeaderCellDef> id</mat-header-cell>
+    <mat-cell *matCellDef="let audio_file"> {{audio_file.id}} </mat-cell>
+  </ng-container>
+
+<!--  <ng-container matColumnDef="start_time">-->
+<!--    <mat-header-cell *matHeaderCellDef> Время начала</mat-header-cell>-->
+<!--    <mat-cell *matCellDef="let audio_file"> {{audio_file.start_time}} </mat-cell>-->
+<!--  </ng-container>-->
+
+  <ng-container matColumnDef="date">
+    <mat-header-cell *matHeaderCellDef> Дата</mat-header-cell>
+    <mat-cell *matCellDef="let audio_file"> {{audio_file.date}} </mat-cell>
+  </ng-container>
+
+<!--  <ng-container matColumnDef="duration">-->
+<!--    <mat-header-cell *matHeaderCellDef> Длительность</mat-header-cell>-->
+<!--    <mat-cell *matCellDef="let audio_file"> {{audio_file.duration}} </mat-cell>-->
+<!--  </ng-container>-->
+
+  <ng-container matColumnDef="workplace">
+    <mat-header-cell *matHeaderCellDef> Рабочее место</mat-header-cell>
+    <mat-cell *matCellDef="let audio_file"> {{audio_file.workplace}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="role">
+    <mat-header-cell *matHeaderCellDef> Роль</mat-header-cell>
+    <mat-cell *matCellDef="let audio_file"> {{audio_file.role}} </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns; let i = index" (click)="play(row, i)" style="cursor: pointer"></mat-row>
+</mat-table>
