@@ -16,6 +16,7 @@ def get_config():
             'EXT_DATA_DIR': os.path.join(path, 'data')
         }
         config['NETWORK'] = {
+            'WEB_API_IP': '127.0.0.1',
             'WEB_API_PORT': 5722,
         }
         with open('config.ini', 'w') as config_file:

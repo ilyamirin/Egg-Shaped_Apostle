@@ -10,24 +10,28 @@ from config_gen import get_config
 app = Flask(__name__)
 cors = CORS(app, resources={r"*": {"origins": "*"}})
 app.config['CORS_HEADERS'] = 'Content-Type'
-destination = 'http://localhost:4200'
+destination = '*'
 config = get_config()
 
 
 def wrap_response(response):
     resp = jsonify(response)
-    resp.headers.add('Access-Control-Allow-Origin', destination)
+    #resp.headers.add('Access-Control-Allow-Origin', destination)
     return resp
 
 
 @app.route('/write', methods=['POST'])
 def write_es():
+
     columns = ['work_place', 'role', 'date_time', 'text']
     print(request.form)
-    #kwargs = {i: request.form[i] for i in columns}
-    print(kwargs)
-    resp = write(**kwargs)
+    work_place = request.form['work_place']
+    role = request.form['role']
+    date_time = request.form['date_time']
+    text = request.form['text']
+    resp = write(work_place, role, date_time, text)
     resp = jsonify(resp)
+    resp.headers.add('Access-Control-Allow-Origin', request.headers['Access-Control-Allow-Origin'])
     return resp
 
 
@@ -35,7 +39,7 @@ def write_es():
 def get_fts_results():
 
     columns = ['work_place', 'role', 'date_time_start', 'date_time_end', 'query', 'top']
-
+    print(request.headers)
     print(request.json)
 
     kwargs = {i: request.json[i] for i in columns if i in request.json.keys()}
@@ -51,9 +55,10 @@ def get_fts_results():
         results.append({'id':0, 'work_place': 0, 'role': 0, 'date_time': 0, 'text': "Не найдено"})
 
     resp = jsonify(results)
-
+    resp.headers.add('Access-Control-Allow-Origin', request.headers['Access-Control-Allow-Origin'])
+    resp.headers.add('Vary', 'Origin')
     return resp
 
 
 if __name__ == '__main__':
-    app.run(config['NETWORK']['WEB_API_IP'], config['NETWORK']['WEB_API_PORT'])
+    app.run(config['NETWORK']['WEB_API_IP'], config['NETWORK']['WEB_API_PORT'], debug=True)

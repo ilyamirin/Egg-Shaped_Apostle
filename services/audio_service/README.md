@@ -13,7 +13,10 @@ GET /records
 ```
 [filename1, filename2, filename3]
 ```
-
+### curl:
+```
+curl -X GET 127.0.0.1:5722/records
+```
 ## - отправка аудиозаписи по имени файла
 #### Запрос:
 ```

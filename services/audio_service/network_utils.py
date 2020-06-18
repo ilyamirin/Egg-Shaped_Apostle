@@ -28,7 +28,7 @@ def scan_ip(ip, addr_list):
             break
 
 
-def scan_pool(addr_list, start_point=2, end_point=254):
+def scan_pool(addr_list, start_point=0, end_point=254):
     for ip in range(start_point, end_point):
         thread = threading.Thread(target=scan_ip, args=[ip, addr_list])
         thread.start()
@@ -44,5 +44,6 @@ def get_active_addresses():
         logger.warning('no ip found while scanning. Check connection.')
         return []
     return addr_list
+
 
 print(get_active_addresses())

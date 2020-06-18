@@ -7,6 +7,7 @@ config = get_config()
 
 audio_service_api = f'http://{config["NETWORK"]["AUDIO_SERVICE_IP"]}:{config["NETWORK"]["AUDIO_SERVICE_PORT"]}'
 storage_service_api = f'http://{config["NETWORK"]["STORAGE_SERVICE_IP"]}:{config["NETWORK"]["STORAGE_SERVICE_PORT"]}'
+stt_api = f'http://{config["NETWORK"]["STT_DEEPSPEECH_IP"]}:{config["NETWORK"]["STT_DEEPSPEECH_PORT"]}'
 
 
 # audio_service API
@@ -40,3 +41,11 @@ def record_create(work_place, role, datetime, text):
                       data=data,
                       headers=headers)
     return r.content
+
+
+def stt_deepspeech(file):
+    files = {
+        'audio': ('audio', file, 'multipart/form-data')
+    }
+    r = requests.post(stt_api+'/transcribe', files=files)
+    return r.json()

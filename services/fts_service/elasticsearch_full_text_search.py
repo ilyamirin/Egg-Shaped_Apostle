@@ -21,6 +21,7 @@ headers = {
 
 # запись документа в индекс
 def write(work_place, role, date_time, text):
+    print(text)
     params = {
     }
     analyzed_text = analyze(text)
@@ -31,14 +32,14 @@ def write(work_place, role, date_time, text):
         'text': text,
         'analyzed_text': analyzed_text
     }
-    res = rq.post(es_api+f"{config['SETTINGS']['ES_INDEX']}/_doc/", headers=headers, params=params, data=data).json()
+    res = rq.post(es_api+f"{config['SETTINGS']['ES_INDEX']}/_doc/", headers=headers, params=params, data=json.dumps(data)).json()
     return res
 
 
 # проанализированное представление записи
 def analyze(text):
     # для дебага ставь pretty="true", убирай .json() с res = ....json() и возвращай res.text
-    params = {"pretty": "true",}
+    params = {"pretty": "true"}
     data = json.dumps({'text': text})
     res = rq.post(es_api+'rebuilt_russian/_analyze', headers=headers, params=params, data=data).json()
     # clear response from unused data
@@ -99,7 +100,7 @@ def full_text_search(work_places=[1,], role=1, date_time_start=None, date_time_e
 def return_by_id(id):
     return es.search(index=config['SETTINGS']['ES_INDEX'], body={'query': {'match': {'_id': id}}})
 
-# print(full_text_search(work_places=[1,], date_time_end='2020-03-25T20:00:00.000Z', role=-1, query='привет'))
+#print(full_text_search(work_places=[1,], date_time_end='2020-03-25T20:00:00.000Z', role=-1, query='привет'))
 #print(return_by_id('lbxPDXEBgHmjTYGDLXch'))
 #_analyze?pretty&analyzer=standard&text=%D0%92%D0%B5%D1%81%D0%B5%D0%BB%D1%8B%D0%B5%20%D0%B8%D1%81%D1%82%D0%BE%D1%80%D0%B8%D0%B8%20%D0%BF%D1%80%D0%BE%20%D0%BA%D0%BE%D1%82%D1%8F%D1%82"
 #print(rq.get(server_address+'_analyze', params=params))

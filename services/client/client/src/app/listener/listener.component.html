@@ -1,0 +1,22 @@
+<div class="container">
+  <mat-toolbar color="primary" class="main-toolbar">
+    <span>Прослушать</span>
+  </mat-toolbar>
+  <div class="content">
+    <div class="logo">
+      <mat-icon>hearing</mat-icon>
+    </div>
+  </div>
+  <div class="media-footer">
+    <mat-toolbar color="primary">
+      <mat-toolbar-row class="media-action-bar">
+        <button mat-button (click)="play()" [disabled]="state?.error" *ngIf="!state?.playing">
+          <mat-icon mat-list-icon>play_circle_filled</mat-icon>
+        </button>
+        <button mat-button (click)="pause()" *ngIf="state?.playing">
+          <mat-icon mat-list-icon>pause</mat-icon>
+        </button>
+      </mat-toolbar-row>
+    </mat-toolbar>
+  </div>
+</div>

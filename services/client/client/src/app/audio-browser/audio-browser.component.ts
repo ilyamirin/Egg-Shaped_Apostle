@@ -32,9 +32,10 @@ export class AudioBrowserComponent implements OnInit {
   play(id: string, index: number) {
     console.log(id);
     const dialogRef = this.dialog.open(PlayerComponent);
-    dialogRef.componentInstance.files = this.records
+    dialogRef.componentInstance.files = this.records;
     dialogRef.componentInstance.openFile(id, index);
     dialogRef.afterClosed().subscribe(result => {
+      dialogRef.componentInstance.stop();
       console.log(`Dialog result: ${result}`);
     });
   }

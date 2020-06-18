@@ -27,6 +27,7 @@ export class PlayerComponent {
   public files: Array<any> = [];
   state: StreamState;
   currentFile: any = {};
+
   playStream(url) {
     this.audioService.playStream(url).subscribe(events => {
     });

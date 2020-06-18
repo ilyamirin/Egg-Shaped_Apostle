@@ -90,4 +90,4 @@ def filter_by_q():
 
 
 if __name__ == '__main__':
-    app.run(host=config['NETWORK']['WEB_API_IP'], port=config['NETWORK']['WEB_API_PORT'])
+    app.run(host=config['NETWORK']['WEB_API_IP'], debug=True, port=config['NETWORK']['WEB_API_PORT'])

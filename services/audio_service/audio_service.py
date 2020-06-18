@@ -1,9 +1,11 @@
 # берет все устройства из локальной сети
 import os
+import json
+import pyaudio
 from raspberry_api import Raspberry
 from network_utils import get_active_addresses
 
-from flask import Flask, jsonify, request, abort, send_from_directory
+from flask import Flask, jsonify, request, abort, send_from_directory, redirect, url_for, Response
 from flask_cors import CORS, cross_origin
 
 from audio_logger import get_logger
@@ -25,7 +27,23 @@ if not os.path.exists(config['ENV']['EXT_DATA_DIR']):
 app = Flask(__name__)
 cors = CORS(app, resources={r"*": {"origins": "*"}})
 app.config['CORS_HEADERS'] = 'Content-Type'
-destination = 'localhost:4200'
+destination = 'http://localhost:4200'
+
+
+def extract_metadata(filename):
+    raspberry, card, device, date = filename[:-4].split(
+        '_')  # разбиваем название файла по "_", получаем метаданные расположения
+    workplace = raspberry
+    role = 0
+    if 'mic_map.json' in os.listdir('.'):
+        with open('mic_map.json', 'r') as map_file:
+            map = json.load(map_file)
+            try:
+                workplace = map[raspberry][card][device]['workplace']
+                role = map[raspberry][card][device]['role']
+            except KeyError:
+                pass
+    return workplace, role, date
 
 
 def wrap_response(response):
@@ -75,14 +93,43 @@ def get_raspberry_by_ip(ip='127.0.0.1'):
     return raspberries
 
 
+allowed_extensions = ['wav',]
+
+
 @app.route('/records', methods=['GET'])
 def get_records():
     try:
-        return wrap_response([i for i in os.listdir(config['ENV']['EXT_DATA_DIR']) if i.endswith('.wav')])
+        records = [i for i in os.listdir(config['ENV']['EXT_DATA_DIR']) if i.endswith('.wav')]
+        record_obj_list = []
+        id_ = 0
+        for record in records:
+            record_obj = {}
+            workplace, role, date = extract_metadata(record)
+            record_obj['id'] = id_
+            record_obj['name'] = record
+            record_obj['workplace'] = workplace
+            record_obj['role'] = role
+            record_obj['date'] = date
+            record_obj['url'] = f"http://{config['NETWORK']['WEB_API_IP']}:" \
+                                f"{config['NETWORK']['WEB_API_PORT']}" \
+                                f"{url_for('get_record', filename=record)}"
+            record_obj_list.append(record_obj)
+            id_ += 1
+        resp = wrap_response(record_obj_list)
     except Exception as e:
         logger.error(e)
         resp = wrap_response({'error': str(e)})
     return resp
+
+
+@app.route('/record/<filename>', methods=['GET'])
+def get_record(filename):
+    try:
+        return send_from_directory(config['ENV']['EXT_DATA_DIR'], filename)
+    except Exception as e:
+        logger.error(e)
+        resp = wrap_response({'error': str(e)})
+        return resp
 
 
 @app.route('/records/update', methods=['GET'])
@@ -117,7 +164,35 @@ def send():
 
 
 raspberries = get_raspberry_by_ip('127.0.0.1')
-print(raspberries)
+
+
+@app.route('/microphones', methods=['GET'])
+def microphones_list():
+    try:
+        with open('mic_map.json', 'r') as map_file:
+            map_ = json.load(map_file)
+        microphones = []
+        rasp_dict = {}
+        for raspberry in raspberries:
+            rasp_dict[raspberry.no] = {
+                'ip': raspberry.ip,
+                'no': raspberry.no,
+                'devices': raspberry.get_devices()
+            }
+        for raspberry in rasp_dict:
+            for card in rasp_dict[raspberry]['devices']:
+                for mic in rasp_dict[raspberry]['devices'][card]:
+                    workplace = map_[str(raspberry)][str(card)][str(mic)]['workplace']
+                    role = map_[str(raspberry)][str(card)][str(mic)]['role']
+                    mic_obj = {}
+                    for var in ['raspberry', 'card', 'mic', 'workplace', 'role']:
+                        mic_obj[var] = locals()[var]
+                    microphones.append(mic_obj)
+        resp = wrap_response(microphones)
+    except Exception as e:
+        logger.error(e)
+        resp = wrap_response({'error': str(e)})
+    return resp
 
 
 @app.route('/raspberry', methods=['GET'])
@@ -132,28 +207,69 @@ def raspberries_list():
     return wrap_response(rasp_dict)
 
 
-def resolve_command_to_rasp(request, raspberry, command, subcommand):
-    if request.method == 'GET':
-        if command == 'records':
-            return wrap_response(raspberry.get_records())
-        elif command == 'devices':
-            return wrap_response(raspberry.get_devices())
-        elif command == 'config':
-            return wrap_response(raspberry.get_config())
-        elif command == 'parallel_rec' and subcommand == 'stop':
-            return wrap_response(raspberry.stop_parallel_record())
-    elif request.method == 'POST':
-        if command == 'record':
-            print(request.form)
-            return wrap_response(raspberry.record(request.form['card'], request.form['mic'], request.form['time']))
-        if command == 'send':
-            return wrap_response(raspberry.send(config['ENV']['EXT_DATA_DIR'], request.form['filename']))
-        elif command == 'config':
-            return wrap_response(raspberry.set_config(request.json['config']))
-        elif command == 'parallel_rec' and (not subcommand or subcommand == 'start'):
-            return wrap_response(raspberry.start_parallel_record(request.form['time']))
-    else:
-        return wrap_response({'error': 'no such command'})
+@app.route('/raspberry/update', methods=['GET'])
+def update_rasp():
+    global raspberries
+    raspberries = get_raspberries()
+    return redirect(url_for(microphones_list))
+
+
+FORMAT = pyaudio.paInt16
+CHANNELS = 1
+RATE = 44100
+CHUNK = 8192
+RECORD_SECONDS = 5
+
+
+audio1 = pyaudio.PyAudio()
+
+
+def gen_header(sample_rate, bits_per_sample, channels):
+    datasize = 2000*10**6
+    o = bytes("RIFF", 'ascii')                                               # (4byte) Marks file as RIFF
+    o += (datasize + 36).to_bytes(4, 'little')                               # (4byte) File size in bytes excluding this and RIFF marker
+    o += bytes("WAVE", 'ascii')                                              # (4byte) File type
+    o += bytes("fmt ", 'ascii')                                              # (4byte) Format Chunk Marker
+    o += (16).to_bytes(4, 'little')                                          # (4byte) Length of above format data
+    o += (1).to_bytes(2, 'little')                                           # (2byte) Format type (1 - PCM)
+    o += channels.to_bytes(2, 'little')                                    # (2byte)
+    o += sample_rate.to_bytes(4, 'little')                                  # (4byte)
+    o += (sample_rate * channels * bits_per_sample // 8).to_bytes(4, 'little')  # (4byte)
+    o += (channels * bits_per_sample // 8).to_bytes(2, 'little')               # (2byte)
+    o += bits_per_sample.to_bytes(2, 'little')                               # (2byte)
+    o += bytes("data", 'ascii')                                              # (4byte) Data Chunk Marker
+    o += datasize.to_bytes(4, 'little')                                    # (4byte) Data size in bytes
+    return o
+
+
+@app.route('/microphone/<int:mic_no>/stream')
+def audio(mic_no):
+    # start Recording
+    def sound():
+        CHUNK = 8192
+        sample_rate = 44100
+        bits_per_sample = 16
+        channels = 1
+        wav_header = gen_header(sample_rate, bits_per_sample, channels)
+
+        stream = audio1.open(format=FORMAT,
+                             channels=CHANNELS,
+                             rate=RATE,
+                             input=True,
+                             input_device_index=mic_no,
+                             frames_per_buffer=CHUNK)
+        print("recording...")
+        first_run = True
+        while True:
+            if first_run:
+                data = wav_header + stream.read(CHUNK)
+                first_run = False
+            else:
+                data = stream.read(CHUNK)
+            yield(data)
+    return Response(sound())
+
+
 
 
 @app.route('/raspberry/all/<command>', methods=['GET', 'POST'])
@@ -221,4 +337,4 @@ def to_raspberry(no, command, subcommand=None):
 
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=config['NETWORK']['WEB_API_PORT'])
+    app.run(host=config['NETWORK']['WEB_API_IP'], debug=True, port=config['NETWORK']['WEB_API_PORT'])

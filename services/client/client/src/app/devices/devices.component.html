@@ -1,19 +1,31 @@
-<div class="grid-container">
-  <h1 class="mat-h1">Микрофоны</h1>
+<div class="grid-container" >
+  <h1 fxLayoutAlign="center center" class="mat-h1">Микрофоны</h1>
+  <div fxLayoutAlign="center center">
+    <button  mat-fab color="primary" aria-label="Обновить" (click)="update()">
+      <mat-icon>update</mat-icon>
+    </button>
+  </div>
   <mat-grid-list cols="8" rowHeight="350px">
-    <mat-grid-tile *ngFor="let device of devices">
-      <mat-card class="dashboard-card">
+    <mat-grid-tile *ngFor="let device of microphones">
+      <mat-card  color="primary" class="dashboard-card">
         <mat-card-header>
           <mat-card-title>
-            {{device.id}}
+            {{device.workplace}}
           </mat-card-title>
         </mat-card-header>
-        <mat-card-content class="dashboard-card-content">
-          <p>Микрофон: {{device.id}}</p>
+        <mat-card-content fxLayout="column" fxLayoutAlign="space-evenly center" class="dashboard-card-content">
+<!--          <p>Микрофон: {{device.mic}}</p>
           <p>Raspberry: {{device.raspberry}}</p>
-          <p>аудиокарта: {{device.card}}</p>
-          <p>Рабочее место: {{device.workplace}}</p>
-          <p>Роль: {{device.role}}</p>
+          <p>аудиокарта: {{device.card}}</p>-->
+          <p class="mat-card-header">{{device.role}}</p>
+          <div fxLayout="row" fxLayoutAlign="space-around center">
+            <button  mat-fab color="primary" aria-label="Прослушать" (click)="listen(device)">
+              <mat-icon>hearing</mat-icon>
+            </button>
+            <button  mat-fab color="primary" aria-label="Записать" (click)="record(device)">
+              <mat-icon>keyboard_voice</mat-icon>
+            </button>
+          </div>
         </mat-card-content>
       </mat-card>
     </mat-grid-tile>

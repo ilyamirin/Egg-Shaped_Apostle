@@ -19,3 +19,12 @@
 .dashboard-card-content {
   text-align: center;
 }
+.grid-container {
+  .mat-card-content {
+    img {
+      object-fit: cover;
+      min-width: 100%;
+      min-height: 100%;
+    }
+  }
+}

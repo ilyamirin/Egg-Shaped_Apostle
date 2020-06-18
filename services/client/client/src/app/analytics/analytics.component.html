@@ -47,7 +47,7 @@
       </mat-form-field>
 
       <div fxLayout="column" fxLayoutAlign="center center">
-        <button mat-fab color="primary" aria-label="Analytics">
+        <button (click)="analyse()" mat-fab color="primary" aria-label="Analytics">
           <mat-icon>bar_chart</mat-icon>
         </button>
       </div>
@@ -57,7 +57,7 @@
 
 <div class="grid-container">
   <h1 class="mat-h1">Аналитика</h1>
-  <mat-grid-list fxLayout="column" fxLayoutAlign="space-between center" cols="1" rowHeight="350">
+  <mat-grid-list fxLayout="column" fxLayoutAlign="space-between center" cols="2" rowHeight="350">
     <mat-grid-tile [colspan]="1" [rowspan]="1">
       <mat-card class="dashboard-card">
         <mat-card-header>
@@ -65,8 +65,11 @@
             Частоты слов
           </mat-card-title>
         </mat-card-header>
-        <mat-card-content fxLayoutAlign="center center" class="dashboard-card-content" fxLayout="row">
-          <img fxFlex="50" src="./assets/word_freqs.jpg"/>
+        <mat-card-content *ngIf="analysed" fxLayoutAlign="center center" class="dashboard-card-content" fxLayout="row">
+          <img fxFlex="30" src=" {{ freqImage }}"/>
+        </mat-card-content>
+        <mat-card-content *ngIf="!analysed" fxLayoutAlign="center center" class="dashboard-card-content" fxLayout="row">
+          <img style="object-fit: fill; height: 250px" src="./assets/hourglass.svg"/>
         </mat-card-content>
       </mat-card>
     </mat-grid-tile>
@@ -77,8 +80,11 @@
             Облако слов
           </mat-card-title>
         </mat-card-header>
-        <mat-card-content fxLayoutAlign="center center" class="dashboard-card-content">
-          <img fxFlex="40" src="./assets/word_cloud.png"/>
+        <mat-card-content *ngIf="analysed" fxLayoutAlign="center center" class="dashboard-card-content">
+          <img fxFlex="40" src="{{ cloudImage }}"/>
+        </mat-card-content>
+        <mat-card-content *ngIf="!analysed" fxLayoutAlign="center center" class="dashboard-card-content" fxLayout="row">
+          <img style="object-fit: fill; height: 250px" src="./assets/hourglass.svg"/>
         </mat-card-content>
       </mat-card>
     </mat-grid-tile>
@@ -89,8 +95,11 @@
             Разметка по участникам диалога
           </mat-card-title>
         </mat-card-header>
-        <mat-card-content fxLayoutAlign="center center" class="dashboard-card-content">
-          <img fxFlex="20" src="./assets/diarisation.png"/>
+        <mat-card-content style="margin: 0px; padding: 0px" *ngIf="analysed" fxLayout="row" fxLayoutAlign=" stretch" class="dashboard-card-content">
+          <img fxFlex="20" src="{{ diarisationImage }}"/>
+        </mat-card-content>
+        <mat-card-content  *ngIf="!analysed" fxLayoutAlign="center center" class="dashboard-card-content" fxLayout="row">
+          <img style="object-fit: fill; height: 250px" src="./assets/hourglass.svg"/>
         </mat-card-content>
       </mat-card>
     </mat-grid-tile>
@@ -101,8 +110,12 @@
             Тематика
           </mat-card-title>
         </mat-card-header>
-        <mat-card-content class="dashboard-card-content" fxLayout="row">
-          <iframe height="300" fxFlex fxLayoutAlign="stretch" [src]="template"></iframe>
+        <mat-card-content *ngIf="analysed" class="dashboard-card-content" fxLayout="row">
+            <img fxFlex="40" src="{{ thematicImage }}"/>
+<!--          <iframe *ngIf="analysed" height="300" fxFlex fxLayoutAlign="stretch" src="{{ thematicImage }}"></iframe>-->
+        </mat-card-content>
+        <mat-card-content style="object-fit: contain;" *ngIf="!analysed" fxLayoutAlign="center center" class="dashboard-card-content" fxLayout="row">
+          <img style="object-fit: fill; height: 250px" src="./assets/hourglass.svg"/>
         </mat-card-content>
       </mat-card>
     </mat-grid-tile>

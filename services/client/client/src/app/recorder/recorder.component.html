@@ -1,0 +1,25 @@
+<div class="container">
+  <mat-toolbar color="primary" class="main-toolbar">
+    <span>Записать</span>
+  </mat-toolbar>
+  <div class="content">
+    <div class="logo">
+      <mat-icon>keyboard_voice</mat-icon>
+    </div>
+  </div>
+  <div class="media-footer">
+    <mat-toolbar color="primary">
+      <mat-form-field>
+        <input matInput type="number" [(ngModel)]="timeValue">
+      </mat-form-field>
+      <mat-toolbar-row>
+        <mat-slider class="time-slider" [tickInterval]="1" [(ngModel)]="timeValue" [min]="0" [max]="3600" step="1" [value]="30"></mat-slider>
+      </mat-toolbar-row>
+      <mat-toolbar-row class="media-action-bar">
+        <button mat-button (click)="record(this.mic)" [disabled]="state?.busy">
+          <mat-icon>keyboard_voice_filled</mat-icon>
+        </button>
+      </mat-toolbar-row>
+    </mat-toolbar>
+  </div>
+</div>

@@ -33,6 +33,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import { PlayerComponent } from './player/player.component';
 import {HttpClientModule} from '@angular/common/http';
 import { DevicesComponent } from './devices/devices.component';
+import { ListenerComponent } from './listener/listener.component';
+import { RecorderComponent } from './recorder/recorder.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +45,8 @@ import { DevicesComponent } from './devices/devices.component';
     FullTextSearchComponent,
     PlayerComponent,
     DevicesComponent,
+    ListenerComponent,
+    RecorderComponent,
   ],
   imports: [
     BrowserModule,

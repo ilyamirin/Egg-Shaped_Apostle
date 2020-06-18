@@ -1,4 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
+
+import { AudioService } from '../services/audio.service';
+import { Microphone } from '../interfaces/microphone';
+import { ListenerComponent } from '../listener/listener.component';
+import {RecorderComponent} from '../recorder/recorder.component';
+import { Location } from '@angular/common';
+
 
 @Component({
   selector: 'app-devices',
@@ -6,75 +14,44 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./devices.component.scss']
 })
 export class DevicesComponent implements OnInit {
-  devices: object[] = [
-    {
-      id: 1,
-      raspberry: 1,
-      card: 0,
-      workplace: 1,
-      role: 0
-    },
-    {
-      id: 2,
-      raspberry: 1,
-      card: 1,
-      workplace: 1,
-      role: 1
-    },
-    {
-      id: 3,
-      raspberry: 1,
-      card: 2,
-      workplace: 2,
-      role: 1
-    },
-    {
-      id: 1,
-      raspberry: 1,
-      card: 0,
-      workplace: 1,
-      role: 0
-    },
-    {
-      id: 2,
-      raspberry: 1,
-      card: 1,
-      workplace: 1,
-      role: 1
-    },
-    {
-      id: 3,
-      raspberry: 1,
-      card: 2,
-      workplace: 2,
-      role: 1
-    },
-    {
-      id: 1,
-      raspberry: 1,
-      card: 0,
-      workplace: 1,
-      role: 0
-    },
-    {
-      id: 2,
-      raspberry: 1,
-      card: 1,
-      workplace: 1,
-      role: 1
-    },
-    {
-      id: 3,
-      raspberry: 1,
-      card: 2,
-      workplace: 2,
-      role: 1
-    },
+  constructor(
+    private audioService: AudioService,
+    public dialog: MatDialog,
+    private location: Location
+  ) { }
+  microphones: Microphone[];
 
-  ];
-  constructor() { }
+  getAudio(): void {
+    this.audioService.getMicrophones()
+      .subscribe(microphones => this.microphones = microphones);
+  }
+
+  listen(mic: Microphone) {
+    console.log(mic);
+    const dialogRef = this.dialog.open(ListenerComponent);
+    dialogRef.componentInstance.openStream(mic);
+    dialogRef.afterClosed().subscribe(result => {
+      dialogRef.componentInstance.stop();
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+  record(mic: Microphone) {
+    console.log(mic);
+    const dialogRef = this.dialog.open(RecorderComponent);
+    dialogRef.componentInstance.mic = mic;
+    // dialogRef.componentInstance.openFile(id, index);
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+  update() {
+    this.audioService.updateMicrophones();
+    location.reload();
+  }
 
   ngOnInit(): void {
+    this.getAudio();
   }
 
 }

@@ -124,3 +124,9 @@ python3 config_gen.py -u pi - p raspberry -d 1 -t 10 -m 09:00 -e 19:00
 ```buildoutcfg
 python3 audio_service.py
 ```
+
+pyaudio:
+```
+sudo apt-get install libasound-dev portaudio19-dev libportaudio2 libportaudiocpp0
+sudo -H python3 -m pip install pyaudio
+```

@@ -22,6 +22,10 @@ def get_config():
             'AUDIO_SERVICE_PORT': '5722',
             'STORAGE_SERVICE_IP': '127.0.0.1',
             'STORAGE_SERVICE_PORT': '5730',
+            'FTS_SERVICE_IP': '127.0.0.1',
+            'FTS_SERVICE_PORT': '5727',
+            'STT_DEEPSPEECH_IP': '0.0.0.0',
+            'STT_DEEPSPEECH_PORT': '32768',
         }
         config['SETTINGS'] = {
             'DEBUG': 1,
