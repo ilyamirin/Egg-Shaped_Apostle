@@ -15,5 +15,3 @@ log.txt
 test.wav
 **/.venv
 **/__pycache__
-node_modules
-e2e
