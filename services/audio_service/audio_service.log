@@ -1,0 +1,1081 @@
+2020-06-15 11:05:17,390 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-15 11:05:17,401 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-15 11:05:17,401 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-15 11:12:41,177 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-15 11:12:41,189 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-15 11:12:41,189 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-15 11:32:36,600 — audio_service — ERROR — Exception on /records [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 2446, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1951, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.8/site-packages/flask_cors/extension.py", line 161, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1820, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python3.8/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1949, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1935, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "audio_service.py", line 75, in get_records
+    return wrap_response([i for i in os.listdir(config['ENV']['EXT_DATA_DIR']) if i.endswith('.wav')])
+FileNotFoundError: [Errno 2] No such file or directory: '/data/'
+2020-06-15 11:32:45,621 — audio_service — ERROR — Exception on /records [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 2446, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1951, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.8/site-packages/flask_cors/extension.py", line 161, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1820, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python3.8/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1949, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1935, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "audio_service.py", line 75, in get_records
+    return wrap_response([i for i in os.listdir(config['ENV']['EXT_DATA_DIR']) if i.endswith('.wav')])
+FileNotFoundError: [Errno 2] No such file or directory: '/data/'
+2020-06-15 11:37:25,060 — audio_service — DEBUG — can't find data dir, trying to create...
+2020-06-15 11:37:25,060 — audio_service — ERROR — 'DATA_DIR'
+2020-06-15 11:37:25,062 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-15 11:37:25,073 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-15 11:37:25,073 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-15 11:37:29,893 — audio_service — DEBUG — can't find data dir, trying to create...
+2020-06-15 11:37:29,894 — audio_service — ERROR — 'DATA_DIR'
+2020-06-15 11:37:29,895 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-15 11:37:29,906 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-15 11:37:29,906 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-15 11:37:34,769 — audio_service — DEBUG — can't find data dir, trying to create...
+2020-06-15 11:37:34,769 — audio_service — ERROR — 'DATA_DIR'
+2020-06-15 11:37:34,771 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-15 11:37:34,781 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-15 11:37:34,781 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-15 11:37:46,743 — audio_service — ERROR — Exception on /records [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 2446, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1951, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.8/site-packages/flask_cors/extension.py", line 161, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1820, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python3.8/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1949, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1935, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "audio_service.py", line 79, in get_records
+    return wrap_response([i for i in os.listdir(config['ENV']['EXT_DATA_DIR']) if i.endswith('.wav')])
+FileNotFoundError: [Errno 2] No such file or directory: '/data/'
+2020-06-15 11:38:34,171 — audio_service — ERROR — Exception on /records [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 2446, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1951, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.8/site-packages/flask_cors/extension.py", line 161, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1820, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python3.8/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1949, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1935, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "audio_service.py", line 79, in get_records
+    return wrap_response([i for i in os.listdir(config['ENV']['EXT_DATA_DIR']) if i.endswith('.wav')])
+FileNotFoundError: [Errno 2] No such file or directory: '/data/'
+2020-06-15 11:39:35,144 — audio_service — DEBUG — can't find data dir, trying to create...
+2020-06-15 11:39:35,144 — audio_service — ERROR — 'DATA_DIR'
+2020-06-15 11:39:35,146 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-15 11:39:35,156 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-15 11:39:35,156 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-15 11:39:40,841 — audio_service — ERROR — [Errno 2] No such file or directory: '/data/'
+2020-06-15 11:41:22,319 — audio_service — ERROR — [Errno 2] No such file or directory: '/data/'
+2020-06-15 11:41:54,266 — audio_service — DEBUG — can't find data dir, trying to create...
+2020-06-15 11:41:54,266 — audio_service — ERROR — 'DATA_DIR'
+2020-06-15 11:41:54,268 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-15 11:41:54,278 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-15 11:41:54,278 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-15 11:42:01,276 — audio_service — ERROR — [Errno 2] No such file or directory: '/data'
+2020-06-15 11:45:02,113 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-15 11:45:02,123 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-15 11:45:02,123 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-15 12:27:06,392 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-15 12:27:06,403 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-15 12:27:06,403 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-15 12:27:19,412 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-15 12:27:19,423 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-15 12:27:19,423 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-15 12:27:19,426 — audio_service — ERROR — Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+to interface with the current application object in some way. To solve
+this, set up an application context with app.app_context().  See the
+documentation for more information.
+2020-06-15 12:28:38,447 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-15 12:28:38,458 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-15 12:28:38,459 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-15 12:29:19,221 — audio_service — DEBUG — found ip: 192.168.1.39. Trying to connect...
+2020-06-15 12:29:19,239 — audio_service — ERROR — HTTPConnectionPool(host='192.168.1.39', port=5721): Max retries exceeded with url: /devices (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fbe48117550>: Failed to establish a new connection: [Errno 111] Connection refused'))
+2020-06-15 12:30:35,700 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-15 12:30:35,711 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-15 12:30:35,711 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-15 12:30:41,001 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-15 12:30:41,012 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-15 12:30:41,012 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-15 12:31:17,929 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-15 12:31:17,940 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-15 12:31:17,940 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-15 12:34:41,116 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-15 12:34:41,127 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-15 12:34:41,127 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-15 12:35:31,822 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-15 12:35:31,833 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-15 12:35:31,833 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-15 12:35:58,288 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-15 12:35:58,299 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-15 12:35:58,299 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-15 12:36:00,678 — audio_service — ERROR — Object of type Response is not JSON serializable
+2020-06-15 12:36:12,612 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-15 12:36:12,623 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-15 12:36:12,624 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-15 12:36:14,316 — audio_service — ERROR — Exception on /records/update [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 2446, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1951, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.8/site-packages/flask_cors/extension.py", line 161, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1820, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python3.8/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1949, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1935, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/sde/Desktop/projects/Egg-Shaped_Apostle/services/audio_service/audio_service.py", line 91, in get_update
+    print(rasp_list.json())
+TypeError: 'dict' object is not callable
+2020-06-15 12:36:39,526 — audio_service — ERROR — Exception on /records/update [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 2446, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1951, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.8/site-packages/flask_cors/extension.py", line 161, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1820, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python3.8/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1949, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1935, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/sde/Desktop/projects/Egg-Shaped_Apostle/services/audio_service/audio_service.py", line 91, in get_update
+    print(rasp_list.json)
+TypeError: 'dict' object is not callable
+2020-06-15 12:37:12,920 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-15 12:37:12,931 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-15 12:37:12,931 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-15 12:37:48,342 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-15 12:37:48,353 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-15 12:37:48,353 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-15 12:37:50,241 — audio_service — ERROR — Exception on /records/update [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 2446, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1951, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.8/site-packages/flask_cors/extension.py", line 161, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1820, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python3.8/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1949, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1935, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/sde/Desktop/projects/Egg-Shaped_Apostle/services/audio_service/audio_service.py", line 90, in get_update
+    rasp_list = raspberries_list().content
+AttributeError: 'Response' object has no attribute 'content'
+2020-06-15 12:39:06,614 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-15 12:39:06,625 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-15 12:39:06,626 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-15 12:39:08,386 — audio_service — ERROR — 'dict' object has no attribute 'json'
+2020-06-15 12:39:20,534 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-15 12:39:20,545 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-15 12:39:20,545 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-15 12:39:22,474 — audio_service — ERROR — 'bytes' object has no attribute 'json'
+2020-06-15 12:39:32,328 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-15 12:39:32,339 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-15 12:39:32,340 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-15 12:39:34,029 — audio_service — ERROR — Exception on /records/update [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 2446, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1951, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.8/site-packages/flask_cors/extension.py", line 161, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1820, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python3.8/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1949, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1935, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/sde/Desktop/projects/Egg-Shaped_Apostle/services/audio_service/audio_service.py", line 90, in get_update
+    rasp_list = raspberries_list().decode()
+AttributeError: 'Response' object has no attribute 'decode'
+2020-06-15 12:40:03,637 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-15 12:40:03,649 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-15 12:40:03,649 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-15 12:40:05,214 — audio_service — ERROR — 'dict' object has no attribute 'json'
+2020-06-15 12:40:20,333 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-15 12:40:20,343 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-15 12:40:20,343 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-15 12:40:21,972 — audio_service — ERROR — Exception on /records/update [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 2446, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1951, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.8/site-packages/flask_cors/extension.py", line 161, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1820, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python3.8/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1949, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1935, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/sde/Desktop/projects/Egg-Shaped_Apostle/services/audio_service/audio_service.py", line 90, in get_update
+    rasp_list = [i for i in raspberries_list()]
+TypeError: 'Response' object is not iterable
+2020-06-15 12:40:32,225 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-15 12:40:32,235 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-15 12:40:32,235 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-15 12:41:19,883 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-15 12:41:19,894 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-15 12:41:19,895 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-15 12:41:22,054 — audio_service — ERROR — 'bytes' object has no attribute 'json'
+2020-06-15 12:41:36,256 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-15 12:41:36,266 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-15 12:41:36,266 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-15 12:41:39,030 — audio_service — ERROR — 'str' object has no attribute 'json'
+2020-06-15 12:41:58,570 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-15 12:41:58,581 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-15 12:41:58,581 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-15 12:42:00,354 — audio_service — ERROR — Exception on /records/update [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 2446, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1951, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.8/site-packages/flask_cors/extension.py", line 161, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1820, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python3.8/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1949, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1935, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/sde/Desktop/projects/Egg-Shaped_Apostle/services/audio_service/audio_service.py", line 90, in get_update
+    rasp_list = raspberries_list().json()
+TypeError: 'dict' object is not callable
+2020-06-15 12:42:07,258 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-15 12:42:07,269 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-15 12:42:07,270 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-15 13:00:42,998 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-15 13:00:43,008 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-15 13:00:43,009 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-15 13:00:47,895 — audio_service — ERROR — Object of type set is not JSON serializable
+2020-06-15 13:01:26,405 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-15 13:01:26,416 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-15 13:01:26,417 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-15 13:01:29,043 — audio_service — ERROR — Object of type set is not JSON serializable
+2020-06-15 13:01:38,602 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-15 13:01:38,614 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-15 13:01:38,614 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-15 13:01:41,847 — audio_service — ERROR — Object of type set is not JSON serializable
+2020-06-15 13:02:13,198 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-15 13:02:13,208 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-15 13:02:13,208 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-15 13:02:16,197 — audio_service — ERROR — Object of type set is not JSON serializable
+2020-06-15 13:02:45,790 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-15 13:02:45,801 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-15 13:02:45,801 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-15 13:03:14,941 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-15 13:03:14,952 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-15 13:03:14,952 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-15 13:30:03,584 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-15 13:30:03,588 — audio_service — ERROR — HTTPConnectionPool(host='127.0.0.1', port=5721): Max retries exceeded with url: /devices (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f94ec319670>: Failed to establish a new connection: [Errno 111] Connection refused'))
+2020-06-15 13:33:25,846 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-15 13:33:25,850 — audio_service — ERROR — HTTPConnectionPool(host='127.0.0.1', port=5721): Max retries exceeded with url: /devices (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f93ba888670>: Failed to establish a new connection: [Errno 111] Connection refused'))
+2020-06-15 13:36:42,708 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-15 13:36:42,712 — audio_service — ERROR — HTTPConnectionPool(host='127.0.0.1', port=5721): Max retries exceeded with url: /devices (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f964c539610>: Failed to establish a new connection: [Errno 111] Connection refused'))
+2020-06-15 13:37:40,779 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-15 13:37:40,783 — audio_service — ERROR — HTTPConnectionPool(host='127.0.0.1', port=5721): Max retries exceeded with url: /devices (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fb0769a55e0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+2020-06-15 13:39:23,839 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-15 13:39:23,843 — audio_service — ERROR — HTTPConnectionPool(host='127.0.0.1', port=5721): Max retries exceeded with url: /devices (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fea68d125e0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+2020-06-15 14:16:05,058 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-15 14:16:05,062 — audio_service — ERROR — HTTPConnectionPool(host='127.0.0.1', port=5721): Max retries exceeded with url: /devices (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f4da275d5e0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+2020-06-15 14:16:05,062 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-15 14:16:05,065 — audio_service — ERROR — HTTPConnectionPool(host='127.0.0.1', port=5721): Max retries exceeded with url: /devices (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f4da275df40>: Failed to establish a new connection: [Errno 111] Connection refused'))
+2020-06-15 14:16:17,697 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-15 14:16:17,701 — audio_service — ERROR — HTTPConnectionPool(host='127.0.0.1', port=5721): Max retries exceeded with url: /devices (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fa5a7bf85e0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+2020-06-15 14:17:06,042 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-15 14:17:06,046 — audio_service — ERROR — HTTPConnectionPool(host='127.0.0.1', port=5721): Max retries exceeded with url: /devices (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f5a38a605e0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+2020-06-15 14:17:38,560 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-15 14:17:38,571 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-15 14:17:38,571 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-16 23:02:46,062 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-16 23:02:46,178 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-16 23:02:46,192 — audio_service — ERROR — HTTPConnectionPool(host='127.0.0.1', port=5721): Max retries exceeded with url: /devices (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f1f2c911bb0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+2020-06-16 23:03:50,951 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-16 23:03:51,059 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-16 23:03:51,192 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-16 23:03:51,194 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-16 23:19:19,858 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-16 23:19:20,055 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-16 23:19:20,066 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-16 23:19:20,066 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-16 23:20:15,619 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-16 23:20:15,691 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-16 23:20:15,703 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-16 23:20:15,703 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-16 23:26:01,015 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-16 23:26:01,129 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-16 23:26:01,140 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-16 23:26:01,140 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-17 00:01:24,954 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-17 00:01:25,060 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-17 00:01:25,073 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-17 00:01:25,073 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-17 00:19:49,703 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-17 00:19:49,764 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-17 00:19:49,775 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-17 00:19:49,775 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-17 00:20:38,054 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-17 00:20:38,128 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-17 00:20:38,140 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-17 00:20:38,140 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-17 00:22:25,395 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-17 00:22:25,459 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-17 00:22:25,471 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-17 00:22:25,471 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-17 00:24:46,427 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-17 00:24:46,488 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-17 00:24:46,502 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-17 00:24:46,502 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-17 00:28:00,748 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-17 00:28:00,958 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-17 00:28:00,969 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-17 00:28:00,969 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-17 00:32:02,970 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-17 00:32:03,100 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-17 00:32:03,112 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-17 00:32:03,112 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-17 00:37:46,458 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-17 00:37:46,620 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-17 00:37:46,632 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-17 00:37:46,632 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-17 00:42:08,502 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-17 00:42:08,567 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-17 00:42:08,579 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-17 00:42:08,580 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-17 00:45:25,910 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:45:26,604 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:45:27,363 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:45:27,995 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:45:28,844 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:45:29,497 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:45:30,119 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:45:30,809 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:45:31,524 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:45:32,243 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:45:32,882 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:45:33,523 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:45:34,243 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:45:34,964 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:45:35,639 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:45:36,283 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:45:36,918 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:45:37,600 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:45:38,276 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:48:20,552 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:48:21,244 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:48:21,925 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:48:22,641 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:48:23,323 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:48:23,999 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:48:24,685 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:48:25,400 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:48:26,040 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:48:26,726 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:48:27,439 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:48:28,089 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:48:28,840 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:48:29,484 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:48:30,120 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:48:30,848 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:48:31,561 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:48:32,244 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:48:32,960 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:48:33,681 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:48:34,365 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:48:35,043 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:48:35,758 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:48:36,553 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:48:37,359 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:48:38,043 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:48:38,687 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:48:39,395 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:48:40,079 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:48:40,772 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:48:41,438 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:48:42,125 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:48:42,876 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:48:43,556 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:48:44,244 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:48:44,883 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:48:45,599 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:48:46,320 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:48:46,964 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:48:47,642 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:49:15,984 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-17 00:49:16,106 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-17 00:49:16,118 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-17 00:49:16,118 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-17 00:49:16,130 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:49:17,051 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:49:17,760 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:49:18,845 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:49:19,596 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:49:20,240 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:49:20,960 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:49:21,681 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:49:22,362 — audio_service — ERROR — 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2020-06-17 00:52:23,326 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-17 00:52:23,526 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-17 00:52:23,537 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-17 00:52:23,537 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-17 01:03:33,718 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-17 01:03:33,822 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-17 01:03:33,834 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-17 01:03:33,835 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-17 01:05:52,033 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-17 01:05:52,150 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-17 01:05:52,161 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-17 01:05:52,161 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-17 01:09:21,812 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-17 01:09:22,009 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-17 01:09:22,021 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-17 01:09:22,022 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-17 01:11:06,090 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-17 01:11:06,227 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-17 01:11:06,239 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-17 01:11:06,239 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-17 01:11:07,518 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:11:16,156 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:11:22,514 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:11:34,298 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:11:42,685 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:11:56,773 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:12:14,697 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:12:24,819 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:12:31,876 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:13:10,113 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:14:25,438 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:14:55,182 — audio_service — DEBUG — 0, record, start
+2020-06-17 01:15:03,340 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:15:23,891 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:15:56,194 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:16:06,537 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:16:11,532 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:19:03,663 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:19:19,163 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-17 01:19:19,294 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-17 01:19:19,307 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-17 01:19:19,307 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-17 01:19:22,473 — audio_service — DEBUG — 0, record
+2020-06-17 01:19:26,684 — audio_service — DEBUG — 0, record
+2020-06-17 01:19:28,954 — audio_service — DEBUG — 0, record
+2020-06-17 01:20:11,659 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-17 01:20:11,799 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-17 01:20:11,810 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-17 01:20:11,810 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-17 01:20:13,806 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:20:14,861 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:20:15,640 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:20:16,176 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:22:22,778 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:22:24,167 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:22:25,371 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:22:26,599 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:22:47,772 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:22:48,982 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:23:14,538 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:23:23,533 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:23:24,481 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:23:42,766 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:24:05,089 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:25:27,220 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-17 01:25:27,299 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-17 01:25:27,311 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-17 01:25:27,311 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-17 01:25:36,332 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:25:37,776 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:26:54,581 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:26:56,938 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:27:14,969 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:27:33,647 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:27:39,343 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:27:59,470 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:28:06,776 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:28:37,011 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:28:41,603 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:28:48,703 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:29:17,224 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:29:19,716 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:29:37,264 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:31:07,597 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:31:13,235 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:31:20,102 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:31:23,354 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:31:28,439 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:32:04,351 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-17 01:32:04,438 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-17 01:32:04,451 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-17 01:32:04,452 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-17 01:32:06,711 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:32:13,558 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:32:50,710 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-17 01:32:50,836 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-17 01:32:50,847 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-17 01:32:50,847 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-17 01:32:50,945 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:32:56,679 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:32:57,923 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:33:26,659 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-17 01:33:26,757 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-17 01:33:26,768 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-17 01:33:26,768 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-17 01:33:26,926 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:33:27,158 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:33:28,526 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:33:29,636 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:33:43,906 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:33:46,286 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:33:58,134 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-17 01:33:58,226 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-17 01:33:58,237 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-17 01:33:58,237 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-17 01:33:58,363 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:33:58,594 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:34:02,520 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:34:03,773 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:36:25,770 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-17 01:36:25,867 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-17 01:36:25,878 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-17 01:36:25,878 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-17 01:36:33,451 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:36:45,775 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:36:54,437 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:37:29,579 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:39:06,767 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:39:16,358 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:39:31,656 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:39:37,438 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:39:44,129 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:39:45,125 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:39:57,432 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:41:37,446 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-17 01:41:37,537 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-17 01:41:37,548 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-17 01:41:37,548 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-17 01:41:38,037 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:41:41,071 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:41:49,607 — audio_service — DEBUG — 0, record, None
+2020-06-17 01:43:05,805 — audio_service — DEBUG — 0, record, None
+2020-06-17 23:16:13,089 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-17 23:16:14,269 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-17 23:16:14,305 — audio_service — ERROR — HTTPConnectionPool(host='127.0.0.1', port=5721): Max retries exceeded with url: /devices (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fee9fe5e6d0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+2020-06-17 23:20:41,480 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-17 23:20:41,577 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-17 23:20:41,736 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-17 23:20:41,737 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-17 23:59:36,689 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-17 23:59:36,785 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-17 23:59:36,796 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-17 23:59:36,796 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-17 23:59:55,402 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-17 23:59:55,497 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-17 23:59:55,508 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-17 23:59:55,508 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 00:00:00,248 — audio_service — ERROR — local variable 'id' referenced before assignment
+2020-06-18 00:00:20,315 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 00:00:20,410 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 00:00:20,421 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 00:00:20,422 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 00:01:28,965 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 00:01:29,058 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 00:01:29,069 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 00:01:29,069 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 00:02:17,356 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 00:02:17,452 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 00:02:17,464 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 00:02:17,464 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 00:12:14,708 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 00:12:14,807 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 00:12:14,818 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 00:12:14,818 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 00:14:05,820 — audio_service — ERROR — Could not build url for endpoint '0_0_0_2020-06-17T00:06:05.606471.wav' with values ['filename']. Did you mean 'get_update' instead?
+2020-06-18 00:15:21,131 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 00:15:21,225 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 00:15:21,236 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 00:15:21,236 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 00:15:28,348 — audio_service — ERROR — Could not build url for endpoint '0_0_0_2020-06-17T00:06:05.606471.wav' with values ['filename']. Did you mean 'get_update' instead?
+2020-06-18 00:16:50,105 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 00:16:50,195 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 00:16:50,206 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 00:16:50,206 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 00:16:54,737 — audio_service — ERROR — Could not build url for endpoint '/home/sde/Desktop/projects/Egg-Shaped_Apostle/services/audio_service/data/0_0_0_2020-06-17T00:06:05.606471.wav'. Did you mean 'raspberries_list' instead?
+2020-06-18 00:19:47,734 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 00:19:47,834 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 00:19:47,845 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 00:19:47,845 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 00:19:49,080 — audio_service — ERROR — url_for() takes 1 positional argument but 2 were given
+2020-06-18 00:20:27,006 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 00:20:27,090 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 00:20:27,102 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 00:20:27,102 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 00:25:39,692 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 00:25:39,787 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 00:25:39,798 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 00:25:39,799 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 00:34:22,042 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 00:34:22,134 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 00:34:22,145 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 00:34:22,145 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 00:34:33,712 — audio_service — ERROR — Exception on /record/0_0_0_2020-5-12T23:48:35.354930.wav.wav [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 2446, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1951, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.8/site-packages/flask_cors/extension.py", line 161, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1820, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python3.8/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1949, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1935, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/sde/Desktop/projects/Egg-Shaped_Apostle/services/audio_service/audio_service.py", line 127, in get_record
+    return resp
+UnboundLocalError: local variable 'resp' referenced before assignment
+2020-06-18 00:35:09,209 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 00:35:09,303 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 00:35:09,314 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 00:35:09,314 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 00:44:24,501 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 00:44:24,593 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 00:44:24,604 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 00:44:24,604 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 00:45:30,243 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 00:45:30,340 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 00:45:30,351 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 00:45:30,351 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 00:45:31,861 — audio_service — ERROR — list indices must be integers or slices, not str
+2020-06-18 00:48:12,033 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 00:48:12,130 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 00:48:12,141 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 00:48:12,141 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 00:48:13,665 — audio_service — ERROR — '1'
+2020-06-18 00:48:55,860 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 00:48:55,957 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 00:48:55,968 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 00:48:55,968 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 00:48:57,201 — audio_service — ERROR — '1'
+2020-06-18 00:52:55,018 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 00:52:55,112 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 00:52:55,123 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 00:52:55,124 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 00:52:56,714 — audio_service — ERROR — '1'
+2020-06-18 00:54:45,901 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 00:54:45,997 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 00:54:46,008 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 00:54:46,008 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 00:54:48,108 — audio_service — ERROR — '1'
+2020-06-18 00:55:19,430 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 00:55:19,527 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 00:55:19,539 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 00:55:19,539 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 00:55:21,087 — audio_service — ERROR — '1'
+2020-06-18 00:55:54,893 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 00:55:54,957 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 00:55:54,982 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 00:55:54,983 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 00:56:11,068 — audio_service — ERROR — '1'
+2020-06-18 00:57:07,832 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 00:57:07,929 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 00:57:07,941 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 00:57:07,941 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 00:57:08,950 — audio_service — ERROR — '1'
+2020-06-18 00:58:20,602 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 00:58:20,715 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 00:58:20,726 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 00:58:20,726 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 00:58:25,045 — audio_service — ERROR — '1'
+2020-06-18 01:00:59,043 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 01:00:59,141 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 01:00:59,152 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 01:00:59,152 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 01:01:02,093 — audio_service — ERROR — '1'
+2020-06-18 01:01:24,727 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 01:01:24,826 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 01:01:24,837 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 01:01:24,837 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 01:01:26,988 — audio_service — ERROR — '1'
+2020-06-18 01:01:34,339 — audio_service — ERROR — '1'
+2020-06-18 01:02:21,988 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 01:02:22,081 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 01:02:22,092 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 01:02:22,092 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 01:02:25,898 — audio_service — ERROR — '1'
+2020-06-18 01:03:10,958 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 01:03:11,053 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 01:03:11,064 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 01:03:11,065 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 01:03:12,837 — audio_service — ERROR — '1'
+2020-06-18 01:03:39,246 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 01:03:39,343 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 01:03:39,354 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 01:03:39,354 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 01:03:41,430 — audio_service — ERROR — '1'
+2020-06-18 01:03:43,511 — audio_service — ERROR — '1'
+2020-06-18 01:04:47,571 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 01:04:47,669 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 01:04:47,680 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 01:04:47,680 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 01:04:48,965 — audio_service — ERROR — '1'
+2020-06-18 01:05:13,145 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 01:05:13,239 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 01:05:13,250 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 01:05:13,250 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 01:05:14,775 — audio_service — ERROR — '1'
+2020-06-18 01:05:43,994 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 01:05:44,088 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 01:05:44,099 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 01:05:44,100 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 01:05:45,400 — audio_service — ERROR — '1'
+2020-06-18 01:07:04,773 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 01:07:04,869 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 01:07:04,880 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 01:07:04,880 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 01:07:05,707 — audio_service — ERROR — '1'
+2020-06-18 01:08:58,623 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 01:08:58,719 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 01:08:58,731 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 01:08:58,731 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 01:08:59,084 — audio_service — ERROR — '1'
+2020-06-18 01:08:59,560 — audio_service — ERROR — '1'
+2020-06-18 01:14:15,825 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 01:14:15,921 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 01:14:15,932 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 01:14:15,932 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 01:14:16,773 — audio_service — ERROR — '1'
+2020-06-18 01:15:04,148 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 01:15:04,246 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 01:15:04,257 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 01:15:04,257 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 01:15:04,438 — audio_service — ERROR — '1'
+2020-06-18 01:15:04,685 — audio_service — ERROR — '1'
+2020-06-18 01:15:30,130 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 01:15:30,224 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 01:15:30,235 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 01:15:30,235 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 01:15:33,103 — audio_service — ERROR — '1'
+2020-06-18 01:19:46,597 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 01:19:46,692 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 01:19:46,703 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 01:19:46,703 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 01:19:47,756 — audio_service — ERROR — unhashable type: 'dict'
+2020-06-18 01:20:41,088 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 01:20:41,182 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 01:20:41,193 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 01:20:41,193 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 01:20:42,233 — audio_service — ERROR — unhashable type: 'dict'
+2020-06-18 01:21:38,766 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 01:21:38,861 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 01:21:38,873 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 01:21:38,873 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 01:21:39,598 — audio_service — ERROR — unhashable type: 'dict'
+2020-06-18 01:22:17,421 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 01:22:22,267 — audio_service — ERROR — argument of type 'builtin_function_or_method' is not iterable
+2020-06-18 01:23:32,667 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 01:23:36,239 — audio_service — ERROR — unhashable type: 'dict'
+2020-06-18 01:23:42,034 — audio_service — ERROR — unhashable type: 'dict'
+2020-06-18 01:23:43,755 — audio_service — ERROR — unhashable type: 'dict'
+2020-06-18 01:24:57,078 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 01:24:58,038 — audio_service — ERROR — unhashable type: 'dict'
+2020-06-18 01:25:06,964 — audio_service — ERROR — unhashable type: 'dict'
+2020-06-18 01:25:20,904 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 01:26:58,005 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 01:27:32,294 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 01:51:38,882 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 01:57:35,702 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 01:59:01,873 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 01:59:32,739 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 02:08:50,908 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 02:11:38,683 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 02:12:13,025 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 02:13:35,321 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 02:13:58,712 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 02:14:36,774 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 02:16:12,536 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 02:30:11,988 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 02:30:17,836 — audio_service — ERROR — Could not build url for endpoint '/home/sde/Desktop/projects/Egg-Shaped_Apostle/services/audio_service/data' with values ['filename']. Did you mean 'get_records' instead?
+2020-06-18 02:31:00,900 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 02:31:01,247 — audio_service — ERROR — Could not build url for endpoint '/home/sde/Desktop/projects/Egg-Shaped_Apostle/services/audio_service/data' with values ['filename']. Did you mean 'get_records' instead?
+2020-06-18 02:31:02,554 — audio_service — ERROR — Could not build url for endpoint '/home/sde/Desktop/projects/Egg-Shaped_Apostle/services/audio_service/data' with values ['filename']. Did you mean 'get_records' instead?
+2020-06-18 02:34:01,811 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 02:34:03,252 — audio_service — ERROR — Could not build url for endpoint '/record/0_0_0_2020-06-17T00:06:05.606471.wav' with values ['filename']. Did you mean 'get_record' instead?
+2020-06-18 02:34:28,425 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 02:34:29,503 — audio_service — ERROR — Could not build url for endpoint '/record/' with values ['filename']. Did you mean 'get_record' instead?
+2020-06-18 02:34:43,686 — audio_service — ERROR — Could not build url for endpoint '/record/' with values ['filename']. Did you mean 'get_record' instead?
+2020-06-18 02:34:44,693 — audio_service — ERROR — Could not build url for endpoint '/record/' with values ['filename']. Did you mean 'get_record' instead?
+2020-06-18 02:34:46,637 — audio_service — ERROR — Could not build url for endpoint '/record/' with values ['filename']. Did you mean 'get_record' instead?
+2020-06-18 02:34:59,087 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 02:34:59,689 — audio_service — ERROR — Could not build url for endpoint '/record' with values ['filename']. Did you mean 'get_record' instead?
+2020-06-18 02:35:00,218 — audio_service — ERROR — Could not build url for endpoint '/record' with values ['filename']. Did you mean 'get_record' instead?
+2020-06-18 02:35:57,875 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 02:35:59,146 — audio_service — ERROR — 'function' object is not subscriptable
+2020-06-18 02:36:19,694 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 02:36:20,882 — audio_service — ERROR — 'Response' object is not subscriptable
+2020-06-18 02:38:07,544 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 02:40:55,354 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 02:41:59,077 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 02:42:27,713 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 02:43:10,974 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 02:45:03,386 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 03:53:58,182 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 04:40:55,071 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #1
+2020-06-18 04:40:55,071 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #1
+2020-06-18 04:41:02,610 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #1
+2020-06-18 04:41:02,610 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #1
+2020-06-18 04:42:10,045 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #1
+2020-06-18 04:42:10,045 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #1
+2020-06-18 04:43:14,965 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #1
+2020-06-18 04:43:14,965 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #1
+2020-06-18 04:44:03,428 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #1
+2020-06-18 04:44:03,429 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #1
+2020-06-18 04:44:36,129 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #1
+2020-06-18 04:44:36,129 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #1
+2020-06-18 04:51:16,446 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #1
+2020-06-18 04:51:16,446 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #1
+2020-06-18 04:52:27,646 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #1
+2020-06-18 04:52:27,646 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #1
+2020-06-18 04:52:41,853 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #1
+2020-06-18 04:52:41,853 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #1
+2020-06-18 04:54:07,700 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #1
+2020-06-18 04:54:07,701 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #1
+2020-06-18 04:54:28,325 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #1
+2020-06-18 04:54:28,326 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #1
+2020-06-18 04:55:01,177 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #1
+2020-06-18 04:55:01,177 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #1
+2020-06-18 04:55:44,452 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #1
+2020-06-18 04:55:44,452 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #1
+2020-06-18 04:56:07,788 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #1
+2020-06-18 04:56:07,788 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #1
+2020-06-18 04:56:22,043 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #1
+2020-06-18 04:56:22,043 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #1
+2020-06-18 04:56:43,625 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #1
+2020-06-18 04:56:43,625 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #1
+2020-06-18 04:57:05,909 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #1
+2020-06-18 04:57:05,910 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #1
+2020-06-18 04:58:45,110 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #1
+2020-06-18 04:58:45,110 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #1
+2020-06-18 04:58:58,355 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #1
+2020-06-18 04:58:58,355 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #1
+2020-06-18 04:59:09,587 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #1
+2020-06-18 04:59:09,587 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #1
+2020-06-18 04:59:55,968 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #1
+2020-06-18 04:59:55,968 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #1
+2020-06-18 05:00:45,235 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #1
+2020-06-18 05:00:45,235 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #1
+2020-06-18 05:02:35,912 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #1
+2020-06-18 05:02:35,912 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #1
+2020-06-18 05:02:42,272 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #1
+2020-06-18 05:02:42,272 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #1
+2020-06-18 05:03:57,181 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #1
+2020-06-18 05:03:57,181 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #1
+2020-06-18 05:26:26,042 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 05:26:26,139 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 05:26:26,150 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 05:26:26,150 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 05:26:44,431 — audio_service — ERROR — 'type' object is not subscriptable
+2020-06-18 05:28:49,378 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 05:28:49,477 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 05:28:49,488 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 05:28:49,489 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 05:28:53,131 — audio_service — ERROR — 'raspberry'
+2020-06-18 05:29:26,230 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 05:29:26,344 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 05:29:26,355 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 05:29:26,355 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 05:47:49,024 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 05:50:41,502 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 05:52:17,436 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 05:54:17,628 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 05:55:12,782 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 05:55:18,301 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 05:56:05,433 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 05:56:39,832 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 07:36:06,988 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 07:36:25,755 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 07:36:40,779 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 07:41:35,254 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 07:41:35,265 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 07:41:35,266 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 07:41:38,638 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 07:41:38,653 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 07:41:38,653 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 07:49:54,724 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 07:49:54,735 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 07:49:54,735 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 07:52:26,502 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 07:52:26,513 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 07:52:26,514 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 07:52:40,475 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 07:52:40,487 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 07:52:40,487 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 07:52:44,507 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 07:52:44,518 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 07:52:44,518 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 07:53:09,874 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 07:53:09,885 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 07:53:09,886 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 08:08:50,798 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 08:08:50,811 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 08:08:50,811 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 08:09:15,652 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 08:09:15,664 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 08:09:15,665 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 10:18:22,492 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 10:18:22,496 — audio_service — ERROR — HTTPConnectionPool(host='127.0.0.1', port=5721): Max retries exceeded with url: /devices (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f87bab3e7f0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+2020-06-18 10:18:26,122 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 10:18:26,127 — audio_service — ERROR — HTTPConnectionPool(host='127.0.0.1', port=5721): Max retries exceeded with url: /devices (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fceb9ff1310>: Failed to establish a new connection: [Errno 111] Connection refused'))
+2020-06-18 11:24:21,646 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 11:24:21,747 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 11:24:21,751 — audio_service — ERROR — HTTPConnectionPool(host='127.0.0.1', port=5721): Max retries exceeded with url: /devices (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f037d1687f0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+2020-06-18 11:24:32,420 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 11:24:32,521 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 11:24:32,527 — audio_service — ERROR — HTTPConnectionPool(host='127.0.0.1', port=5721): Max retries exceeded with url: /devices (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f39d7c61af0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+2020-06-18 11:26:02,104 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 11:26:02,210 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 11:26:02,226 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 11:26:02,226 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 11:26:02,227 — rasbperry — DEBUG — Initialization of Card instance #2 on Raspberry #0
+2020-06-18 11:26:02,227 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #2 on Raspberry #0
+2020-06-18 11:26:02,227 — rasbperry — DEBUG — Initialization of Card instance #3 on Raspberry #0
+2020-06-18 11:26:02,227 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #3 on Raspberry #0
+2020-06-18 11:26:12,937 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 11:26:13,045 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 11:26:13,058 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 11:26:13,059 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 11:26:13,059 — rasbperry — DEBUG — Initialization of Card instance #2 on Raspberry #0
+2020-06-18 11:26:13,059 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #2 on Raspberry #0
+2020-06-18 11:26:13,059 — rasbperry — DEBUG — Initialization of Card instance #3 on Raspberry #0
+2020-06-18 11:26:13,059 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #3 on Raspberry #0
+2020-06-18 11:45:34,996 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 11:45:35,069 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 11:45:35,082 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 11:45:35,082 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 11:45:35,082 — rasbperry — DEBUG — Initialization of Card instance #2 on Raspberry #0
+2020-06-18 11:45:35,082 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #2 on Raspberry #0
+2020-06-18 11:45:35,082 — rasbperry — DEBUG — Initialization of Card instance #3 on Raspberry #0
+2020-06-18 11:45:35,082 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #3 on Raspberry #0
+2020-06-18 11:45:45,782 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 11:45:45,904 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 11:45:45,920 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 11:45:45,920 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 11:45:45,920 — rasbperry — DEBUG — Initialization of Card instance #2 on Raspberry #0
+2020-06-18 11:45:45,920 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #2 on Raspberry #0
+2020-06-18 11:45:45,920 — rasbperry — DEBUG — Initialization of Card instance #3 on Raspberry #0
+2020-06-18 11:45:45,920 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #3 on Raspberry #0
+2020-06-18 12:52:08,338 — audio_service — DEBUG — 0, record, None
+2020-06-18 12:52:21,900 — audio_service — DEBUG — 0, record, None
+2020-06-18 12:57:05,011 — audio_service — DEBUG — 0, record, None
+2020-06-18 12:57:18,035 — audio_service — DEBUG — 0, record, None
+2020-06-18 12:58:48,174 — audio_service — DEBUG — 0, record, None
+2020-06-18 12:59:51,370 — audio_service — DEBUG — 0, record, None
+2020-06-18 12:59:54,436 — audio_service — DEBUG — 0, record, None
+2020-06-18 12:59:58,070 — audio_service — DEBUG — 0, record, None
+2020-06-18 13:00:58,686 — audio_service — DEBUG — 0, record, None
+2020-06-18 13:02:53,848 — audio_service — DEBUG — 0, record, None
+2020-06-18 13:04:20,614 — audio_service — DEBUG — 0, record, None
+2020-06-18 14:21:40,183 — audio_service — DEBUG — 0, record, None
+2020-06-18 21:07:52,759 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 21:07:53,027 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 21:07:53,189 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 21:07:53,189 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 21:07:53,189 — rasbperry — DEBUG — Initialization of Card instance #2 on Raspberry #0
+2020-06-18 21:07:53,189 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #2 on Raspberry #0
+2020-06-18 21:07:53,189 — rasbperry — DEBUG — Initialization of Card instance #3 on Raspberry #0
+2020-06-18 21:07:53,189 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #3 on Raspberry #0
+2020-06-18 21:08:04,673 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-18 21:08:04,784 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-18 21:08:04,795 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-18 21:08:04,795 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-18 21:08:04,795 — rasbperry — DEBUG — Initialization of Card instance #2 on Raspberry #0
+2020-06-18 21:08:04,795 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #2 on Raspberry #0
+2020-06-18 21:08:04,796 — rasbperry — DEBUG — Initialization of Card instance #3 on Raspberry #0
+2020-06-18 21:08:04,796 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #3 on Raspberry #0
+2020-06-18 21:32:57,217 — audio_service — DEBUG — 0, record, None
+2020-06-25 14:01:22,221 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-25 14:01:22,402 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-25 14:01:22,502 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-25 14:01:22,503 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-25 14:01:33,482 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-25 14:01:33,614 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-25 14:01:33,626 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-25 14:01:33,626 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-29 01:32:19,461 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-29 01:32:19,630 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-29 01:32:19,679 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-29 01:32:19,679 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-29 01:32:19,679 — rasbperry — DEBUG — Initialization of Card instance #2 on Raspberry #0
+2020-06-29 01:32:19,680 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #2 on Raspberry #0
+2020-06-29 01:32:19,680 — rasbperry — DEBUG — Initialization of Card instance #3 on Raspberry #0
+2020-06-29 01:32:19,680 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #3 on Raspberry #0
+2020-06-29 01:32:30,425 — network_utils — WARNING — no ip found while scanning. Check connection.
+2020-06-29 01:32:30,514 — audio_service — DEBUG — found ip: 127.0.0.1. Trying to connect...
+2020-06-29 01:32:30,526 — rasbperry — DEBUG — Initialization of Card instance #0 on Raspberry #0
+2020-06-29 01:32:30,526 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #0 on Raspberry #0
+2020-06-29 01:32:30,526 — rasbperry — DEBUG — Initialization of Card instance #2 on Raspberry #0
+2020-06-29 01:32:30,526 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #2 on Raspberry #0
+2020-06-29 01:32:30,526 — rasbperry — DEBUG — Initialization of Card instance #3 on Raspberry #0
+2020-06-29 01:32:30,526 — rasbperry — DEBUG — Initialization of Microphone instance #0 on card #3 on Raspberry #0
