@@ -84,6 +84,7 @@ def parallel_send(files):
         results.append(q.get())
         i.join()
     files_list = [os.path.join(config["ENV"]["DATA_DIR"], i) for i in os.listdir(config["ENV"]["DATA_DIR"])]
+    files_list.sort(key=lambda x: os.path.getmtime(x), reverse=False)
     while len(files_list) > 10:
         file_to_del = files_list[0]
         logger.debug(f'Amount of files exceeded ({len(files_list)}/10). Deleting  {file_to_del}...')
