@@ -14,6 +14,7 @@ else:
 
 app = Flask(__name__)
 
+# TODO: обернуть паттерны в одну функцию
 
 def wrap_response(response):
     resp = jsonify(response)
