@@ -1,5 +1,5 @@
 <div fxLayout="row">
-  <mat-card fxFlex="50" fxFlexOffset="25" >
+  <mat-card fxFlex="50" fxFlexOffset="25">
     <mat-card-content fxLayout="column" fxLayoutAlign="center stretch">
       <mat-form-field>
         <input type="text"
@@ -27,18 +27,17 @@
             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
             <mat-datepicker #picker1></mat-datepicker>
           </mat-form-field>
-         </div>
-
+        </div>
       </div>
 
       <div fxLayout="row">
-        <mat-radio-group fxFlex="50" fxFlexOffset="25" aria-label="Роль" fxLayout="row" fxLayoutAlign="space-around center" >
+        <mat-radio-group fxFlex="50" fxFlexOffset="25" aria-label="Роль" fxLayout="row"
+                         fxLayoutAlign="space-around center">
           <mat-radio-button value="1">Оператор</mat-radio-button>
           <mat-radio-button value="2">Клиент</mat-radio-button>
           <mat-radio-button value="3">Все</mat-radio-button>
         </mat-radio-group>
       </div>
-
 
       <mat-form-field>
         <mat-label>Рабочие места</mat-label>
@@ -55,11 +54,9 @@
 
       <div fxLayout="column" fxLayoutAlign="center center">
         <button (click)="mock_search()" mat-fab color="primary" aria-label="Search">
-          <mat-icon>search</mat-icon>
+          <mat-icon matTooltip="Поиск">search</mat-icon>
         </button>
       </div>
-
     </mat-card-content>
   </mat-card>
 </div>
-
