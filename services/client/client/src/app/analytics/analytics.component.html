@@ -1,5 +1,5 @@
 <div fxLayout="row">
-  <mat-card fxFlex="50" fxFlexOffset="25" >
+  <mat-card fxFlex="50" fxFlexOffset="25">
     <mat-card-content fxLayout="column" fxLayoutAlign="center stretch">
       <div fxLayout="row" fxLayoutAlign="space-around">
         <div fxLayout="column" fxLayoutAlign="center center">
@@ -21,11 +21,11 @@
             <mat-datepicker #picker1></mat-datepicker>
           </mat-form-field>
         </div>
-
       </div>
 
       <div fxLayout="row">
-        <mat-radio-group fxFlex="50" fxFlexOffset="25" aria-label="Роль" fxLayout="row" fxLayoutAlign="space-around center" >
+        <mat-radio-group fxFlex="50" fxFlexOffset="25" aria-label="Роль" fxLayout="row"
+                         fxLayoutAlign="space-around center">
           <mat-radio-button value="1">Оператор</mat-radio-button>
           <mat-radio-button value="2">Клиент</mat-radio-button>
           <mat-radio-button value="3">Все</mat-radio-button>
@@ -95,10 +95,11 @@
             Разметка по участникам диалога
           </mat-card-title>
         </mat-card-header>
-        <mat-card-content style="margin: 0px; padding: 0px" *ngIf="analysed" fxLayout="row" fxLayoutAlign=" stretch" class="dashboard-card-content">
+        <mat-card-content style="margin: 0; padding: 0" *ngIf="analysed" fxLayout="row" fxLayoutAlign=" stretch"
+                          class="dashboard-card-content">
           <img fxFlex="20" src="{{ diarisationImage }}"/>
         </mat-card-content>
-        <mat-card-content  *ngIf="!analysed" fxLayoutAlign="center center" class="dashboard-card-content" fxLayout="row">
+        <mat-card-content *ngIf="!analysed" fxLayoutAlign="center center" class="dashboard-card-content" fxLayout="row">
           <img style="object-fit: fill; height: 250px" src="./assets/hourglass.svg"/>
         </mat-card-content>
       </mat-card>
@@ -111,10 +112,11 @@
           </mat-card-title>
         </mat-card-header>
         <mat-card-content *ngIf="analysed" class="dashboard-card-content" fxLayout="row">
-            <img fxFlex="40" src="{{ thematicImage }}"/>
-<!--          <iframe *ngIf="analysed" height="300" fxFlex fxLayoutAlign="stretch" src="{{ thematicImage }}"></iframe>-->
+          <img fxFlex="40" src="{{ thematicImage }}"/>
+          <!--          <iframe *ngIf="analysed" height="300" fxFlex fxLayoutAlign="stretch" src="{{ thematicImage }}"></iframe>-->
         </mat-card-content>
-        <mat-card-content style="object-fit: contain;" *ngIf="!analysed" fxLayoutAlign="center center" class="dashboard-card-content" fxLayout="row">
+        <mat-card-content style="object-fit: contain;" *ngIf="!analysed" fxLayoutAlign="center center"
+                          class="dashboard-card-content" fxLayout="row">
           <img style="object-fit: fill; height: 250px" src="./assets/hourglass.svg"/>
         </mat-card-content>
       </mat-card>

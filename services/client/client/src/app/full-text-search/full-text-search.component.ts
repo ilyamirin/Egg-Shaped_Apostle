@@ -1,17 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MatDatepickerInputEvent} from '@angular/material/datepicker';
 import {FormControl} from '@angular/forms';
-import {stringify} from 'querystring';
 import {FtsQuery} from '../interfaces/fts-query';
 import {FtsResult} from '../interfaces/fts-result';
 import {Ftsservice} from '../services/ftsservice';
+
 
 @Component({
   selector: 'app-full-text-search',
   templateUrl: './full-text-search.component.html',
   styleUrls: ['./full-text-search.component.scss']
 })
-
 export class FullTextSearchComponent implements OnInit {
   query: FtsQuery = {
     text: '',
@@ -47,7 +46,8 @@ export class FullTextSearchComponent implements OnInit {
 
   constructor(
     private ftsService: Ftsservice
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
   }
