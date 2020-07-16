@@ -48,6 +48,7 @@ def analyze(text):
 
 
 def full_text_search(work_places=[1,], role=1, date_time_start=None, date_time_end=None, query='', top=5):
+    print(work_places, type(work_places), role, type(role), date_time_start, type(date_time_start), date_time_end, type(date_time_end), query, type(query))
     work_places = [int(i) for i in work_places]
     role = int(role)
     path_params = f"{config['SETTINGS']['ES_INDEX']}/_search/"
@@ -79,8 +80,8 @@ def full_text_search(work_places=[1,], role=1, date_time_start=None, date_time_e
     )
 
     res = rq.post(es_api+path_params, headers=headers, params=params, data=data).json()
-    # TODO сделать фильтрацию
     # clear response from unused data
+    print('results before filtration:', res)
     if res != {}:
         results = []
         for i in res['hits']['hits']:
@@ -100,7 +101,23 @@ def full_text_search(work_places=[1,], role=1, date_time_start=None, date_time_e
 def return_by_id(id):
     return es.search(index=config['SETTINGS']['ES_INDEX'], body={'query': {'match': {'_id': id}}})
 
-#print(full_text_search(work_places=[1,], date_time_end='2020-03-25T20:00:00.000Z', role=-1, query='привет'))
+
+def return_all():
+    data = {
+        "query": {
+            "match_all": {}
+        }
+    }
+    return rq.get(es_api + '_search', headers=headers, data=json.dumps(data)).json()
+
+
+if __name__ == '__main__':
+    # print(return_all())
+    print(full_text_search(work_places=['1', '2', '3', '4', '5'],
+                           date_time_start='2020-01-25T20:00:00.000Z',
+                           date_time_end='2020-07-25T20:00:00.000Z',
+                           role='-1',
+                           query='привет'))
 #print(return_by_id('lbxPDXEBgHmjTYGDLXch'))
 #_analyze?pretty&analyzer=standard&text=%D0%92%D0%B5%D1%81%D0%B5%D0%BB%D1%8B%D0%B5%20%D0%B8%D1%81%D1%82%D0%BE%D1%80%D0%B8%D0%B8%20%D0%BF%D1%80%D0%BE%20%D0%BA%D0%BE%D1%82%D1%8F%D1%82"
 #print(rq.get(server_address+'_analyze', params=params))

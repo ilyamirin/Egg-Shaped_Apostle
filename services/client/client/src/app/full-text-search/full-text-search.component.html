@@ -1,65 +1,88 @@
-<div fxLayout="row">
-  <mat-card fxFlex="50" fxFlexOffset="25" >
-    <mat-card-content fxLayout="column" fxLayoutAlign="center stretch">
-      <mat-form-field>
-        <input type="text"
-               matInput
-               placeholder="Поисковая строка..."
-               [(ngModel)]="query.text"
-        >
-      </mat-form-field>
-      <div fxLayout="row" fxLayoutAlign="space-around">
-        <div fxLayout="column" fxLayoutAlign="center center">
-          <mat-form-field>
-            <input matInput [matDatepicker]="picker" placeholder="Дата начала"
-                   (dateInput)="dateChangedEvent(0, $event)"
-                   (dateChange)="dateChangedEvent(0, $event)">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field>
+<div fxLayout="column">
+  <div fxLayout="row">
+    <mat-card fxFlex="50" fxFlexOffset="25">
+      <mat-card-content fxLayout="column" fxLayoutAlign="center stretch">
+        <mat-form-field>
+          <input type="text"
+                 matInput
+                 placeholder="Поисковая строка..."
+                 [(ngModel)]="query.text"
+          >
+        </mat-form-field>
+        <div fxLayout="row" fxLayoutAlign="space-around">
+          <div fxLayout="column" fxLayoutAlign="center center">
+            <mat-form-field>
+              <input matInput [matDatepicker]="picker" placeholder="Дата начала"
+                     (dateInput)="dateChangedEvent(0, $event)"
+                     (dateChange)="dateChangedEvent(0, $event)">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+          <div fxLayout="column" fxLayoutAlign="center center">
+            <mat-form-field>
+              <input matInput [matDatepicker]="picker1" placeholder="Дата конца"
+                     (dateInput)="dateChangedEvent(1, $event)"
+                     (dateChange)="dateChangedEvent(1, $event)">
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+          </div>
+
         </div>
 
-        <div fxLayout="column" fxLayoutAlign="center center">
-          <mat-form-field>
-            <input matInput [matDatepicker]="picker1" placeholder="Дата конца"
-                   (dateInput)="dateChangedEvent(1, $event)"
-                   (dateChange)="dateChangedEvent(1, $event)">
-            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-            <mat-datepicker #picker1></mat-datepicker>
-          </mat-form-field>
-         </div>
-
-      </div>
-
-      <div fxLayout="row">
-        <mat-radio-group fxFlex="50" fxFlexOffset="25" aria-label="Роль" fxLayout="row" fxLayoutAlign="space-around center" >
-          <mat-radio-button value="1">Оператор</mat-radio-button>
-          <mat-radio-button value="2">Клиент</mat-radio-button>
-          <mat-radio-button value="3">Все</mat-radio-button>
-        </mat-radio-group>
-      </div>
+        <div fxLayout="row">
+          <mat-radio-group fxFlex="50" fxFlexOffset="25" aria-label="Роль" fxLayout="row"
+                           fxLayoutAlign="space-around center"
+                           [(ngModel)]="query.role"
+          >
+            <mat-radio-button value="1">Оператор</mat-radio-button>
+            <mat-radio-button value="2">Клиент</mat-radio-button>
+            <mat-radio-button value="-1">Все</mat-radio-button>
+          </mat-radio-group>
+        </div>
 
 
-      <mat-form-field>
-        <mat-label>Рабочие места</mat-label>
-        <mat-select [formControl]="workplaces" multiple>
-          <mat-select-trigger>
-            {{workplaces.value ? workplaces.value[0] : ''}}
-            <span *ngIf="workplaces.value?.length > 1" class="example-additional-selection">
+        <mat-form-field>
+          <mat-label>Рабочие места</mat-label>
+          <mat-select [formControl]="workplaces" multiple [(ngModel)]="query.workplaces">
+            <mat-select-trigger>
+              {{workplaces.value ? workplaces.value[0] : ''}}
+              <span *ngIf="workplaces.value?.length > 1" class="example-additional-selection">
               {{workplaces.value.length - 1}} {{workplaces.value?.length === 2 ? 'other' : 'others'}}
             </span>
-          </mat-select-trigger>
-          <mat-option *ngFor="let topping of workplacesList" [value]="topping">{{topping}}</mat-option>
-        </mat-select>
-      </mat-form-field>
+            </mat-select-trigger>
+            <mat-option *ngFor="let topping of workplacesList" [value]="topping">{{topping}}</mat-option>
+          </mat-select>
+        </mat-form-field>
 
-      <div fxLayout="column" fxLayoutAlign="center center">
-        <button (click)="mock_search()" mat-fab color="primary" aria-label="Search">
-          <mat-icon>search</mat-icon>
-        </button>
-      </div>
+        <div fxLayout="column" fxLayoutAlign="center center">
+          <button (click)="search(this.query)" mat-fab color="primary" aria-label="Search">
+            <mat-icon>search</mat-icon>
+          </button>
+        </div>
 
-    </mat-card-content>
-  </mat-card>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <mat-grid-list cols="8" rowHeight="350px">
+    <mat-grid-tile *ngFor="let result of results"  fxLayoutAlign="center">
+      <mat-card  color="primary" class="dashboard-card">
+        <mat-card-header>
+          <mat-card-title>
+            Рабочее место: {{result.workplace}},
+            Роль: {{result.role}}
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content fxLayout="column" fxLayoutAlign="space-evenly center" class="dashboard-card-content">
+          <!--          <p>Микрофон: {{device.mic}}</p>
+                    <p>Raspberry: {{device.raspberry}}</p>
+                    <p>аудиокарта: {{device.card}}</p>-->
+          <p class="mat-card-header"></p>
+          {{ result.text }}
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
 </div>
-

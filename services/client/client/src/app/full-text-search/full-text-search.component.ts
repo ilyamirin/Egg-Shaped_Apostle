@@ -3,6 +3,7 @@ import {MatDatepickerInputEvent} from '@angular/material/datepicker';
 import {FormControl} from '@angular/forms';
 import {stringify} from 'querystring';
 import {FtsQuery} from '../interfaces/fts-query';
+import {FtsResult} from '../interfaces/fts-result';
 import {Ftsservice} from '../services/ftsservice';
 
 @Component({
@@ -20,21 +21,20 @@ export class FullTextSearchComponent implements OnInit {
     workplaces: []
 
   };
+  results: FtsResult[];
 
-  results: any;
 
   workplaces = new FormControl();
 
   workplacesList: number[] = [1, 2, 3, 4, 5, 6, 7, 8];
 
   search(query: FtsQuery): void {
-    this.ftsService.search(query)
-      .subscribe(results => this.results = results);
+    this.ftsService.search(this.query).subscribe(results => this.results = results);
   }
 
   mock_search(): void {
     this.query.text = 'привет';
-    this.search(this.query)
+    this.search(this.query);
   }
 
   dateChangedEvent(formNo: number, event: MatDatepickerInputEvent<Date>) {
