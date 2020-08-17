@@ -14,6 +14,7 @@ parser.add_argument('-u', '--username', default='sde')
 parser.add_argument('-d', '--debug', default='1')
 parser.add_argument('-s', '--dir', default='/home/sde/')
 parser.add_argument('-t', '--rec_dur', default='1')
+parser.add_argument('-r', '--rec_sr', default='16000')
 parser.add_argument('-m', '--start_time', default='00:00')
 parser.add_argument('-e', '--endtime', default='23:59')
 
@@ -36,14 +37,20 @@ def get_config():
             'IP': namespace.ip,
             'PORT': namespace.port,
             'WEB_API_IP': '127.0.0.1',
-            'WEB_API_PORT': 5721,
+            'WEB_API_PORT': 5722,
             'USERNAME': namespace.username,
             'DIR': namespace.dir,
+        }
+
+        config['NETWORK'] = {
+            'WEB_API_IP': '127.0.0.1',
+            'WEB_API_PORT': 5721,
         }
 
         config['SETTINGS'] = {
             'DEBUG': namespace.debug,
             'RECORD_DUR': namespace.rec_dur,
+            'RECORD_SAMPLING_RATE': namespace.rec_sr,
             'START_HOUR': namespace.start_time,
             'END_HOUR': namespace.endtime,
         }
