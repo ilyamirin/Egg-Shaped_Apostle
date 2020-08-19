@@ -4,8 +4,7 @@ import os
 import requests
 import subprocess
 import threading
-import concurrent.futures
-from flask import Flask, jsonify, request, send_from_directory
+from flask import Flask, jsonify, request, send_from_directory, Response
 
 from datetime import datetime
 from time import sleep
@@ -25,7 +24,7 @@ else:
 raspberry = Raspberry()
 
 
-def send(file_name):
+def send_file(file_name):
     """Sends file by http protocol, tries to send it by scp if fails"""
     try:
         logger.debug(f'Sending file {file_name} by http...')
@@ -79,8 +78,8 @@ def send_scp(file_name):
 def parallel_send(files):
     """Sends list of files and check local storage"""
     logger.debug(f'{files} to send')
-    with concurrent.futures.ThreadPoolExecutor() as executor:
-        executor.map(send, files)
+    for file in files:
+        send_file(file)
     files_list = [os.path.join(config["ENV"]["DATA_DIR"], i) for i in os.listdir(config["ENV"]["DATA_DIR"])]
     files_list.sort(key=lambda x: os.path.getmtime(x), reverse=False)
     while len(files_list) > 10:
@@ -90,18 +89,19 @@ def parallel_send(files):
         files_list = files_list[1:]
 
 
-def parallel_record():
+def parallel_record(time):
     threads = []
     for card in raspberry.nodes:
         for mic in card.nodes:
-            threads.append(threading.Thread(target=mic.record))
+            threads.append(threading.Thread(target=mic.record, args=[int(time) if time else None]))
     for thread in threads:
         thread.start()
+    sleep(1)
     for thread in threads:
         thread.join()
 
 
-def record_by_work_time():
+def record_by_work_time(time=None):
     global recording_flag
     start_hour = datetime.time(datetime.strptime(config["SETTINGS"]["START_HOUR"], '%H:%M'))
     end_hour = datetime.time(datetime.strptime(config["SETTINGS"]["END_HOUR"], '%H:%M'))
@@ -114,7 +114,8 @@ def record_by_work_time():
         end_delta = datetime.now().timestamp() - end_datetime.timestamp()
         if start_delta > 0 > end_delta:
             logger.debug(f'Working hours, recording...')
-            parallel_record()
+            parallel_record(time)
+            #sleep(time if time else int(config['SETTINGS']['RECORD_DUR']))
         else:
             logger.debug(f'Not working hours, sleeping...')
             sleep(10)
@@ -152,10 +153,9 @@ def send_by_adding():
             print('no new files...')
             sleep(1)
 
+# Web API
 
 app = Flask(__name__)
-
-# TODO: обернуть паттерны в одну функцию
 
 
 def wrap_response(response):
@@ -167,7 +167,7 @@ def wrap_response(response):
 @app.route('/record', methods=['POST'])
 def start_record():
     try:
-        file = raspberry.nodes[int(request.args['card'])].nodes[int(request.args['mic'])].record(request.args['time'])
+        file = raspberry.nodes[int(request.args['card'])].nodes[int(request.args['mic'])].start_record(request.args['time'])
         resp = wrap_response({'response': f'{file}'})
     except Exception as e:
         logger.error(e)
@@ -221,14 +221,18 @@ def get_config():
 def set_config():
     with open('config.ini', 'w') as config_file:
         config_file.write(request.json['config'])
-    resp = jsonify({'response': 'successful overwriting of config.ini'})
+    resp = jsonify({'response': 'ok'})
     return resp
 
 
 @app.route('/parallel_rec/start', methods=['POST'])
 def start_parallel_record():
+    global recording_flag, recording
     try:
-        resp = wrap_response({'response': (request.form['time'])})
+        recording_flag = True
+        recording = threading.Thread(target=record_by_work_time(), args=[int(request.form['time'])])
+        recording.start()
+        resp = wrap_response({'response': 'ok'})
     except Exception as e:
         logger.error(e)
         resp = wrap_response({'error': str(e)})
@@ -237,22 +241,38 @@ def start_parallel_record():
 
 @app.route('/parallel_rec/stop', methods=['GET'])
 def stop_parallel_record():
+    global recording_flag
     try:
-        resp = wrap_response({'response': recording})
+        recording_flag = False
+        resp = wrap_response({'response': 'ok'})
     except Exception as e:
         logger.error(e)
         resp = wrap_response({'error': str(e)})
     return resp
 
 
-if __name__ == '__main__':
-    app.run(host=config['FILE_SERVER']['WEB_API_IP'], port=config['FILE_SERVER']['WEB_API_PORT'], debug=True)
+stream_flag = False
+
+
+@app.route('/stream/<int:card>/<int:mic>', methods=['GET'])
+def stream_from_mic(card, mic):
+    global stream_flag
+    stream_flag = True
+
+    def generate():
+        while stream_flag:
+            yield raspberry.cards[card].mics[mic].buf
+    return Response(generate(), mimetype="audio/x-wav")
+
 
 if __name__ == '__main__':
-    recording = threading.Thread(target=record_by_work_time)
-    sending = threading.Thread(target=send_by_adding)
+    recording_flag = True
+    sending_flag = True
+    recording = threading.Thread(target=record_by_work_time, daemon=True)
+    sending = threading.Thread(target=send_by_adding, daemon=True)
     sending.start()
     recording.start()
+    app.run(host=config['NETWORK']['WEB_API_IP'], port=config['NETWORK']['WEB_API_PORT'], debug=True)
 
 
 
