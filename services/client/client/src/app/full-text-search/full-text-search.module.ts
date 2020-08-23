@@ -13,28 +13,30 @@ import {MatButtonModule} from '@angular/material/button';
 import {CommonModule} from '@angular/common';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatNativeDateModule} from '@angular/material/core';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 
 @NgModule({
   declarations: [
     FullTextSearchComponent
   ],
-  imports: [
-    FlexLayoutModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatDatepickerModule,
-    FormsModule,
-    MatRadioModule,
-    MatSelectModule,
-    ReactiveFormsModule,
-    MatIconModule,
-    MatButtonModule,
-    CommonModule,
-    MatTooltipModule,
-    MatNativeDateModule
-  ],
+    imports: [
+        FlexLayoutModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatDatepickerModule,
+        FormsModule,
+        MatRadioModule,
+        MatSelectModule,
+        ReactiveFormsModule,
+        MatIconModule,
+        MatButtonModule,
+        CommonModule,
+        MatTooltipModule,
+        MatNativeDateModule,
+        MatGridListModule
+    ],
   exports: [
     FullTextSearchComponent
   ]

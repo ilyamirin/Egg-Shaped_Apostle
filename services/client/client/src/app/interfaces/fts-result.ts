@@ -3,5 +3,6 @@ export interface FtsResult {
   id: number;
   role: number;
   text: string;
-  workplace: number;
+  work_place: number;
+  snippet: string;
 }

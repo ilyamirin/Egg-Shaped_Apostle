@@ -5,8 +5,8 @@
       <mat-icon matTooltip="Обновить">cached</mat-icon>
     </button>
   </div>
-  <mat-grid-list cols="8" rowHeight="350px">
-    <mat-grid-tile *ngFor="let device of microphones">
+  <mat-grid-list fxLayoutAlign="space-evenly center" cols="8" rowHeight="350px">
+    <mat-grid-tile fxLayoutAlign="space-evenly center" *ngFor="let device of microphones">
       <mat-card class="dashboard-card">
         <mat-card-header>
           <mat-card-title>

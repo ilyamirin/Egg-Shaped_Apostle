@@ -1,7 +1,6 @@
 # берет все устройства из локальной сети
 import os
 import json
-import pyaudio
 from raspberry_api import Raspberry
 from network_utils import get_active_addresses
 
@@ -132,6 +131,18 @@ def get_record(filename):
         return resp
 
 
+@app.route('/record/<filename>', methods=['POST'])
+def post_record(filename):
+    try:
+        with open(os.path.join(config['ENV']['EXT_DATA_DIR'], filename), 'wb') as audio_file:
+            audio_file.write(request.data)
+        resp = wrap_response({'result': 'ok'})
+    except Exception as e:
+        logger.error(e)
+        resp = wrap_response({'result': 'error', 'error': e})
+    return resp
+
+
 @app.route('/records/update', methods=['GET'])
 def get_update():
     try:
@@ -214,62 +225,9 @@ def update_rasp():
     return redirect(url_for(microphones_list))
 
 
-FORMAT = pyaudio.paInt16
-CHANNELS = 1
-RATE = 44100
-CHUNK = 8192
-RECORD_SECONDS = 5
-
-
-audio1 = pyaudio.PyAudio()
-
-
-def gen_header(sample_rate, bits_per_sample, channels):
-    datasize = 2000*10**6
-    o = bytes("RIFF", 'ascii')                                               # (4byte) Marks file as RIFF
-    o += (datasize + 36).to_bytes(4, 'little')                               # (4byte) File size in bytes excluding this and RIFF marker
-    o += bytes("WAVE", 'ascii')                                              # (4byte) File type
-    o += bytes("fmt ", 'ascii')                                              # (4byte) Format Chunk Marker
-    o += (16).to_bytes(4, 'little')                                          # (4byte) Length of above format data
-    o += (1).to_bytes(2, 'little')                                           # (2byte) Format type (1 - PCM)
-    o += channels.to_bytes(2, 'little')                                    # (2byte)
-    o += sample_rate.to_bytes(4, 'little')                                  # (4byte)
-    o += (sample_rate * channels * bits_per_sample // 8).to_bytes(4, 'little')  # (4byte)
-    o += (channels * bits_per_sample // 8).to_bytes(2, 'little')               # (2byte)
-    o += bits_per_sample.to_bytes(2, 'little')                               # (2byte)
-    o += bytes("data", 'ascii')                                              # (4byte) Data Chunk Marker
-    o += datasize.to_bytes(4, 'little')                                    # (4byte) Data size in bytes
-    return o
-
-
-@app.route('/microphone/<int:mic_no>/stream')
-def audio(mic_no):
-    # start Recording
-    def sound():
-        CHUNK = 8192
-        sample_rate = 44100
-        bits_per_sample = 16
-        channels = 1
-        wav_header = gen_header(sample_rate, bits_per_sample, channels)
-
-        stream = audio1.open(format=FORMAT,
-                             channels=CHANNELS,
-                             rate=RATE,
-                             input=True,
-                             input_device_index=mic_no,
-                             frames_per_buffer=CHUNK)
-        print("recording...")
-        first_run = True
-        while True:
-            if first_run:
-                data = wav_header + stream.read(CHUNK)
-                first_run = False
-            else:
-                data = stream.read(CHUNK)
-            yield(data)
-    return Response(sound())
-
-
+@app.route('/stream/<int:raspberry>/<int:card>/<int:mic>', methods=['GET'])
+def stream_mic(raspberry, card, mic):
+    return Response(raspberries[raspberry].nodes[card].nodes[mic].stream(), mimetype="audio/wav")
 
 
 @app.route('/raspberry/all/<command>', methods=['GET', 'POST'])

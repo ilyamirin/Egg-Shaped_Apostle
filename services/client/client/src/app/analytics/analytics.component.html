@@ -55,7 +55,7 @@
   </mat-card>
 </div>
 
-<div class="grid-container">
+<div class="grid-container" *ngIf="analysed">
   <h1 class="mat-h1">Аналитика</h1>
   <mat-grid-list fxLayout="column" fxLayoutAlign="space-between center" cols="2" rowHeight="350">
     <mat-grid-tile [colspan]="1" [rowspan]="1">

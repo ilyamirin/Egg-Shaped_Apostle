@@ -12,7 +12,9 @@ stt_api = f'http://{config["NETWORK"]["STT_DEEPSPEECH_IP"]}:{config["NETWORK"]["
 
 # audio_service API
 def get_list_of_records():
-    return requests.get(audio_service_api+'/records').json()
+    r = requests.get(audio_service_api + '/records').json()
+    records = [i['name'] for i in r]
+    return records
 
 
 def get_raspberries():

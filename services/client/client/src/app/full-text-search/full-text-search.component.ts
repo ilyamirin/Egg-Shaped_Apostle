@@ -36,6 +36,41 @@ export class FullTextSearchComponent implements OnInit {
     this.search(this.query);
   }
 
+  truncateText(value: string, length: number): string {
+    const elipses = '...';
+
+    if (value.length <= length) {
+      return value.replace(new RegExp(this.query.text, 'gi'), match => {
+        return '<b>' + match + '</b>'; });
+    }
+
+    if (length < elipses.length) {
+      return '';
+    }
+    // console.log(new RegExp(this.query.text, 'gi'));
+    const valueIndex = value.indexOf(this.query.text);
+    console.log('valueInd: ', valueIndex);
+    let leftBorder = Math.floor(valueIndex - length / 2);
+    if (leftBorder < 0) { leftBorder = 0; };
+    let rightBorder = Math.floor(valueIndex + length / 2);
+    if (rightBorder > value.length) { rightBorder = value.length; };
+    let truncatedText = value.slice(leftBorder, rightBorder);
+    console.log('trunc:', truncatedText);
+    while (truncatedText.length > length - elipses.length) {
+      const lastSpace = truncatedText.lastIndexOf(' ');
+
+      if (lastSpace === -1) {
+        truncatedText = '';
+        break;
+      }
+
+      truncatedText = truncatedText.slice(0, lastSpace).replace(/[!,.?]$/, '');
+    }
+    truncatedText = truncatedText.replace(new RegExp(this.query.text, 'gi'), match => {
+      return '<b>' + match + '</b>'; });
+    return truncatedText + elipses;
+  }
+
   dateChangedEvent(formNo: number, event: MatDatepickerInputEvent<Date>) {
     if (formNo === 0) {
       this.query.startDate = event.value;

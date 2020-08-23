@@ -1,4 +1,4 @@
-from audio_service_client import get_raspberries
+from interface import get_raspberries
 import json
 
 map = {}
