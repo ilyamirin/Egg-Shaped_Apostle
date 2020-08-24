@@ -13,7 +13,8 @@
         <input matInput type="number" [(ngModel)]="timeValue">
       </mat-form-field>
       <mat-toolbar-row>
-        <mat-slider class="time-slider" [tickInterval]="1" [(ngModel)]="timeValue" [min]="0" [max]="3600" step="1" [value]="30"></mat-slider>
+        <mat-slider class="time-slider" [tickInterval]="1" [(ngModel)]="timeValue" [min]="0" [max]="3600" step="1"
+                    [value]="30"></mat-slider>
       </mat-toolbar-row>
       <mat-toolbar-row class="media-action-bar">
         <button mat-button (click)="record(this.mic)" [disabled]="state?.busy">

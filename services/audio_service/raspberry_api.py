@@ -108,4 +108,9 @@ class Microphone:
         r = requests.post(self.raspberry.api + '/record', params=params)
         return r.json()
 
+    def stream(self):
+        res = requests.get(self.raspberry.api + f'/{self.card.no}/{self.no}/stream', stream=True)
+        return res
+
 # a1 = Raspberry('127.0.0.1', 1)
+# print(a1.nodes[2].nodes[0].stream())

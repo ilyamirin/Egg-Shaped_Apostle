@@ -96,11 +96,11 @@ def main():
         new_records = get_new_records()
         if new_records:
             for record in new_records:
-                text = recognize(record)
+                text = recognize(record['name'])
                 if not text:
                     continue
                 else:
-                    workplace, role, datetime = extract_metadata(record)
+                    workplace, role, datetime = extract_metadata(record['name'])
                     logger.debug(f'text:{text}')
                     try:
                         record_create(work_place=workplace, role=role, datetime=datetime, text=text)

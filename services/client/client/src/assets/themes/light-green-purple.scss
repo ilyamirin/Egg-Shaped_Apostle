@@ -1,0 +1,11 @@
+@import '../../app-theme';
+@import '../../highlightjs/material-dark';
+
+
+$primary: mat-palette($mat-light-green, A700);
+$accent: mat-palette($mat-purple);
+
+$theme: mat-dark-theme($primary, $accent);
+
+@include angular-material-theme($theme);
+@include app-theme($theme);

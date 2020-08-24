@@ -1,20 +1,20 @@
-#API
+# API
 
-####аудиозаписи, устройства Raspberry
+#### аудиозаписи, устройства Raspberry
 
 ## - отправка запроса на запись:
 
 #### Запрос:
 ```
-POST /record?card=<номер карты>&mic=<номер микрофона>&time=<время записи в секундах>&file=<имя_файла (необязательно)>
+POST /<номер карты>/<номер микрофона>/record/?time=<время записи в секундах (необязательно, возьмет стандартное по серверу)>&file=<имя_файла (необязательно)>
 ```
 curl:
 ```
-curl -d "card=0&mic=0&time=10" -X POST 127.0.0.1:5721/record
+curl -X POST '127.0.0.1:5721/0/0/record?time=10&file=test_not_ready'
 ```
 #### Ответ:
 ```
-{"response":"file /home/sde/Desktop/projects/Egg-Shaped_Apostle/services/audio_service/audio_endpoint/data/0_0_0_2020-06-13T00:11:33.273148.wav was recorded"}
+{"response":"ok"}
 ```
 
 ## - отправка списка аудиозаписей, находящихся в хранилище:
@@ -26,7 +26,10 @@ GET /records
 ```
 [filename1, filename2, filename3]
 ```
-
+curl:
+```
+curl -X GET '127.0.0.1:5721/records'
+```
 #### Начало и остановка параллельной записи:
 ```
 POST /parallel_rec/start?time=10
@@ -42,14 +45,14 @@ GET /parallel_rec/stop
 curl -d "time=10" -X POST 127.0.0.1:5721/parallel_rec/start
 ```
 
-## - отправка аудиозаписи по имени файла
+## - отправка аудиозаписи по имени файла (будет изменено в дальнейшем)
 #### Запрос:
 ```
 POST /send?filename=<имя файла>
 ```
 curl:
 ```
-curl -d "filename=0_0_0_2020-05-22T11:04:18.980712.wav" -X POST 127.0.0.1:5721/send
+curl -X POST '127.0.0.1:5721/send?filename=0_0_0_2020-08-23T22:05:35.511531.wav'
 ```
 #### Ответ:
 ```

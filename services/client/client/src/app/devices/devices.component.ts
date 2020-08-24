@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 
-import { AudioService } from '../services/audio.service';
-import { Microphone } from '../interfaces/microphone';
-import { ListenerComponent } from '../listener/listener.component';
+import {AudioService} from '../services/audio.service';
+import {Microphone} from '../interfaces/microphone';
+import {ListenerComponent} from '../listener/listener.component';
 import {RecorderComponent} from '../recorder/recorder.component';
-import { Location } from '@angular/common';
+import {Location} from '@angular/common';
 
 
 @Component({
@@ -18,7 +18,9 @@ export class DevicesComponent implements OnInit {
     private audioService: AudioService,
     public dialog: MatDialog,
     private location: Location
-  ) { }
+  ) {
+  }
+
   microphones: Microphone[];
 
   getAudio(): void {
@@ -35,6 +37,7 @@ export class DevicesComponent implements OnInit {
       console.log(`Dialog result: ${result}`);
     });
   }
+
   record(mic: Microphone) {
     console.log(mic);
     const dialogRef = this.dialog.open(RecorderComponent);

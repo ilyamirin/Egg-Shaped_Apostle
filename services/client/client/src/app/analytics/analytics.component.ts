@@ -1,13 +1,15 @@
 import {Component, OnInit} from '@angular/core';
-import {delay, map} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 import {FtsQuery} from '../interfaces/fts-query';
 import {FormControl} from '@angular/forms';
 import {MatDatepickerInputEvent} from '@angular/material/datepicker';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import { DomSanitizer } from '@angular/platform-browser';
+import {HttpClient} from '@angular/common/http';
+import {DomSanitizer} from '@angular/platform-browser';
 import {Location} from '@angular/common';
-import { timer } from 'rxjs';
+import {timer} from 'rxjs';
+
+
 @Component({
   selector: 'app-analytics',
   templateUrl: './analytics.component.html',
@@ -55,50 +57,49 @@ export class AnalyticsComponent implements OnInit {
     'word_clouds1_Wed, 04 Mar 2020 23:48:35 GMT_0.png',
     'word_clouds1_Wed, 06 May 2020 23:48:35 GMT_0.png',
     'word_clouds1_Wed, 25 Mar 2020 23:48:35 GMT_0.png',
-    'word_clouds1_Wed, 27 May 2020 23:48:35 GMT_0.png',
-
+    'word_clouds1_Wed, 27 May 2020 23:48:35 GMT_0.png'
   ];
 
   diarisationFiles = [
-  'chadaev_01_0312.png' ,
-  'chadaev_02_0312.png' ,
-  'darkshevych_01_3011.png' ,
-  'dral_01_3011.png' ,
-  'dral_02_3011.png' ,
-  'fadeev_01_2811.png' ,
-  'fadeev_01_2911.png' ,
-  'fadeev_02_2811.png' ,
-  'pavlychev_01_0412.png' ,
-  'polyakov_01_3011.png' ,
-  'popovich_01_0412.png' ,
-  'raspopina_01_2811.png' ,
-  'raspopina_01_2911.png' ,
-  'raspopina_02_2911.png' ,
-  'vorotnikov_01_0312.png' ,
-  'vorotnikov_01_0412.png' ,
-  'vorotnikov_02_0312.png' ,
-  'vorotnikov_02_0412.png' ,
-];
-/*  thematicFiles = [
-    'template.html' ,
-    'template1.html' ,
-    'template2.html' ,
-    'template3.html' ,
-  ];*/
+    'chadaev_01_0312.png',
+    'chadaev_02_0312.png',
+    'darkshevych_01_3011.png',
+    'dral_01_3011.png',
+    'dral_02_3011.png',
+    'fadeev_01_2811.png',
+    'fadeev_01_2911.png',
+    'fadeev_02_2811.png',
+    'pavlychev_01_0412.png',
+    'polyakov_01_3011.png',
+    'popovich_01_0412.png',
+    'raspopina_01_2811.png',
+    'raspopina_01_2911.png',
+    'raspopina_02_2911.png',
+    'vorotnikov_01_0312.png',
+    'vorotnikov_01_0412.png',
+    'vorotnikov_02_0312.png',
+    'vorotnikov_02_0412.png'
+  ];
+  /*  thematicFiles = [
+      'template.html' ,
+      'template1.html' ,
+      'template2.html' ,
+      'template3.html' ,
+    ];*/
   thematicFiles = [
-    'template1.png' ,
-    'template2.png' ,
-    'template3.png' ,
+    'template1.png',
+    'template2.png',
+    'template3.png'
   ];
 
   freqsFiles = [
-    'freqs1.png' ,
-    'freqs2.png' ,
-    'freqs3.png' ,
-    'freqs4.png' ,
-    'freqs5.png' ,
-    'freqs6.png' ,
-    'freqs7.png' ,
+    'freqs1.png',
+    'freqs2.png',
+    'freqs3.png',
+    'freqs4.png',
+    'freqs5.png',
+    'freqs6.png',
+    'freqs7.png'
   ];
 
   /** Based on the screen size, switch from standard to one column per row */
@@ -129,7 +130,6 @@ export class AnalyticsComponent implements OnInit {
     endDate: new Date(Date.now()),
     role: -1,
     workplaces: []
-
   };
 
   workplaces = new FormControl();
@@ -143,9 +143,12 @@ export class AnalyticsComponent implements OnInit {
   diarisationImage: any;
   thematicImage: any;
   analysed = false;
+
   analyse() {
-    if (!this.analysed ) {
-      timer(1000).subscribe(x => {this.analysed = true; });
+    if (!this.analysed) {
+      timer(1000).subscribe(x => {
+        this.analysed = true;
+      });
     } else {
       this.analysed = false;
       this.generateImageCloud();
@@ -156,7 +159,6 @@ export class AnalyticsComponent implements OnInit {
     }
   }
 
-
   getRandomElement(arr) {
     const randomIndex = Math.floor(Math.random() * arr.length);
     return arr[randomIndex];
@@ -164,7 +166,6 @@ export class AnalyticsComponent implements OnInit {
 
   generateImageCloud(): void {
     this.cloudImage = './assets/img/word_clouds/' + this.getRandomElement(this.wordCloudFiles);
-
   }
 
   generateImageDiarisation(): void {
@@ -190,7 +191,6 @@ export class AnalyticsComponent implements OnInit {
 //   this.thematicImage = this.sanitizer.bypassSecurityTrustResourceUrl(name);
 // });
 // }
-
 
 
   dateChangedEvent(formNo: number, event: MatDatepickerInputEvent<Date>) {

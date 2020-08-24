@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, throwError, of } from 'rxjs';
 import { catchError, map, tap} from 'rxjs/operators';
-import {HttpClient, HttpHeaders, HttpParams,} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 import {Audio} from '../interfaces/audio';
 import {Microphone} from '../interfaces/microphone';

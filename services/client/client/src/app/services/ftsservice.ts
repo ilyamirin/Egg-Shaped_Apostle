@@ -3,6 +3,7 @@ import {Observable, of} from 'rxjs';
 import {HttpParams, HttpHeaders, HttpClient} from '@angular/common/http';
 import {catchError} from 'rxjs/operators';
 import {FtsQuery} from '../interfaces/fts-query';
+import {FtsResult} from '../interfaces/fts-result';
 
 @Injectable({
   providedIn: 'root'
@@ -24,11 +25,11 @@ export class Ftsservice {
     };
   }
 
-
-  search(query: FtsQuery): Observable<string> {
-    let headers = new HttpHeaders().set('Access-Control-Allow-Origin', '*');
-    return this.http.post<string>(this.ftsServiceAPI + '/fts', JSON.stringify(query), {headers: headers})
-      .pipe(catchError(this.handleError<string>('record', ''))
+  search(query: FtsQuery): Observable<FtsResult[]> {
+    const headers = new HttpHeaders().set('Access-Control-Allow-Origin', '*');
+    console.log(JSON.stringify(query));
+    return this.http.post<FtsResult[]>(this.ftsServiceAPI + '/fts', query, {headers})
+      .pipe(catchError(this.handleError<FtsResult[]>('getResults', []))
       );
   }
 
