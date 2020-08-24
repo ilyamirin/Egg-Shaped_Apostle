@@ -117,7 +117,7 @@ def stop_parallel_record():
         raise
 
 
-def gen_header(sample_rate=16000, bits_per_sample=16, channels=1):
+def gen_header(sample_rate=int(config["SETTINGS"]["RECORD_SAMPLING_RATE"]), bits_per_sample=16, channels=1):
     datasize = 2000*10**6
     o = bytes("RIFF", 'ascii')                                               # (4byte) Marks file as RIFF
     o += (datasize + 36).to_bytes(4, 'little')                               # (4byte) File size in bytes excluding this and RIFF marker
