@@ -6,10 +6,9 @@ from subprocess import Popen, PIPE
 from requests import post
 from time import sleep
 
-
 from audio_logger import get_logger
 from config_gen import get_config
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 config = get_config()
@@ -235,13 +234,18 @@ class Microphone:
             stdout=PIPE,
             stderr=PIPE,
             shell=True)
-        self.record_flag = False
+        self.last_read_time = None
+        self.buf = self.read_stream()
 
     def read_stream(self):
-        return self.stream.stdout.read(int(config["SETTINGS"]["RECORD_SAMPLING_RATE"])*2)
+        if (not self.last_read_time) or (datetime.now() - self.last_read_time).seconds >= 1:
+            self.buf = self.stream.stdout.read(int(config["SETTINGS"]["RECORD_SAMPLING_RATE"])*2)
+            self.last_read_time = datetime.now()
+        return self.buf
 
     def record(self, time=None, file_name=None):
         try:
+            time_rec = 0
             self.record_flag = True
             if not time:
                 time = int(config['SETTINGS']['RECORD_DUR'])
@@ -260,15 +264,14 @@ class Microphone:
                 file.setframerate(int(config["SETTINGS"]["RECORD_SAMPLING_RATE"]))
                 for _ in range(time):
                     if self.raspberry.recording_flag:
-                        self.buf =
-                        file.writeframes(self.buf)
+                        file.writeframes(self.read_stream())
+                        sleep(1)
                     else:
                         logger.debug(f'recording on card {self.card.no} mic {self.no}  manually stopped')
                         break
             os.rename(f'{file_name}_not_ready', file_name)
         except Exception as e:
             logger.error(e)
-        self.record_flag = False
         return file_name
 
 

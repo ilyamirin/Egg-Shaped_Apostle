@@ -118,7 +118,7 @@ def stop_parallel_record():
 
 
 def gen_header(sample_rate=int(config["SETTINGS"]["RECORD_SAMPLING_RATE"]), bits_per_sample=16, channels=1):
-    datasize = 2000*10**6
+    datasize = 2000*10**3
     o = bytes("RIFF", 'ascii')                                               # (4byte) Marks file as RIFF
     o += (datasize + 36).to_bytes(4, 'little')                               # (4byte) File size in bytes excluding this and RIFF marker
     o += bytes("WAVE", 'ascii')                                              # (4byte) File type
@@ -135,17 +135,47 @@ def gen_header(sample_rate=int(config["SETTINGS"]["RECORD_SAMPLING_RATE"]), bits
     return o
 
 
+def flatten(samples_in, way=0, window=100):
+    ''' gets samples and flatten them.
+    Way=0 - ascending, way=1 - descending '''
+    k = 1 if way else 0
+    samples = []
+    for i in samples_in:
+        samples.append(int(i*k))
+        if way:
+            k -= k/window
+        else:
+            k += 1/window
+    # print(samples)
+    return samples
+
+
+def cut_ends(pcm_samples):
+    window = 100
+    start = pcm_samples[:window]
+    end = pcm_samples[-window:]
+    pcm_samples_start = flatten(start)
+    pcm_samples_end = flatten(end, 1)
+    pcm_samples = bytearray(pcm_samples_start) + pcm_samples[window:]
+    pcm_samples = pcm_samples[:-window] + bytearray(pcm_samples_end)
+    return pcm_samples
+
+
 @app.route('/<int:card>/<int:mic>/stream', methods=['GET'])
 def stream_from_mic(card, mic):
     global stream_flag
     stream_flag = True
     wav_header = gen_header()
+    first_time = True
 
     def generate():
         while stream_flag:
-            chunk = raspberry.cards[card].mics[mic].read_stream()
+            chunk = cut_ends(raspberry.cards[card].mics[mic].read_stream())
+            if first_time:
+                chunk = wav_header + chunk
             sleep(1)
-            yield wav_header+chunk
+            yield chunk
+
     return Response(generate(), mimetype="audio/wav")
 
 
