@@ -26,6 +26,7 @@ export class ListenerComponent implements OnInit {
   }
 
   playStream(url) {
+    console.log(url);
     this.audioService.playStream(url).subscribe(events => {
     });
   }
@@ -33,7 +34,7 @@ export class ListenerComponent implements OnInit {
   openStream(mic: Microphone) {
     this.audioService.stop();
 
-    this.playStream(`http://127.0.0.1:5722/stream/${ mic.raspberry }/${ mic.card }/${ mic.mic }`);
+    this.playStream(`http://192.168.0.1:5722/stream/${ mic.raspberry }/${ mic.card }/${ mic.mic }`);
   }
 
   play() {

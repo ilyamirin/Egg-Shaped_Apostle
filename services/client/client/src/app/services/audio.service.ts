@@ -10,7 +10,7 @@ import {Microphone} from '../interfaces/microphone';
   providedIn: 'root'
 })
 export class AudioService {
-  private audioServiceAPI = 'http://127.0.0.1:5722';
+  private audioServiceAPI = 'http://192.168.0.1:5722';
 
   httpOptions = {
     headers: [
@@ -48,7 +48,7 @@ export class AudioService {
     let params = new HttpParams().set('card', card);
     params = params.append('mic', name);
     params = params.append('time', time);
-    const headers = new HttpHeaders({'Access-Control-Allow-Origin': '127.0.0.1:5722/raspberry/' + rasp + '/record'});
+    const headers = new HttpHeaders({'Access-Control-Allow-Origin': '192.168.0.1:5722/raspberry/' + rasp + '/record'});
     return this.http.get<string>(this.audioServiceAPI + '/raspberry/' + rasp + '/record', {headers: headers, params: params})
       .pipe(catchError(this.handleError<string>('record', ''))
       );
