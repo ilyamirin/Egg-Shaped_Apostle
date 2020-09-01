@@ -106,8 +106,33 @@ TODO:
 
 
 # Перед стартом:
+
+## Для распберри:
+### 1) в ~/:
+```
+git clone https://github.com/ilyamirin/Egg-Shaped_Apostle.
+```
+### 2) Заходим в ~/Egg-shaped_Apostle/services/endpoint_service
+### 3) Настраиваем ключи для доступа по scp на случай падения audio_service на сервере:
+```
+ssh-keygen
+./id_rsa
+ENTER
+ENTER
+ssh-copy-id sde@192.168.0.1
+chmod 0700 id_rsa id_rsa.pub
+```
+### 4) Запускаем python3 config_gen.py со следующими параметрами
+```
+python3 config_gen.py -u User -d 1 -s /User/media/data/ -t 3600 -m 09:00 -e 19:00
+```
+### 5) Меняем конфигурацию по необходимости
+```
+nano config.ini
+```
+
 #### 1. Открываем терминал и устанавливаем текущую папку как рабочую (или пользуемся GUI, правой кнопкой мыши по папке и "открыть в терминале")
-```buildoutcfg
+```
 cd /home/sde/Desktop/projects/Egg-Shaped_Apostle/services/audio_service/
 ```
 #### 1. запускаем python3 config_gen.py со следующими параметрами (указаны по умолчанию):
