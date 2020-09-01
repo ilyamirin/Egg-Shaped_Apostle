@@ -5,6 +5,10 @@ import json
 config = get_config()
 storage_service_api = f"http://{config['NETWORK']['STORAGE_SERVICE_IP']}:{config['NETWORK']['STORAGE_SERVICE_PORT']}"
 fts_service_api = f"http://{config['NETWORK']['FTS_SERVICE_IP']}:{config['NETWORK']['FTS_SERVICE_PORT']}"
+headers = {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+    }
 
 
 def get_all_records():
@@ -20,15 +24,16 @@ def send_record(work_place, role, date_time, text):
     data = {
         'work_place': work_place,
         'role': role,
-        'date_time': date_time,
+        'date_time': format_date(date_time),
         'text': text
     }
-    return requests.post(fts_service_api + '/write', data=data).json()
+    return requests.post(fts_service_api + '/write', data=json.dumps(data), headers=headers).json()
 
 
 records = get_all_records()
 
-for record in records[1000]:
-    send_record(record[0], record[1], record[2], record[3])
+for record in records:
+    print(record)
+    send_record(record[1], record[2], record[3], record[4])
 
 

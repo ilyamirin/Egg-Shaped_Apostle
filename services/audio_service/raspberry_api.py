@@ -5,8 +5,8 @@ import os
 import json
 
 config = get_config()
-logger = get_logger("rasbperry", '1')
-PORT = '5721'
+logger = get_logger("raspberry", '1')
+PORT = config['NETWORK']['RASPBERRY_IP']
 
 
 class Tree:
@@ -67,6 +67,7 @@ class Raspberry(Tree):
 
     def set_config(self, config):
         r = requests.post(self.api+'/config', data={'config': config})
+        return r.json()
 
     def start_parallel_record(self, time):
         params = {

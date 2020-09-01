@@ -1,9 +1,15 @@
 import os
 import threading
 import socket
+from config_gen import get_config
 from audio_logger import get_logger
 
-logger = get_logger("network_utils", '1')
+config = get_config()
+
+if config.has_section('SETTINGS') and 'DEBUG' in config['SETTINGS'].keys():
+    logger = get_logger(__name__, config['SETTINGS']['DEBUG'])
+else:
+    logger = get_logger(__name__, '1')
 
 
 def get_my_ip():
@@ -14,7 +20,7 @@ def get_my_ip():
 
 
 def scan_ip(ip, addr_list):
-    my_ip = '192.168.0.1'
+    my_ip = config['NETWORK']['WEB_API_IP']
     net_split = my_ip.split('.')
     net = '.'.join(net_split[:-1])+'.'
     addr = net + str(ip)

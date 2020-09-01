@@ -24,11 +24,11 @@ def wrap_response(response):
 def write_es():
 
     columns = ['work_place', 'role', 'date_time', 'text']
-    print(request.form)
-    work_place = request.form['work_place']
-    role = request.form['role']
-    date_time = request.form['date_time']
-    text = request.form['text']
+    print(request.json)
+    work_place = request.json['work_place']
+    role = request.json['role']
+    date_time = request.json['date_time']
+    text = request.json['text']
     resp = write(work_place, role, date_time, text)
     resp = jsonify(resp)
     resp.headers.add('Access-Control-Allow-Origin', request.headers['Access-Control-Allow-Origin'])
@@ -39,8 +39,6 @@ def write_es():
 def get_fts_results():
     # TODO решить вопрос с наименованием переменных, в фронте они другие
     columns = ['work_place', 'role', 'date_time_start', 'date_time_end', 'query', 'top']
-    print(request.headers)
-    print(request.json)
 
     results = []
     results_es = full_text_search(

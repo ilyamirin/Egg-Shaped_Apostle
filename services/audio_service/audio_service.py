@@ -26,7 +26,7 @@ if not os.path.exists(config['ENV']['EXT_DATA_DIR']):
 app = Flask(__name__)
 cors = CORS(app, resources={r"*": {"origins": "*"}})
 app.config['CORS_HEADERS'] = 'Content-Type'
-destination = 'http://localhost:4200'
+destination = f'http://{config["NETWORK"]["FRONTEND_IP"]}:{config["NETWORK"]["FRONTEND_PORT"]}'
 
 
 def extract_metadata(filename):
@@ -90,9 +90,6 @@ def get_raspberry_by_ip(ip='127.0.0.1'):
         logger.error(e)
     i += 1
     return raspberries
-
-
-allowed_extensions = ['wav',]
 
 
 @app.route('/records', methods=['GET'])

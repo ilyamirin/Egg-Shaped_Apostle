@@ -17,3 +17,6 @@ test.wav
 **/__pycache__
 *.png
 *.wav
+*.log
+.ipynb_checkpoints
+*.txt
