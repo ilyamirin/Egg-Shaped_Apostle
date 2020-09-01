@@ -115,12 +115,12 @@ git clone https://github.com/ilyamirin/Egg-Shaped_Apostle.
 ### 2) Заходим в ~/Egg-shaped_Apostle/services/endpoint_service
 ### 3) Настраиваем ключи для доступа по scp на случай падения audio_service на сервере:
 ```
-ssh-keygen
+sudo ssh-keygen
 ./id_rsa
 ENTER
 ENTER
-ssh-copy-id sde@192.168.0.1
-chmod 0700 id_rsa id_rsa.pub
+sudo ssh-copy-id -i id_rsa sde@192.168.0.1
+sudo chmod 0700 id_rsa id_rsa.pub
 ```
 ### 4) Запускаем python3 config_gen.py со следующими параметрами
 ```
@@ -129,6 +129,45 @@ python3 config_gen.py -u User -d 1 -s /User/media/data/ -t 3600 -m 09:00 -e 19:0
 ### 5) Меняем конфигурацию по необходимости
 ```
 nano config.ini
+```
+### 6) Устанавливаем зависимости
+```
+sudo python3 -m pip install -r requirements.txt
+```
+
+### 7) Делаем сервис системным
+```
+cd /lib/systemd/system/
+sudo nano audio_service.py.service
+```
+Добавляем в файл:
+```
+[Unit]
+Description=Audio Service
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 /home/pi/Egg-Shaped_Apostle/services/audio_endpoint/audio_service.py
+WorkingDirectory=/home/pi/Egg-Shaped_Apostle/services/audio_endpoint/
+StandardOutput=inherit
+StandartError=inherit
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target
+```
+Сохраняем, выходим, (ctrl+s, ctrl+x), перезапускаем демона systemctl, активируеем и запускаем сервис
+
+```
+sudo systemctl daemon-reload
+sudo systemctl enable audio_service.py.service
+sudo systemctl start audio_service.py.service
+```
+
+Для проверки:
+```
+journalctl -u audio_service.py.service
 ```
 
 #### 1. Открываем терминал и устанавливаем текущую папку как рабочую (или пользуемся GUI, правой кнопкой мыши по папке и "открыть в терминале")
