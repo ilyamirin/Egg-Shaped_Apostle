@@ -6,7 +6,7 @@ import json
 
 config = get_config()
 logger = get_logger("raspberry", '1')
-PORT = config['NETWORK']['RASPBERRY_IP']
+PORT = config['NETWORK']['RASPBERRY_PORT']
 
 
 class Tree:

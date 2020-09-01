@@ -1,17 +1,20 @@
 from datetime import datetime
 import configparser
 import subprocess
+from audio_service import get_raspberries
 
 config = configparser.ConfigParser()
 print('Reading configuration file...', end='\n')
 config.read('config.ini')
 print('OK')
 
+raspberries = get_raspberries()
 
 def ui():
 
     print('Чтобы показать список устройств, введите "devices";\n'
-          'Чтобы прослушать устройство, введите "listen n m", где'
+          'Чтобы прослушать устройство, введите "listen l n m", где'
+          '"l" — индекс raspberry,'
           '"n" — индекс аудиокарты,'
           '"m" — индекс устройства ввода,\n'
           #'"t" — время прослушивания в секундах;\n'
@@ -41,11 +44,12 @@ def print_devices():
     subprocess.call([r'/usr/bin/arecord', '-l'])
 
 
-def listen(mic_card, mic_dev):
+def listen(rasp, card, mic):
     print(r'* start listening. Press "enter" to stop')
-    listening = subprocess.Popen(['/usr/bin/alsaloop', '-C', f'hw:{mic_card},{mic_dev}'])
-    input()
-    listening.terminate()
+    stream = raspberries[rasp].nodes[card].nodes[mic].stream()
+    listening = subprocess.Popen(['aplay'], stdin=subprocess.PIPE)
+    for i in stream.iter_content(raw=True):
+        listening.stdin.write(i)
     return True
 
 
@@ -59,5 +63,6 @@ def record_by_time(card=0, mic=0, time=10):
     print(f'Saved to file {file_name}')
 
 
-if __name__ == '__main__':
-    ui()
+# if __name__ == '__main__':
+#     ui()
+listen(0, 1, 0)

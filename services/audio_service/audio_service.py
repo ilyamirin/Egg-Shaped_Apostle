@@ -12,14 +12,13 @@ from config_gen import get_config
 
 
 config = get_config()
-if config.has_section('SETTINGS') and 'DEBUG' in config['SETTINGS'].keys():
-    logger = get_logger("audio_service", config['SETTINGS']['DEBUG'])
-else: logger = get_logger("audio_service", '1')
+logger = get_logger("audio_service", config['SETTINGS']['DEBUG'])
+
 
 if not os.path.exists(config['ENV']['EXT_DATA_DIR']):
     logger.debug('can\'t find data dir, trying to create...')
     try:
-        os.makedirs(config['ENV']['DATA_DIR'])
+        os.makedirs(config['ENV']['EXT_DATA_DIR'])
     except Exception as e:
         logger.error(e)
 
@@ -131,6 +130,8 @@ def get_record(filename):
 @app.route('/record/<filename>', methods=['POST'])
 def post_record(filename):
     try:
+        if not os.path.exists(config['ENV']['EXT_DATA_DIR']):
+            os.makedirs(config['ENV']['EXT_DATA_DIR'])
         with open(os.path.join(config['ENV']['EXT_DATA_DIR'], filename), 'wb') as audio_file:
             audio_file.write(request.data)
         resp = wrap_response({'result': 'ok'})
@@ -171,7 +172,7 @@ def send():
     return resp
 
 
-raspberries = get_raspberry_by_ip('127.0.0.1')
+
 
 
 @app.route('/microphones', methods=['GET'])
@@ -224,7 +225,8 @@ def update_rasp():
 
 @app.route('/stream/<int:raspberry>/<int:card>/<int:mic>', methods=['GET'])
 def stream_mic(raspberry, card, mic):
-    return Response(raspberries[raspberry].nodes[card].nodes[mic].stream(), mimetype="audio/wav")
+    print(raspberries[raspberry].nodes)
+    return Response(raspberries[raspberry].nodes[card-1].nodes[mic].stream(), mimetype="audio/wav")
 
 
 @app.route('/raspberry/all/<command>', methods=['GET', 'POST'])
@@ -292,4 +294,6 @@ def to_raspberry(no, command, subcommand=None):
 
 
 if __name__ == '__main__':
+    # raspberries = get_raspberry_by_ip('127.0.0.1')
+    raspberries = get_raspberries()
     app.run(host=config['NETWORK']['WEB_API_IP'], debug=True, port=config['NETWORK']['WEB_API_PORT'])

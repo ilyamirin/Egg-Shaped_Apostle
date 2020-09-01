@@ -45,11 +45,12 @@ def scan_pool(addr_list, start_point=0, end_point=254):
 def get_active_addresses():
     addr_list = []
     scan_pool(addr_list)
-    addr_list = addr_list # .remove(get_my_ip())
+    if config['NETWORK']['WEB_API_IP'] in addr_list:
+        addr_list.remove(config['NETWORK']['WEB_API_IP'])
     if not addr_list:
         logger.warning('no ip found while scanning. Check connection.')
         return []
     return addr_list
 
 
-print(get_active_addresses())
+# print(get_active_addresses())
