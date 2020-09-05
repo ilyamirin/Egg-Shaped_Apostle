@@ -52,7 +52,12 @@ def wrap_response(response):
 
 # возвращает список объектов класса Raspberry
 def get_raspberries():
-    addresses = get_active_addresses()
+    addresses = None
+    if 'raspberries_list' in os.listdir():
+        with open('raspberries_list.txt', 'r+') as list:
+            addresses = list.read().split('\n')
+    if not addresses:
+        addresses = get_active_addresses()
     raspberries = []
     i = 0
     for ip in addresses:
@@ -172,9 +177,6 @@ def send():
     return resp
 
 
-
-
-
 @app.route('/microphones', methods=['GET'])
 def microphones_list():
     try:
@@ -182,12 +184,12 @@ def microphones_list():
             map_ = json.load(map_file)
         microphones = []
         rasp_dict = {}
-        for raspberry in raspberries:
-            rasp_dict[raspberry.no] = {
-                'ip': raspberry.ip,
-                'no': raspberry.no,
-                'devices': raspberry.get_devices()
-            }
+        for raspberry in map_:
+            rasp_dict[raspberry] = {
+                        'ip': raspberry.ip,
+                        'no': raspberry.no,
+                        'devices': raspberry.get_devices()
+                    }
         for raspberry in rasp_dict:
             for card in rasp_dict[raspberry]['devices']:
                 for mic in rasp_dict[raspberry]['devices'][card]:
@@ -202,6 +204,34 @@ def microphones_list():
         logger.error(e)
         resp = wrap_response({'error': str(e)})
     return resp
+
+# returns only alive
+# def microphones_list():
+#     try:
+#         with open('mic_map.json', 'r') as map_file:
+#             map_ = json.load(map_file)
+#         microphones = []
+#         rasp_dict = {}
+#         for raspberry in raspberries:
+#             rasp_dict[raspberry.no] = {
+#                 'ip': raspberry.ip,
+#                 'no': raspberry.no,
+#                 'devices': raspberry.get_devices()
+#             }
+#         for raspberry in rasp_dict:
+#             for card in rasp_dict[raspberry]['devices']:
+#                 for mic in rasp_dict[raspberry]['devices'][card]:
+#                     workplace = map_[str(raspberry)][str(card)][str(mic)]['workplace']
+#                     role = map_[str(raspberry)][str(card)][str(mic)]['role']
+#                     mic_obj = {}
+#                     for var in ['raspberry', 'card', 'mic', 'workplace', 'role']:
+#                         mic_obj[var] = locals()[var]
+#                     microphones.append(mic_obj)
+#         resp = wrap_response(microphones)
+#     except Exception as e:
+#         logger.error(e)
+#         resp = wrap_response({'error': str(e)})
+#     return resp
 
 
 @app.route('/raspberry', methods=['GET'])

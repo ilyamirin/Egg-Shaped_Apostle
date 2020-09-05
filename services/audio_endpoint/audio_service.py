@@ -149,16 +149,16 @@ def flatten(samples_in, way=0, window=100):
     # print(samples)
     return samples
 
-
-def cut_ends(pcm_samples):
-    window = 100
-    start = pcm_samples[:window]
-    end = pcm_samples[-window:]
-    pcm_samples_start = flatten(start)
-    pcm_samples_end = flatten(end, 1)
-    pcm_samples = bytearray(pcm_samples_start) + pcm_samples[window:]
-    pcm_samples = pcm_samples[:-window] + bytearray(pcm_samples_end)
-    return pcm_samples
+# experimental
+# def cut_ends(pcm_samples):
+#     window = 100
+#     start = pcm_samples[:window]
+#     end = pcm_samples[-window:]
+#     pcm_samples_start = flatten(start)
+#     pcm_samples_end = flatten(end, 1)
+#     pcm_samples = bytearray(pcm_samples_start) + pcm_samples[window:]
+#     pcm_samples = pcm_samples[:-window] + bytearray(pcm_samples_end)
+#     return pcm_samples
 
 
 @app.route('/<int:card>/<int:mic>/stream', methods=['GET'])
@@ -169,14 +169,21 @@ def stream_from_mic(card, mic):
     first_time = True
 
     def generate():
+        nonlocal first_time
         while stream_flag:
-            chunk = cut_ends(raspberry.cards[card].mics[mic].read_stream())
+            chunk = raspberry.cards[card].mics[mic].read_stream()
             if first_time:
                 chunk = wav_header + chunk
+                first_time = False
             sleep(1)
             yield chunk
 
     return Response(generate(), mimetype="audio/wav")
+
+
+@app.route('/status', methods=['GET'])
+def send_status():
+    return jsonify(raspberry.get_status())
 
 
 if __name__ == '__main__':

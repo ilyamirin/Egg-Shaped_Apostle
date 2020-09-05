@@ -17,6 +17,21 @@ curl -X POST '127.0.0.1:5721/0/0/record?time=10&file=test_not_ready'
 {"response":"ok"}
 ```
 
+## - стрим
+
+#### Запрос:
+```
+GET /<номер карты>/<номер микрофона>/stream
+```
+curl:
+```
+curl -X GET '127.0.0.1:5721/0/0/stream'
+```
+#### Ответ:
+```
+response
+```
+
 ## - отправка списка аудиозаписей, находящихся в хранилище:
 #### Запрос:
 ```
@@ -157,7 +172,7 @@ User=root
 [Install]
 WantedBy=multi-user.target
 ```
-Сохраняем, выходим, (ctrl+s, ctrl+x), перезапускаем демона systemctl, активируеем и запускаем сервис
+Сохраняем, выходим, (ctrl+s, ctrl+x), перезапускаем демона systemctl, активируем и запускаем сервис
 
 ```
 sudo systemctl daemon-reload
@@ -183,12 +198,14 @@ cd /home/sde/Desktop/projects/Egg-Shaped_Apostle/services/audio_service/
 - -m/--start_time 09:00
 - -e/--end_time 19:00
 т.е., например,
-```buildoutcfg
+
+```
 python3 config_gen.py -u pi - p raspberry -d 1 -t 10 -m 09:00 -e 19:00
 ```
 # Старт:
 Как только появился файл config.ini,
-```buildoutcfg
+
+```
 python3 audio_service.py
 ```
 

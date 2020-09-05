@@ -10,6 +10,7 @@ print('OK')
 
 raspberries = get_raspberries()
 
+
 def ui():
 
     print('Чтобы показать список устройств, введите "devices";\n'
@@ -65,4 +66,4 @@ def record_by_time(card=0, mic=0, time=10):
 
 # if __name__ == '__main__':
 #     ui()
-listen(0, 1, 0)
+listen(0, 0, 0)

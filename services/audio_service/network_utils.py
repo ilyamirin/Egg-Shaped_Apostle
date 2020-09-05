@@ -14,6 +14,10 @@ else:
 
 def get_my_ip():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  # Создаем сокет (UDP)
+    try:
+        s.bind((config['NETWORK']['WEB_API_IP'], 5722))
+    except Exception as e:
+        logger.error(f'Are you connected? Error: {e}')
     s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)  # Настраиваем сокет на BROADCAST вещание.
     s.connect(('<broadcast>', 0))
     return s.getsockname()[0]
@@ -45,12 +49,13 @@ def scan_pool(addr_list, start_point=0, end_point=254):
 def get_active_addresses():
     addr_list = []
     scan_pool(addr_list)
-    if config['NETWORK']['WEB_API_IP'] in addr_list:
-        addr_list.remove(config['NETWORK']['WEB_API_IP'])
+    # if config['NETWORK']['WEB_API_IP'] in addr_list:
+    #     addr_list.remove(config['NETWORK']['WEB_API_IP'])
     if not addr_list:
         logger.warning('no ip found while scanning. Check connection.')
         return []
     return addr_list
 
-
+#
 # print(get_active_addresses())
+# print(get_my_ip())

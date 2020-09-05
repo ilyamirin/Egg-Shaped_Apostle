@@ -28,12 +28,23 @@ class Raspberry(Tree):
         self.ip = ip
         self.no = no
         self.api = f'http://{self.ip}:{PORT}'
-        devices = self.get_devices()
-        for card_no in devices:
-            card = Card(self, card_no)
-            self.add_node(card)
-            for mic_no in devices[card_no]:
-                card.add_node(Microphone(card, mic_no))
+        self.status = self.get_status()
+        if self.status:
+            devices = self.get_devices()
+            for card_no in devices:
+                card = Card(self, card_no)
+                self.add_node(card)
+                for mic_no in devices[card_no]:
+                    card.add_node(Microphone(card, mic_no))
+
+    def get_status(self):
+        try:
+            resp = requests.get(self.api + '/status')
+            status = resp.json()['status']
+        except requests.exceptions.ConnectTimeout as e:
+            logger.error(e)
+            status = False
+        return status
 
     def record(self, card, mic, time, file=None):
         payload = {

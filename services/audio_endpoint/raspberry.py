@@ -8,7 +8,7 @@ from time import sleep
 
 from audio_logger import get_logger
 from config_gen import get_config
-from datetime import datetime, timedelta
+from datetime import datetime
 
 
 config = get_config()
@@ -36,11 +36,11 @@ class Raspberry(Tree):
     def __init__(self, no=config['ENV']['DEV_NO']):
         super().__init__()
         self.no = no
-        devices = self.get_devices()
-        for card_no in devices:
+        self.devices = self.get_devices()
+        for card_no in self.devices:
             card = Card(self, card_no)
             self.add_node(card)
-            for mic_no in devices[card_no]:
+            for mic_no in self.devices[card_no]:
                 card.add_node(Microphone(card, mic_no))
         # check data_dir
         if not os.path.exists(config['ENV']['DATA_DIR']):
@@ -85,6 +85,19 @@ class Raspberry(Tree):
                 else:
                     device_map[card] = [device, ]
         return device_map
+
+    def get_status(self):
+        """
+        gets a input devices status
+        """
+        status = {'status': 'ok', 'id': self.no, 'details': {}}
+        devices_status = {}
+        for card in self.nodes:
+            devices_status[card.no] = {}
+            for mic in card.nodes:
+                devices_status[card.no][mic.no] = mic.status
+        status['details'] = devices_status
+        return status
 
     @staticmethod
     def get_files_list():
@@ -233,9 +246,13 @@ class Microphone:
              -c 1 -N -r {config["SETTINGS"]["RECORD_SAMPLING_RATE"]}'],
             stdout=PIPE,
             stderr=PIPE,
-            shell=True)
+            shell=True,
+            bufsize=int(config["SETTINGS"]["RECORD_SAMPLING_RATE"])*2
+
+        )
         self.last_read_time = None
         self.buf = self.read_stream()
+        self.status = {'status': 'ok', 'details': {'recording': False}}
 
     def read_stream(self):
         if (not self.last_read_time) or (datetime.now() - self.last_read_time).seconds >= 1:
@@ -245,8 +262,6 @@ class Microphone:
 
     def record(self, time=None, file_name=None):
         try:
-            time_rec = 0
-            self.record_flag = True
             if not time:
                 time = int(config['SETTINGS']['RECORD_DUR'])
             else:
@@ -258,6 +273,9 @@ class Microphone:
             else:
                 print(file_name)
             logger.debug(f'recording {file_name} (card: {self.card.no}, mic: {self.no}, time: {time})')
+            self.status['details']['recording'] = True
+            self.status['details']['record_time'] = time
+            self.status['details']['file_name'] = file_name
             with wave.open(file_name + '_not_ready', 'wb') as file:
                 file.setnchannels(1)
                 file.setsampwidth(2)
@@ -272,13 +290,15 @@ class Microphone:
             os.rename(f'{file_name}_not_ready', file_name)
         except Exception as e:
             logger.error(e)
+        self.status['details']['recording'] = False
+        del self.status['details']['record_time']
+        del self.status['details']['file_name']
         return file_name
 
 
 
 # a1 = Raspberry(1)
 #a1.nodes[0].nodes[0].record(time=10)
+
 # a1 = Raspberry(1)
-# a = a1.nodes[2].nodes[0].start_stream()
-# while True:
-#     print(a.read(100))
+# a1.nodes[0].nodes[0].record(10, 'test.wav')
