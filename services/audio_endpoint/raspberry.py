@@ -90,7 +90,7 @@ class Raspberry(Tree):
         """
         gets a input devices status
         """
-        status = {'status': 'ok', 'id': self.no, 'details': {}}
+        status = {'status': 'ok', 'no': self.no, 'details': {}}
         devices_status = {}
         for card in self.nodes:
             devices_status[card.no] = {}
@@ -252,7 +252,13 @@ class Microphone:
         )
         self.last_read_time = None
         self.buf = self.read_stream()
-        self.status = {'status': 'ok', 'details': {'recording': False}}
+        self.status = {'status': 'ok',
+                       'details':
+                           {
+                               'no': self.no,
+                               'recording': False
+                           }
+                       }
 
     def read_stream(self):
         if (not self.last_read_time) or (datetime.now() - self.last_read_time).seconds >= 1:

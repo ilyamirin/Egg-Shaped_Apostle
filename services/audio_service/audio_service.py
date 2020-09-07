@@ -2,18 +2,14 @@
 import os
 import json
 from raspberry_api import Raspberry
-from network_utils import get_active_addresses
 
-from flask import Flask, jsonify, request, abort, send_from_directory, redirect, url_for, Response
-from flask_cors import CORS, cross_origin
+from flask import Flask, jsonify, request, send_from_directory, redirect, url_for, Response
+from flask_cors import CORS
 
 from audio_logger import get_logger
 from config_gen import get_config
-
-
 config = get_config()
 logger = get_logger("audio_service", config['SETTINGS']['DEBUG'])
-
 
 if not os.path.exists(config['ENV']['EXT_DATA_DIR']):
     logger.debug('can\'t find data dir, trying to create...')
@@ -22,10 +18,31 @@ if not os.path.exists(config['ENV']['EXT_DATA_DIR']):
     except Exception as e:
         logger.error(e)
 
-app = Flask(__name__)
-cors = CORS(app, resources={r"*": {"origins": "*"}})
-app.config['CORS_HEADERS'] = 'Content-Type'
-destination = f'http://{config["NETWORK"]["FRONTEND_IP"]}:{config["NETWORK"]["FRONTEND_PORT"]}'
+
+def read_rasp_map() -> dict:
+    rasp_map = {}
+    try:
+        with open('raspberries.json', 'r') as rasp_map_file:
+            rasp_map = json.load(rasp_map_file)
+    except json.decoder.JSONDecodeError:
+        logger.debug('there is no raspberries declared')
+    except FileNotFoundError:
+        logger.debug('no raspberries.json in directory')
+    except Exception as e:
+        logger.error(e)
+    return rasp_map
+
+
+def get_raspberries():
+    """
+    loads raspberries.json
+    """
+    _raspberries_ = []
+    rasp_map = read_rasp_map()
+    for ip in rasp_map:
+        _raspberries_.append(Raspberry(ip))
+
+    return _raspberries_
 
 
 def extract_metadata(filename):
@@ -50,50 +67,13 @@ def wrap_response(response):
     return resp
 
 
-# возвращает список объектов класса Raspberry
-def get_raspberries():
-    addresses = None
-    if 'raspberries_list' in os.listdir():
-        with open('raspberries_list.txt', 'r+') as list:
-            addresses = list.read().split('\n')
-    if not addresses:
-        addresses = get_active_addresses()
-    raspberries = []
-    i = 0
-    for ip in addresses:
-        logger.debug(f'found ip: {ip}. Trying to connect...')
-        if 'raspberries_list' not in os.listdir():
-            os.system('touch raspberries_list.txt')
-        with open('raspberries_list.txt', 'r+') as list:
-            rasp_list = list.read().split('\n')
-            if ip not in rasp_list:
-                with open('raspberries_list.txt', 'a+') as list:
-                    list.write(ip+'\n')
-        try:
-            raspberries.append(Raspberry(ip, i))
-        except Exception as e:
-            logger.error(e)
-        i += 1
-    return raspberries
+app = Flask(__name__)
+cors = CORS(app, resources={r"*": {"origins": "*"}})
+app.config['CORS_HEADERS'] = 'Content-Type'
+destination = f'http://{config["NETWORK"]["FRONTEND_IP"]}:{config["NETWORK"]["FRONTEND_PORT"]}'
 
 
-def get_raspberry_by_ip(ip='127.0.0.1'):
-    raspberries = []
-    i = 0
-    logger.debug(f'found ip: {ip}. Trying to connect...')
-    if 'raspberries_list' not in os.listdir():
-        os.system('touch raspberries_list.txt')
-    with open('raspberries_list.txt', 'r+') as list:
-        rasp_list = list.read().split('\n')
-        if ip not in rasp_list:
-            with open('raspberries_list.txt', 'a+') as list:
-                list.write(ip + '\n')
-    try:
-        raspberries.append(Raspberry(ip, i))
-    except Exception as e:
-        logger.error(e)
-    i += 1
-    return raspberries
+# records API
 
 
 @app.route('/records', methods=['GET'])
@@ -177,34 +157,52 @@ def send():
     return resp
 
 
+# Devices API
+
+
+@app.route('/raspberry', methods=['GET'])
+def raspberries_list():
+    rasp_dict = {}
+    for raspberry in raspberries:
+        rasp_dict[raspberry.no] = {
+            'ip': raspberry.ip,
+            'no': raspberry.no,
+            'devices': raspberry.get_devices()
+        }
+    return wrap_response(rasp_dict)
+
+
 @app.route('/microphones', methods=['GET'])
 def microphones_list():
     try:
-        with open('mic_map.json', 'r') as map_file:
-            map_ = json.load(map_file)
+        rasp_map = read_rasp_map()
         microphones = []
         rasp_dict = {}
-        for raspberry in map_:
-            rasp_dict[raspberry] = {
-                        'ip': raspberry.ip,
-                        'no': raspberry.no,
-                        'devices': raspberry.get_devices()
-                    }
-        for raspberry in rasp_dict:
-            for card in rasp_dict[raspberry]['devices']:
-                for mic in rasp_dict[raspberry]['devices'][card]:
-                    workplace = map_[str(raspberry)][str(card)][str(mic)]['workplace']
-                    role = map_[str(raspberry)][str(card)][str(mic)]['role']
+        for rasp_ip in rasp_map:
+            raspberry = rasp_map[rasp_ip]['no']
+            cards = rasp_map[rasp_ip]['cards']
+            for card in cards:
+                mics = cards[card]
+                for mic in mics:
+                    workplace = mics[mic]['work_place']
+                    role = mics[mic]['role']
+                    for rasp in raspberries:
+                        if rasp.no == raspberry:
+                            if card in rasp.details and mic in rasp.details[card]:
+                                status = rasp.details[card][mic]['status']
+                            else:
+                                status = 'no'
                     mic_obj = {}
-                    for var in ['raspberry', 'card', 'mic', 'workplace', 'role']:
+                    for var in ['raspberry', 'card', 'mic', 'workplace', 'role', 'status']:
                         mic_obj[var] = locals()[var]
                     microphones.append(mic_obj)
+            print(microphones)
         resp = wrap_response(microphones)
     except Exception as e:
         logger.error(e)
         resp = wrap_response({'error': str(e)})
+        raise
     return resp
-
 # returns only alive
 # def microphones_list():
 #     try:
@@ -232,18 +230,6 @@ def microphones_list():
 #         logger.error(e)
 #         resp = wrap_response({'error': str(e)})
 #     return resp
-
-
-@app.route('/raspberry', methods=['GET'])
-def raspberries_list():
-    rasp_dict = {}
-    for raspberry in raspberries:
-        rasp_dict[raspberry.no] = {
-            'ip': raspberry.ip,
-            'no': raspberry.no,
-            'devices': raspberry.get_devices()
-        }
-    return wrap_response(rasp_dict)
 
 
 @app.route('/raspberry/update', methods=['GET'])
@@ -324,6 +310,5 @@ def to_raspberry(no, command, subcommand=None):
 
 
 if __name__ == '__main__':
-    # raspberries = get_raspberry_by_ip('127.0.0.1')
     raspberries = get_raspberries()
     app.run(host=config['NETWORK']['WEB_API_IP'], debug=True, port=config['NETWORK']['WEB_API_PORT'])

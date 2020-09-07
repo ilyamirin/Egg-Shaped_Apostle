@@ -23,10 +23,9 @@ class Tree:
 
 
 class Raspberry(Tree):
-    def __init__(self, ip, no):
+    def __init__(self, ip):
         super().__init__()
         self.ip = ip
-        self.no = no
         self.api = f'http://{self.ip}:{PORT}'
         self.status = self.get_status()
         if self.status:
@@ -41,6 +40,8 @@ class Raspberry(Tree):
         try:
             resp = requests.get(self.api + '/status')
             status = resp.json()['status']
+            self.no = resp.json()['no']
+            self.details = resp.json()['details']
         except requests.exceptions.ConnectTimeout as e:
             logger.error(e)
             status = False
