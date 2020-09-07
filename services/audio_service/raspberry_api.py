@@ -28,6 +28,7 @@ class Raspberry(Tree):
         self.ip = ip
         self.api = f'http://{self.ip}:{PORT}'
         self.status = self.get_status()
+        logger.debug(f'Initialization of Raspberry instance #{self.no} on address {self.ip}')
         if self.status:
             devices = self.get_devices()
             for card_no in devices:
@@ -35,6 +36,9 @@ class Raspberry(Tree):
                 self.add_node(card)
                 for mic_no in devices[card_no]:
                     card.add_node(Microphone(card, mic_no))
+            self.cards = {str(card.no): card for card in self.nodes}
+            for card in self.nodes:
+                card.mics = {str(mic.no): mic for mic in card.nodes}
 
     def get_status(self):
         try:

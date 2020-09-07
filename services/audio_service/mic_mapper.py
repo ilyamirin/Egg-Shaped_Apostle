@@ -57,6 +57,8 @@ def add_raspberry_to_file(raspberry: Raspberry):
 
 
 raspberries = get_raspberries_by_scanning()
+raspberries_dict = {rasp.no: rasp for rasp in raspberries}
+
 
 for i in raspberries:
     add_raspberry_to_file(i)
@@ -70,11 +72,12 @@ def wait_for_key():
     listen_flag = False
 
 
-def listen(rasp: int, card: int, mic: int):
+# TODO СДЕЛАЙ DICT ВМЕСТО LIST В Raspberry.nodes etc.
+def listen(rasp_no: int, card_no: int, mic_no: int):
     global listen_flag
     listen_flag = True
     print(r'* start listening. Press any key to stop')
-    stream = raspberries[rasp].nodes[card].nodes[mic].stream()
+    stream = raspberries_dict[rasp_no].cards[card_no].mics[mic_no].stream()
     listening = subprocess.Popen(['aplay'], stdin=subprocess.PIPE)
     a = threading.Thread(target=wait_for_key)
     a.start()
@@ -127,7 +130,10 @@ def define_mic(rasp_no, card, mic, work_place, role):
 
 
 def ui():
-    print('Чтобы показать список устройств, введите "devices";\n'
+    print('\n'
+          '\n'
+          '\n'
+          'Чтобы показать список устройств, введите "devices";\n'
           '\n'
           'Чтобы прослушать устройство, введите "listen l n m", где '
           '"l" — индекс raspberry,\n'
@@ -151,7 +157,7 @@ def ui():
         try:
             command, *attrib = inp
             if command == 'devices': print_devices()
-            elif command == 'listen': listen(int(attrib[0]), int(attrib[1]), int(attrib[2]))
+            elif command == 'listen': listen(attrib[0], attrib[1], attrib[2])
             elif command == 'define': define_mic(attrib[0],
                                                  attrib[1],
                                                  attrib[2],
@@ -163,53 +169,6 @@ def ui():
             print('ошибка:', str(e))
     return ui()
 
-print(ui())
 
-# def ui():
-#
-#     print('Чтобы показать список устройств, введите "devices";\n'
-#           'Чтобы прослушать устройство, введите "listen l n m", где'
-#           '"l" — индекс raspberry,'
-#           '"n" — индекс аудиокарты,'
-#           '"m" — индекс устройства ввода,\n'
-#           #'"t" — время прослушивания в секундах;\n'
-#
-#           'Чтобы записать аудио с устройства, введите "record c, n, t", где'
-#           '"c" — индекс аудиокарты,'
-#           '"n" — индекс устройства,'
-#           '"t" — время записи,'
-#           #'"name" — имя файла без расширения. По умолчанию "unnamed";\n'
-#           'Чтобы выйти, введите "exit".\n')
-#
-#     inp = input().split()
-#
-#     if len(inp) < 1:
-#         ui()
-#     else:
-#         command, *attrib = inp
-#         if command == 'devices': print_devices()
-#         elif command == 'listen': listen(attrib[0], attrib[1])
-#         elif command == 'record': record_by_time(attrib[0], attrib[1], attrib[2])
-#         elif command == 'exit': return True
-#         else: print('Команда не распознана')
-#     return ui()
-#
-#
-# def print_devices():
-#     subprocess.call([r'/usr/bin/arecord', '-l'])
-#
-
-#
-#
-# def record_by_time(card=0, mic=0, time=10):
-#     file_name = f'{config["ENV"]["EXT_DATA_DIR"]}0_0_0_{str(datetime.now()).replace(" ", "T")}.wav'
-#     print(f'* start recording. Please, say something in {time} seconds...')
-#     subprocess.call(
-#         [r'/usr/bin/arecord', '-f', 'cd', '-D' f'plughw:{card},{mic}', '-c', '1', '-d', f'{time}',
-#          file_name])
-#     print("* done recording")
-#     print(f'Saved to file {file_name}')
-
-
-# if __name__ == '__main__':
-#     ui()
+if __name__ == "__main__":
+    ui()
