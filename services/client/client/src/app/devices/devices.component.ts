@@ -22,11 +22,11 @@ export class DevicesComponent implements OnInit {
   }
 
   microphones: Microphone[];
-
   getAudio(): void {
     this.audioService.getMicrophones()
       .subscribe(microphones => this.microphones = microphones);
   }
+
 
   listen(mic: Microphone) {
     console.log(mic);

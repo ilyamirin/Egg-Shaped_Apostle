@@ -4,4 +4,5 @@ export interface Microphone {
   card: number;
   workplace: string;
   role: string;
+  status: string;
 }

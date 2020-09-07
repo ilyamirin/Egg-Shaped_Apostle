@@ -5,25 +5,24 @@
       <mat-icon matTooltip="Обновить">cached</mat-icon>
     </button>
   </div>
-  <mat-grid-list fxLayoutAlign="space-evenly center" cols="8" rowHeight="350px">
-    <mat-grid-tile fxLayoutAlign="space-evenly center" *ngFor="let device of microphones">
-      <mat-card class="dashboard-card">
+  <mat-grid-list fxLayout="row" fxLayoutAlign="center" cols="4">
+    <mat-grid-tile *ngFor="let device of microphones">
+      <mat-card class="dashboard-card" [ngStyle]="{ backgroundColor: device.status == 'ok' ? '#00bcd4' : '#ffffff' }">
         <mat-card-header>
           <mat-card-title>
-            {{device.workplace}}
+            <p>Рабочее место:</p>
+            <p>{{device.workplace ? device.workplace : 'Не указано'}}</p>
           </mat-card-title>
         </mat-card-header>
         <mat-card-content fxLayout="column" fxLayoutAlign="space-evenly center" class="dashboard-card-content">
           <!--          <p>Микрофон: {{device.mic}}</p>
                     <p>Raspberry: {{device.raspberry}}</p>
                     <p>аудиокарта: {{device.card}}</p>-->
-          <p class="mat-card-header">{{device.role}}</p>
+          <p class="mat-card-header">Роль:
+            {{device.role ? device.role : 'Не указано'}}</p>
           <div fxLayout="row" fxLayoutAlign="space-around center">
-            <button mat-fab color="primary" aria-label="Прослушать" (click)="listen(device)">
+            <button [disabled]="device.status != 'ok'" mat-fab color="primary" aria-label="Прослушать" (click)="listen(device)">
               <mat-icon>hearing</mat-icon>
-            </button>
-            <button mat-fab color="primary" aria-label="Записать" (click)="record(device)">
-              <mat-icon>keyboard_voice</mat-icon>
             </button>
           </div>
         </mat-card-content>
