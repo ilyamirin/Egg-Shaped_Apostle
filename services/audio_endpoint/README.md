@@ -130,6 +130,7 @@ git clone https://github.com/ilyamirin/Egg-Shaped_Apostle.
 ### 2) Заходим в ~/Egg-shaped_Apostle/services/endpoint_service
 ### 3) Настраиваем ключи для доступа по scp на случай падения audio_service на сервере:
 ```
+cd ~/Egg-shaped_Apostle/services/endpoint_service
 sudo ssh-keygen
 ./id_rsa
 ENTER

@@ -260,7 +260,7 @@ class Microphone:
             self.last_read_time = datetime.now()
         return self.buf
 
-    def record(self, time=None, file_name=None):
+    def record(self, time=None, file_name=None) -> str:
         try:
             if not time:
                 time = int(config['SETTINGS']['RECORD_DUR'])
@@ -296,9 +296,7 @@ class Microphone:
         return file_name
 
 
-
 # a1 = Raspberry(1)
-#a1.nodes[0].nodes[0].record(time=10)
-
+# a1.nodes[0].nodes[0].record(time=10)
 # a1 = Raspberry(1)
 # a1.nodes[0].nodes[0].record(10, 'test.wav')
