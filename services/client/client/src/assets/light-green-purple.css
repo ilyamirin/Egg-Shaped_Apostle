@@ -3,7 +3,11 @@
 /* stylelint-disable-next-line material/theme-mixin-api */
 /* stylelint-disable material/no-prefixes */
 /* stylelint-enable */
-/*@import './app/shared/navbar/navbar-theme';*/
+/* Colors for the ripple elements.*/
+/* stylelint-disable-next-line material/theme-mixin-api */
+/* stylelint-disable-next-line material/theme-mixin-api */
+/* stylelint-disable material/no-prefixes */
+/* stylelint-enable */
 /*
 Orginal Style from https://github.com/Kelbster/highlightjs-material-dark-theme  (c) Kelby Gassmanl <kelby.gassman@gmail.com>
 */
@@ -1575,4 +1579,7 @@ th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
   color: rgba(255, 255, 255, 0.7);
   background: #303030; }
 
-/*@include navbar-theme($theme);*/
+app-devices {
+  color: rgba(0, 0, 0, 0.87); }
+  app-devices .mic_card_active {
+    background: #64dd17; }

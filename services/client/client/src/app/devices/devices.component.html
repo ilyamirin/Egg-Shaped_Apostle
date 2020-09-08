@@ -19,7 +19,7 @@
                     <p>Raspberry: {{device.raspberry}}</p>
                     <p>аудиокарта: {{device.card}}</p>-->
           <p class="mat-card-header">Роль:
-            {{device.role ? device.role : 'Не указано'}}</p>
+            {{ device.role ? (device.role === '0' ? 'Оператор' : 'Клиент') : 'Не указано'}}</p>
           <div fxLayout="row" fxLayoutAlign="space-around center">
             <button [disabled]="device.status != 'ok'" mat-fab color="primary" aria-label="Прослушать" (click)="listen(device)">
               <mat-icon>hearing</mat-icon>

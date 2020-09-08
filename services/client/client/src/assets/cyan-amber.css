@@ -3,7 +3,11 @@
 /* stylelint-disable-next-line material/theme-mixin-api */
 /* stylelint-disable material/no-prefixes */
 /* stylelint-enable */
-/*@import './app/shared/navbar/navbar-theme';*/
+/* Colors for the ripple elements.*/
+/* stylelint-disable-next-line material/theme-mixin-api */
+/* stylelint-disable-next-line material/theme-mixin-api */
+/* stylelint-disable material/no-prefixes */
+/* stylelint-enable */
 .mat-ripple-element {
   background-color: rgba(0, 0, 0, 0.1); }
 
@@ -1473,4 +1477,7 @@ th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
   color: rgba(0, 0, 0, 0.54);
   background: #fafafa; }
 
-/*@include navbar-theme($theme);*/
+app-devices {
+  color: white; }
+  app-devices .mic_card_active {
+    background: #00bcd4; }
