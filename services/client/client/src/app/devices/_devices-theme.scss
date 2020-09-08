@@ -1,0 +1,19 @@
+@import 'node_modules/@angular/material/theming';
+
+
+@mixin devices-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+
+
+  app-devices {
+    color: mat-color($primary, default-contrast);
+
+    .mic_card_active {
+      background: mat-color($primary);
+    }
+  }
+}

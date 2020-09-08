@@ -3,5 +3,12 @@ export interface Audio {
   name: string;
   workplace: number;
   role: string;
-  date: Date;
+  date: string;
+  year?: number;
+  month?: number;
+  day?: number;
+  hour?: number;
+  minute?: number;
+  second?: number;
+  ms?: number;
 }

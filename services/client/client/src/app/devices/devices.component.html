@@ -7,7 +7,7 @@
   </div>
   <mat-grid-list fxLayout="row" fxLayoutAlign="center" cols="4">
     <mat-grid-tile *ngFor="let device of microphones">
-      <mat-card class="dashboard-card" [ngStyle]="{ backgroundColor: device.status == 'ok' ? '#00bcd4' : '#ffffff' }">
+      <mat-card class="dashboard-card" [ngClass]="device.status === 'ok' ? 'mic_card_active' : ''">
         <mat-card-header>
           <mat-card-title>
             <p>Рабочее место:</p>
