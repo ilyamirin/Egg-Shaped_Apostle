@@ -241,8 +241,13 @@ def update_rasp():
 
 @app.route('/stream/<int:raspberry>/<int:card>/<int:mic>', methods=['GET'])
 def stream_mic(raspberry, card, mic):
-    print(raspberries[raspberry].nodes)
-    return Response(raspberries[raspberry].nodes[card-1].nodes[mic].stream(), mimetype="audio/wav")
+    #print(raspberries[raspberry].nodes)
+    target = None
+    for rasp in raspberries:
+        if int(rasp.no) == raspberry:
+            target = rasp
+            break
+    return Response(target.nodes[card-1].nodes[mic].stream(), mimetype="audio/wav")
 
 
 @app.route('/raspberry/all/<command>', methods=['GET', 'POST'])
