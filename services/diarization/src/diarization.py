@@ -1,17 +1,17 @@
 from pyannote.audio.features import Pretrained
 from pyannote.audio.pipeline import SpeakerDiarization
 
-validate_dir='./vad_ami_sber/train/SBERBANK'\
-             '.SpeakerDiarization.SberCorpus.train'\
-             '/validate_detection_fscore/SBERBANK'\
-             '.SpeakerDiarization.SberCorpus.development'
+from config_gen import get_config
+config = get_config()
+
+validate_dir = config['DIARIZATION_CORE']['VALIDATE_DIR']
 diarization = SpeakerDiarization(sad_scores=Pretrained(validate_dir=validate_dir),
                                   scd_scores='scd_ami',
                                   embedding='emb_voxceleb',
                                   metric='cosine',
                                   method='affinity_propagation')
 
-diarization.load_params('./dia_sber/train/SBERBANK.SpeakerDiarization.SberCorpus.development/params.yml')
+diarization.load_params(config['DIARIZATION_CORE']['PARAMS'])
 
 diarization.initialize()
 

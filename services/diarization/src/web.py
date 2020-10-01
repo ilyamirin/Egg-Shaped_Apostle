@@ -2,7 +2,7 @@ import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
-from diarisation import diarize
+from diarization import diarize
 
 from logger import get_logger
 from config_gen import get_config
@@ -31,9 +31,9 @@ def transcript():
     file_ = request.files['audio']
 
     try:
-        with open('temp_file.wav', 'wb') as out_file:
+        with open(os.path.join(config['ENV']['ROOT_ABS_PATH'], 'temp_file.wav'), 'wb') as out_file:
             out_file.write(file_.read())
-        result = diarize('temp_file.wav')
+        result = diarize(os.path.join(config['ENV']['ROOT_ABS_PATH'], 'temp_file.wav'))
 
     except Exception as e:
         logger.error(e)

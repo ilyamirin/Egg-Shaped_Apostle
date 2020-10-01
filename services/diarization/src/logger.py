@@ -1,10 +1,13 @@
 import sys
+import os
 import logging
 from logging.handlers import RotatingFileHandler
+from config_gen import get_config
+config = get_config()
 
 # logger
 formatter = logging.Formatter("%(asctime)s — %(name)s — %(levelname)s — %(message)s")
-log_file = "diarization_service.log"
+log_file = os.path.join(config['ENV']['ROOT_ABS_PATH'], "diarization_service.log")
 
 
 def get_console_handler():

@@ -13,7 +13,7 @@ Returns json object
 should be file named "audio"
 Curl:
 ```
-curl -F "audio=@test.wav" 127.0.0.1:5732
+curl -F "audio=@test.wav" 127.0.0.1:5732/diarizate
 ```
 ## Deploy:
 ###Docker
