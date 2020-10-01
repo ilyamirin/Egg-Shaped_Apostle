@@ -19,3 +19,4 @@ test.wav
 *.wav
 *.log
 .ipynb_checkpoints
+pyannote-audio/
