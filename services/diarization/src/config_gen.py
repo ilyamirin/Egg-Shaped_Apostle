@@ -14,7 +14,8 @@ def get_config():
     else:
         config['ENV'] = {
             'ROOT_ABS_PATH': root_dir,
-            'EXT_DATA_DIR': os.path.join(root_dir, 'data')
+            'EXT_DATA_DIR': os.path.join(root_dir, 'data'),
+            'DIAR_DB_NAME': 'diarized.sqlite'
         }
 
         config['NETWORK'] = {

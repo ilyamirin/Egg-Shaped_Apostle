@@ -9,11 +9,17 @@ Returns json object
         'status': 'OK'
     }
 ```
-####POST /diarizate
+####POST /annotation
 should be file named "audio"
 Curl:
 ```
-curl -F "audio=@test.wav" 127.0.0.1:5732/diarizate
+curl -F "audio=@/home/sde/Desktop/projects/Egg-Shaped_Apostle/services/audio_service/data/0_3_0_2020-09-08T04:16:14.336006.wav" 127.0.0.1:5732/annotation
+```
+####GET /svg
+Make sure that you are trying to get svg AFTER you used POST /annotation on file 
+Curl:
+```
+curl -H "filename: 0_3_0_2020-09-08T04:16:14.336006.wav" http://127.0.0.1:5732/svg
 ```
 ## Deploy:
 ###Docker
