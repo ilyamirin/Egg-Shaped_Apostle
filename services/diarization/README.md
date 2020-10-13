@@ -12,7 +12,7 @@ Returns json object
 ####GET /annotation
 Curl:
 ```
-curl -d '{"filename":"0_0_0_2020-05-22T11:04:18.980712.wav"}' -X GET 127.0.0.1:5732/annotation
+curl -H "Filename: 0_0_0_2020-10-14T01:10:19.010726.wav" -X GET 127.0.0.1:5732/annotation
 ```
 ####GET /svg
 Make sure that you are trying to get svg AFTER you used GET /annotation on file 
