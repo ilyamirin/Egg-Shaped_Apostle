@@ -31,6 +31,23 @@ curl -d '{"filename":"0_0_0_2020-05-22T11:04:18.980712.wav"}' -X GETT 127.0.0.1:
 {'response': 'file sended'}
 ```
 
+## Фильтрация аудиозаписей и возвращение списка:
+#### Запрос:
+запрос должен содержать заголовок "Content-Type: application/json" и в теле нести одно или несколько полей фильтрации, например
+```
+POST /records/filter
+content:
+'{"work_places": [0],
+"roles": [0],
+"date_time_start":
+"2020-10-14T01:42:13.231691",
+"date_time_end": "2020-10-14T02:15:13.231691"}'
+```
+curl:
+```
+curl -H "Content-Type: application/json" -d '{"work_places": [0], "roles": [0], "date_time_start": "2020-10-14T01:42:13.231691", "date_time_end": "2020-10-14T02:15:13.231691"}' 'http://127.0.0.1:5722/records/filter'
+```
+
 ## - оправка списка подключенных устройств 
 #### Запрос:
 ```

@@ -2,6 +2,7 @@
 import os
 import json
 from raspberry_api import Raspberry
+from datetime import datetime
 
 from flask import Flask, jsonify, request, send_from_directory, redirect, url_for, Response
 from flask_cors import CORS
@@ -60,6 +61,11 @@ def extract_metadata(filename):
                 pass
     return workplace, role, date
 
+max_workplace = 0
+for filename in os.listdir(config['ENV']['EXT_DATA_DIR']):
+    workplace_cur, role_cur, date_cur = extract_metadata(filename)
+    workplace_cur = int(workplace_cur)
+    max_workplace = workplace_cur if max_workplace < workplace_cur else max_workplace
 
 def wrap_response(response):
     resp = jsonify(response)
@@ -143,6 +149,36 @@ def get_update():
         logger.error(e)
         resp = wrap_response({'error': str(e)})
     return resp
+
+
+# TODO: add to README.md
+@app.route('/records/filter', methods=['POST'])
+def filter_records():
+    try:
+        work_places = request.json['work_places'] if 'workplaces'in request.json else list(range(max_workplace+1))
+        roles = request.json['roles'] if 'roles' in request.json else [0, 1]
+        date_time_start = datetime.strptime(request.json['date_time_start'], '%Y-%m-%dT%H:%M:%S.%f')\
+            if 'date_time_start' in request.json else datetime.strptime('2020-01-01T00:00:00.000', '%Y-%m-%dT%H:%M:%S.%f')
+        date_time_end = datetime.strptime(request.json['date_time_end'], '%Y-%m-%dT%H:%M:%S.%f')\
+            if 'date_time_end' in request.json else datetime.strptime('2099-01-01T00:00:00.000', '%Y-%m-%dT%H:%M:%S.%f')
+
+        results = []
+
+        for filename in os.listdir(config['ENV']['EXT_DATA_DIR']):
+            print(filename)
+            workplace_cur, role_cur, date_cur = extract_metadata(filename)
+            workplace_cur = int(workplace_cur)
+            role_cur = int(role_cur)
+            date_cur = datetime.strptime(date_cur, '%Y-%m-%dT%H:%M:%S.%f')
+            print(workplace_cur, '--', work_places)
+            print(role_cur, '--', roles)
+            print(date_time_start, date_cur, date_time_end)
+            if workplace_cur in work_places and role_cur in roles and date_time_start <= date_cur <= date_time_end:
+                results.append(filename)
+        return {'response': results}, 200
+    except Exception as e:
+        logger.error(e)
+        return {'type': str(type(e).__name__), 'message': str(e)}, 500
 
 
 @app.route('/records/send', methods=['GET'])
