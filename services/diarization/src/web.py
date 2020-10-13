@@ -1,4 +1,5 @@
 import os
+import requests
 from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 
@@ -10,6 +11,8 @@ from visualization import visualize
 
 config = get_config()
 logger = get_logger("diarization_service", config['SETTINGS']['DEBUG'])
+
+audio_service_api = f'http://{config["NETWORK"]["AUDIO_SERVICE_IP"]}:{config["NETWORK"]["AUDIO_SERVICE_PORT"]}'
 
 logger.info('starting web server...')
 
@@ -25,19 +28,20 @@ def health():
     }
 
 
-@app.route('/annotation', methods=['POST'])
+@app.route('/annotation', methods=['GET'])
 def annotation():
-    if 'audio' not in request.files or request.files['audio'].filename == '':
-        return { 'type': 'BadRequestException', 'message': 'No file provided' }, 400
-
-    file_ = request.files['audio']
-
+    print(request.headers)
+    if 'Filename' not in request.headers:
+        return {'type': 'BadRequestException', 'message': 'No filename provided'}, 400
     try:
-        filename = os.path.join(config['ENV']['ROOT_ABS_PATH'], file_.filename)
-        with open(filename, 'wb') as out_file:
-            out_file.write(file_.read())
+        resp = requests.get(f'{audio_service_api}/record/{request.headers["Filename"]}')
+        filename = os.path.join(config['ENV']['ROOT_ABS_PATH'], request.headers['Filename'])
+
+        with open(filename, 'wb') as file:
+            file.write(resp.content)
         result = diarize(filename)
         os.remove(filename)
+
     except Exception as e:
         logger.error(e)
         return {'type': str(type(e).__name__), 'message': str(e)}, 500

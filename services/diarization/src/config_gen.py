@@ -21,6 +21,9 @@ def get_config():
         config['NETWORK'] = {
             'WEB_API_IP': '0.0.0.0',
             'WEB_API_PORT': 5732,
+            'AUDIO_SERVICE_IP': '0.0.0.0',
+            'AUDIO_SERVICE_PORT': '5722',
+
         }
 
         config['DIARIZATION_CORE'] = {
