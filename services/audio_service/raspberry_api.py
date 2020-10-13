@@ -28,8 +28,8 @@ class Raspberry(Tree):
         self.ip = ip
         self.api = f'http://{self.ip}:{PORT}'
         self.status = self.get_status()
-        logger.debug(f'Initialization of Raspberry instance #{self.no} on address {self.ip}')
         if self.status:
+            logger.debug(f'Initialization of Raspberry instance #{self.no} on address {self.ip}')
             devices = self.get_devices()
             for card_no in devices:
                 card = Card(self, card_no)
@@ -46,7 +46,7 @@ class Raspberry(Tree):
             status = resp.json()['status']
             self.no = resp.json()['no']
             self.details = resp.json()['details']
-        except requests.exceptions.ConnectTimeout as e:
+        except Exception as e:
             logger.error(e)
             status = False
         return status
