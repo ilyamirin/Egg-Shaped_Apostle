@@ -10,7 +10,7 @@ import {Microphone} from '../interfaces/microphone';
   providedIn: 'root'
 })
 export class AudioService {
-  private audioServiceAPI = 'http://192.168.0.1:5722';
+  private audioServiceAPI = 'http://127.0.0.1:5722';
 
   httpOptions = {
     headers: [
