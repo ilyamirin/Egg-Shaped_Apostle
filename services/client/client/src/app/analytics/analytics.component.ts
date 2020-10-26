@@ -1,15 +1,17 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {FtsQuery} from '../interfaces/fts-query';
+import {AnalyzeQuery} from '../interfaces/analyze-query';
 import {Audio} from '../interfaces/audio';
 import {MatDialog} from '@angular/material/dialog';
 import {MatSort} from '@angular/material/sort';
 import {PlayerComponent} from '../player/player.component';
+import {AnalysisDialogueComponent} from '../analysis-dialogue/analysis-dialogue.component';
 import {AudioplayerService} from '../services/audioplayer.service';
 import {AudioService} from '../services/audio.service';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {BehaviorSubject, timer} from 'rxjs';
 import {FormControl} from '@angular/forms';
+import {MatDatepickerInputEvent} from '@angular/material/datepicker';
 
 
 @Component({
@@ -19,18 +21,14 @@ import {FormControl} from '@angular/forms';
 })
 export class AnalyticsComponent implements OnInit, AfterViewInit {
 
-  // todo вынести в отдельные модули
-  query: FtsQuery = {
-    text: '',
-    startDate: new Date(Date.now() - 1000 * 60 * 60 * 24),
-    endDate: new Date(Date.now()),
-    role: -1,
-    workplaces: []
+  query: AnalyzeQuery = {
   };
+
+  resultsExist = false;
 
   workplaces = new FormControl();
 
-  workplacesList: number[] = [1, 2, 3, 4, 5, 6, 7, 8];
+  workplacesList: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 
   template: any;
   records: BehaviorSubject<Audio[]> = new BehaviorSubject<Audio[]>([]);
@@ -39,16 +37,26 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
+  dateChangedEvent(formNo: number, event: MatDatepickerInputEvent<Date>) {
+    if (formNo === 0) {
+      this.query.date_time_start = event.value;
+    } else if (formNo === 1) {
+      this.query.date_time_end = event.value;
+    }
+  }
+
   getAudio(): void {
-    this.recordsService.getRecords()
+    this.recordsService.filterRecords(this.query)
       .subscribe(records => {
+        // console.log(this.query)
+        console.log(this.query.work_places)
         records.map(x => {
-          const date = new Date(Date.parse(x.date + 'Z'));
-          console.log(x.role)
+          const date = new Date(Date.parse(x.date));
+          // console.log(x)
           x.role = (x.role in [0, 1] ? (x.role.toString() === '0' ? 'Оператор' : 'Клиент') : 'Не указано');
           x.year = date.getFullYear();
-          x.month = date.getMonth();
-          x.day = date.getDay();
+          x.month = date.getMonth()+1;
+          x.day = date.getDate();
           x.hour = date.getHours();
           x.minute = date.getMinutes();
           x.ms = date.getMilliseconds();
@@ -57,6 +65,7 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
         this.dataSource = new MatTableDataSource<Audio>(this.records.value);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        this.resultsExist = true;
       });
   }
 
@@ -87,13 +96,12 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
     this.getAudio();
   }
 
-  play(id: string, index: number) {
+  analyse(id: string, index: number) {
     console.log(id);
-    const dialogRef = this.dialog.open(PlayerComponent);
+    const dialogRef = this.dialog.open(AnalysisDialogueComponent);
     dialogRef.componentInstance.files = this.records.value;
     dialogRef.componentInstance.openFile(id, index);
     dialogRef.afterClosed().subscribe(result => {
-      dialogRef.componentInstance.stop();
       console.log(`Dialog result: ${result}`);
     });
   }

@@ -16,7 +16,8 @@
           <mat-form-field>
             <input matInput [matDatepicker]="picker1" placeholder="Дата конца"
                    (dateInput)="dateChangedEvent(1, $event)"
-                   (dateChange)="dateChangedEvent(1, $event)">
+                   (dateChange)="dateChangedEvent(1, $event)"
+            >
             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
             <mat-datepicker #picker1></mat-datepicker>
           </mat-form-field>
@@ -25,17 +26,19 @@
 
       <div fxLayout="row">
         <mat-radio-group fxFlex="50" fxFlexOffset="25" aria-label="Роль" fxLayout="row"
-                         fxLayoutAlign="space-around center">
-          <mat-radio-button value="1">Оператор</mat-radio-button>
-          <mat-radio-button value="2">Клиент</mat-radio-button>
-          <mat-radio-button value="3">Все</mat-radio-button>
+                         fxLayoutAlign="space-around center"
+                         [(ngModel)]="query.roles"
+        >
+          <mat-radio-button value="0">Оператор</mat-radio-button>
+          <mat-radio-button value="1">Клиент</mat-radio-button>
+          <mat-radio-button value="2">Все</mat-radio-button>
         </mat-radio-group>
       </div>
 
 
       <mat-form-field>
         <mat-label>Рабочие места</mat-label>
-        <mat-select [formControl]="workplaces" multiple>
+        <mat-select [formControl]="workplaces" multiple [(ngModel)]="query.work_places">
           <mat-select-trigger>
             {{workplaces.value ? workplaces.value[0] : ''}}
             <span *ngIf="workplaces.value?.length > 1" class="example-additional-selection">
@@ -47,21 +50,21 @@
       </mat-form-field>
 
       <div fxLayout="column" fxLayoutAlign="center center">
-        <button (click)="analyse()" mat-fab color="primary" aria-label="Analytics">
-          <mat-icon>bar_chart</mat-icon>
+        <button (click)="getAudio()" mat-fab color="primary" aria-label="Analytics">
+          <mat-icon>search</mat-icon>
         </button>
       </div>
     </mat-card-content>
   </mat-card>
 </div>
 
-<mat-form-field>
+<mat-form-field *ngIf="resultsExist">
   <label>
     <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
   </label>
 </mat-form-field>
 
-<mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+<mat-table *ngIf="resultsExist" [dataSource]="dataSource" class="mat-elevation-z8" matSort>
   <ng-container matColumnDef="id">
     <mat-header-cell *matHeaderCellDef mat-sort-header> id</mat-header-cell>
     <mat-cell *matCellDef="let audio_file"> {{audio_file.id}} </mat-cell>
@@ -118,7 +121,7 @@
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="displayedColumns" ></mat-header-row>
-  <mat-row *matRowDef="let row; columns: displayedColumns; let i = index" (click)="play(row, i)" style="cursor: pointer"></mat-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns; let i = index" (click)="analyse(row, i)" style="cursor: pointer"></mat-row>
 
   <!--  <ng-container matColumnDef="start_time">-->
   <!--    <mat-header-cell *matHeaderCellDef> Время начала</mat-header-cell>-->

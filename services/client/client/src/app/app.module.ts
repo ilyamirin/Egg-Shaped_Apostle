@@ -14,10 +14,11 @@ import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppRoutingModule} from './app-routing.module';
 import {HttpClientModule} from '@angular/common/http';
+import { AnalysisDialogueComponent } from './analysis-dialogue/analysis-dialogue.component';
 
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, AnalysisDialogueComponent],
   imports: [
     AppRoutingModule,
     HttpClientModule,

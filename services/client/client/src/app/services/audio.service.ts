@@ -5,6 +5,8 @@ import {HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 import {Audio} from '../interfaces/audio';
 import {Microphone} from '../interfaces/microphone';
+import {AnalyzeQuery} from '../interfaces/analyze-query';
+import {FtsResult} from '../interfaces/fts-result';
 
 @Injectable({
   providedIn: 'root'
@@ -49,9 +51,15 @@ export class AudioService {
     params = params.append('mic', name);
     params = params.append('time', time);
     const headers = new HttpHeaders({'Access-Control-Allow-Origin': '192.168.0.1:5722/raspberry/' + rasp + '/record'});
-    return this.http.get<string>(this.audioServiceAPI + '/raspberry/' + rasp + '/record', {headers: headers, params: params})
+    return this.http.get<string>(this.audioServiceAPI + '/raspberry/' + rasp + '/record', {headers, params})
       .pipe(catchError(this.handleError<string>('record', ''))
       );
+  }
+
+  filterRecords(query: AnalyzeQuery): Observable<Audio[]> {
+    const headers = new HttpHeaders().set('Access-Control-Allow-Origin', '*');
+    return this.http.post<Audio[]>(this.audioServiceAPI + '/records/filter', query, {headers})
+      .pipe(catchError(this.handleError<Audio[]>('filterRecords', [])))
   }
 
   constructor(

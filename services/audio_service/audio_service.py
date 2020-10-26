@@ -155,15 +155,20 @@ def get_update():
 @app.route('/records/filter', methods=['POST'])
 def filter_records():
     try:
-        work_places = request.json['work_places'] if 'workplaces'in request.json else list(range(max_workplace+1))
-        roles = request.json['roles'] if 'roles' in request.json else [0, 1]
-        date_time_start = datetime.strptime(request.json['date_time_start'], '%Y-%m-%dT%H:%M:%S.%f')\
+        #print(request.json['date_time_start'])
+        work_places = request.json['work_places'] if 'work_places' in request.json else list(range(max_workplace+1))
+        # print(request.json['work_places'])
+        # print(work_places)
+        roles = [int(i) for i in request.json['roles']] if 'roles' in request.json else [0, 1]
+        if 2 in roles: roles = [0, 1]
+        date_time_start = datetime.strptime(request.json['date_time_start'], '%Y-%m-%dT%H:%M:%S.%fZ')\
             if 'date_time_start' in request.json else datetime.strptime('2020-01-01T00:00:00.000', '%Y-%m-%dT%H:%M:%S.%f')
-        date_time_end = datetime.strptime(request.json['date_time_end'], '%Y-%m-%dT%H:%M:%S.%f')\
+        date_time_end = datetime.strptime(request.json['date_time_end'], '%Y-%m-%dT%H:%M:%S.%fZ')\
             if 'date_time_end' in request.json else datetime.strptime('2099-01-01T00:00:00.000', '%Y-%m-%dT%H:%M:%S.%f')
-
+        # print(request.json)
+        #print(roles)
         results = []
-
+        id_ = 0
         for filename in os.listdir(config['ENV']['EXT_DATA_DIR']):
             # print(filename)
             workplace_cur, role_cur, date_cur = extract_metadata(filename)
@@ -174,8 +179,18 @@ def filter_records():
             # print(role_cur, '--', roles)
             # print(date_time_start, date_cur, date_time_end)
             if workplace_cur in work_places and role_cur in roles and date_time_start <= date_cur <= date_time_end:
-                results.append(filename)
-        return {'response': results}, 200
+                record_obj = {}
+                record_obj['id'] = id_
+                record_obj['name'] = filename
+                record_obj['workplace'] = workplace_cur
+                record_obj['role'] = role_cur
+                record_obj['date'] = date_cur
+                record_obj['url'] = f"http://{config['NETWORK']['WEB_API_IP']}:" \
+                                    f"{config['NETWORK']['WEB_API_PORT']}" \
+                                    f"{url_for('get_record', filename=filename)}"
+                results.append(record_obj)
+                id_ += 1
+        return jsonify(results), 200
     except Exception as e:
         logger.error(e)
         return {'type': str(type(e).__name__), 'message': str(e)}, 500
