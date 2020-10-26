@@ -8,18 +8,28 @@ from config_gen import get_config
 from logger import get_logger
 
 config = get_config()
-if config.has_section('SETTINGS'):
-    if 'DEBUG' in config['SETTINGS'].keys():
-        logger = get_logger("text_service", config['SETTINGS']['DEBUG'])
-else:
-    logger = get_logger("audio_service", '1')
+logger = get_logger("analytics_service", config['SETTINGS']['DEBUG'])
 
 storage_service_api = f'http://{config["NETWORK"]["STORAGE_SERVICE_IP"]}:{config["NETWORK"]["STORAGE_SERVICE_PORT"]}'
+audio_service_api = f'http://{config["NETWORK"]["AUDIO_SERVICE_IP"]}:{config["NETWORK"]["AUDIO_SERVICE_PORT"]}'
+diarization_service_api = f'http://{config["NETWORK"]["DIARIZATION_SERVICE_IP"]}:' \
+                          f'{config["NETWORK"]["DIARIZATION_SERVICE_PORT"]}'
 
 config = get_config()
-if config.has_section('SETTINGS') and 'DEBUG' in config['SETTINGS'].keys():
-    logger = get_logger("audio_service", config['SETTINGS']['DEBUG'])
-else: logger = get_logger("analytics_service", '1')
+
+
+logger.info('starting web server...')
+
+app = Flask(__name__)
+CORS(app)
+
+
+@app.route('/health', methods=['GET'])
+def health():
+    return {
+        'service': 'analytics-service',
+        'status': 'OK'
+    }
 
 
 app = Flask(__name__)
@@ -28,33 +38,33 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 destination = 'localhost:4200'
 
 
-def wrap_response(response):
-    resp = jsonify(response)
-    resp.headers.add('Access-Control-Allow-Origin', destination)
-    return resp
-
-
-@app.route('/analyse/', methods=['GET'])
+@app.route('/analyse/', methods=['POST'])
 def analyse():
-    work_place = request.args.get('work_place', '')
-    role = request.args.get('role', '')
-    date_time_start = request.args.get('date_time_start', '')
-    date_time_end = request.args.get('date_time_end', '')
-    headers = {
-        'Content-Type': 'application/json'
-    }
-    data = json.dumps({
-        'work_place': work_place,
-        'role': role,
-        'date_time_start': date_time_start,
-        'date_time_end': date_time_end,
-        })
-    r = requests.get(storage_service_api + '/filter',
-                     data=data,
-                     headers=headers)
-    resp = r.json()
-    # resp = draw_imgs(r.json()['response'][0])
-    return jsonify(resp)
+    try:
+        result = None
+    except Exception as e:
+        logger.error(e)
+        return {'type': str(type(e).__name__), 'message': str(e)}, 500
+
+    return {'result': result}, 200
+
+
+@app.route('/diarize/', methods=['POST'])
+def diarize():
+    try:
+        headers = {"Content-Type": "application/json"}
+        print(request.json)
+        files_list = requests.post(audio_service_api+'/records/filter', headers=headers, data=json.dumps(request.json)).json()['response']
+        result = []
+        for file in files_list:
+            headers = {"Filename": file}
+            annotation = requests.get(diarization_service_api + '/annotation', headers=headers).json()['result']
+            annotation['filename'] = file
+            result.append(annotation)
+        return {'result': result}, 200
+    except Exception as e:
+        logger.error(e)
+        return {'type': str(type(e).__name__), 'message': str(e)}, 500
 
 
 def draw_imgs(text_list):
