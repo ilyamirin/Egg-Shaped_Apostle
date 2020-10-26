@@ -165,14 +165,14 @@ def filter_records():
         results = []
 
         for filename in os.listdir(config['ENV']['EXT_DATA_DIR']):
-            print(filename)
+            # print(filename)
             workplace_cur, role_cur, date_cur = extract_metadata(filename)
             workplace_cur = int(workplace_cur)
             role_cur = int(role_cur)
             date_cur = datetime.strptime(date_cur, '%Y-%m-%dT%H:%M:%S.%f')
-            print(workplace_cur, '--', work_places)
-            print(role_cur, '--', roles)
-            print(date_time_start, date_cur, date_time_end)
+            # print(workplace_cur, '--', work_places)
+            # print(role_cur, '--', roles)
+            # print(date_time_start, date_cur, date_time_end)
             if workplace_cur in work_places and role_cur in roles and date_time_start <= date_cur <= date_time_end:
                 results.append(filename)
         return {'response': results}, 200
