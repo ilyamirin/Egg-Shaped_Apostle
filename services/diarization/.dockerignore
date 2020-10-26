@@ -1,0 +1,5 @@
+pyannote-audio/
+__pycache__/
+temp_file.wav test1.wav test2.wav tests_sber_noise.wav test.wav
+config.ini
+diarization_service.log

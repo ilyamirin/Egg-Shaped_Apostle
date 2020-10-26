@@ -58,4 +58,4 @@ def svg():
         return {'type': str(type(e).__name__), 'message': str(e)}, 500
 
 
-app.run(host=config['NETWORK']['WEB_API_IP'], debug=True, port=config['NETWORK']['WEB_API_PORT'])
+app.run(host=config['NETWORK']['WEB_API_IP'], debug=False, port=config['NETWORK']['WEB_API_PORT'])
