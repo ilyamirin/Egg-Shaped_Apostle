@@ -2,6 +2,9 @@ import os
 import requests
 from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
+from flask import send_file
+from io import BytesIO
+
 
 from diarization import diarize
 
@@ -52,7 +55,8 @@ def annotation():
 @app.route('/svg', methods=['GET'])
 def svg():
     try:
-        return visualize(request.headers.get('filename'))
+        annotation()
+        return send_file(BytesIO(visualize(request.headers.get('filename'))), mimetype='image/svg+xml')
     except Exception as e:
         logger.error(e)
         return {'type': str(type(e).__name__), 'message': str(e)}, 500
