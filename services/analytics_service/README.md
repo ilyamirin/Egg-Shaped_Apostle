@@ -77,6 +77,11 @@ curl:
 ```
 curl -H "Content-Type: application/json" -d '{"work_places": [0], "roles": [0], "date_time_start": "2020-10-14T01:42:13.231691", "date_time_end": "2020-10-14T02:15:13.231691"}' 'http://127.0.0.1:5731/diarize'
 ```
+####GET /svg
+Curl:
+```
+curl -H "filename: 0_3_0_2020-09-08T04:16:14.336006.wav" http://127.0.0.1:5731/svg/
+```
 </li>
 <li></li>
 <li></li>

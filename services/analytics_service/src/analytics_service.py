@@ -3,6 +3,8 @@ import json
 import os
 from flask import Flask, jsonify, request, abort, send_from_directory
 from flask_cors import CORS, cross_origin
+from flask import send_file
+from io import BytesIO
 
 from config_gen import get_config
 from logger import get_logger
@@ -67,12 +69,18 @@ def diarize():
         return {'type': str(type(e).__name__), 'message': str(e)}, 500
 
 
-def draw_imgs(text_list):
-    print(text_list)
-    texts = [i[5] for i in text_list]
-    texts = text_list
-    # print(texts)
-    return texts
+@app.route('/svg/', methods=['GET'])
+def draw_img():
+    try:
+        requests.get(diarization_service_api + '/annotation', headers=request.headers)
+        file = requests.get(diarization_service_api + '/svg', headers=request.headers).content
+        print(file)
+        return send_file(BytesIO(file), mimetype='image/svg+xml')
+
+        return result
+    except Exception as e:
+        logger.error(e)
+        return {'type': str(type(e).__name__), 'message': str(e)}, 500
 
 
 if __name__ == '__main__':
