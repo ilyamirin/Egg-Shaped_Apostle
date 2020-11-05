@@ -49,7 +49,7 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
     this.recordsService.filterRecords(this.query)
       .subscribe(records => {
         // console.log(this.query)
-        console.log(this.query.work_places)
+        // console.log(this.query.work_places)
         records.map(x => {
           const date = new Date(Date.parse(x.date));
           // console.log(x)
@@ -97,10 +97,10 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
   }
 
   analyse(id: string, index: number) {
-    console.log(id);
+    // console.log(id);
     const dialogRef = this.dialog.open(AnalysisDialogueComponent);
-    dialogRef.componentInstance.files = this.records.value;
-    dialogRef.componentInstance.openFile(id, index);
+    dialogRef.componentInstance.file = id;
+    // // dialogRef.componentInstance.openFile(id, index);
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
     });

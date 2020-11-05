@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { AnalyticsService } from '../services/analytics-service';
+import {Component, OnInit} from '@angular/core';
+import {AnalyticsService} from '../services/analytics-service';
+import {DomSanitizer} from '@angular/platform-browser';
+import {Observable} from 'rxjs';
+
 
 @Component({
   selector: 'app-analysis-dialogue',
@@ -7,12 +10,21 @@ import { AnalyticsService } from '../services/analytics-service';
   styleUrls: ['./analysis-dialogue.component.scss']
 })
 export class AnalysisDialogueComponent implements OnInit {
-  public files: Array<any> = [];
+  public file: any = {};
+  diarSvg: string;
+
   constructor(
+    public sanitizer: DomSanitizer,
     public analyticsService: AnalyticsService
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
+    this.analyticsService.getDiarizationPicture(this.file).subscribe(svg => {
+      this.diarSvg = svg;
+      // console.log('result of request: ', svg)
+    })
+    // console.log(this.diarSvg+ '!!!!!');
   }
 
 }

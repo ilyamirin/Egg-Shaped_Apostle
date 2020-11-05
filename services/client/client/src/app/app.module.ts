@@ -15,6 +15,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppRoutingModule} from './app-routing.module';
 import {HttpClientModule} from '@angular/common/http';
 import { AnalysisDialogueComponent } from './analysis-dialogue/analysis-dialogue.component';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { AnalysisDialogueComponent } from './analysis-dialogue/analysis-dialogue
     NavigationModule,
     PlayerModule,
     RecorderModule,
-    ThemePickerModule
+    ThemePickerModule,
+    MatGridListModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
