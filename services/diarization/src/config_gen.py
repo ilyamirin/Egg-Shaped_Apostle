@@ -37,6 +37,8 @@ def get_config():
 
         config['SETTINGS'] = {
             'DEBUG': 1,
+            'DIAR_START_HOUR': '19:00',
+            'DIAR_END_HOUR': '08:00'
         }
 
         with open(os.path.join(root_dir, 'config.ini'), 'w') as config_file:

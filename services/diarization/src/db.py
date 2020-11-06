@@ -45,3 +45,12 @@ def get_list_of_diarized():
     conn.close()
     return results
 
+
+def check_if_exists_by_name(filename):
+    conn = sqlite3.connect(db_name)
+    cursor = conn.cursor()
+    cursor.execute('SELECT COUNT(annotation) FROM diarized WHERE name = ?;', [filename])
+    result = int(cursor.fetchone()[0])
+    conn.close()
+    return True if result else False
+
