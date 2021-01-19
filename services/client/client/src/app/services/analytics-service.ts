@@ -39,6 +39,7 @@ export class AnalyticsService {
 
     const options = {headers, responseType: 'text'};
 
+    // FIXME: "options" make the app crash
     /*return this.http.get<any>(environment.apiURL + '/svg/', options )
       .pipe(catchError(this.handleError<any>('getDiarizationPicture', ''))
       );*/

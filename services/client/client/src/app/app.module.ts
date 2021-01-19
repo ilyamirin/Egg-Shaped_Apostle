@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
-import {CommonModule} from '@angular/common';
 import {AnalyticsModule} from './analytics/analytics.module';
 import {AudioBrowserModule} from './audio-browser/audio-browser.module';
 import {DevicesModule} from './devices/devices.module';
@@ -14,7 +13,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppRoutingModule} from './app-routing.module';
 import {HttpClientModule} from '@angular/common/http';
-import { AnalysisDialogueComponent } from './analysis-dialogue/analysis-dialogue.component';
+import {AnalysisDialogueComponent} from './analysis-dialogue/analysis-dialogue.component';
 import {MatGridListModule} from '@angular/material/grid-list';
 
 

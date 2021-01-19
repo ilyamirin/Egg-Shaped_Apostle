@@ -1,14 +1,5 @@
 import {EventEmitter, Injectable} from '@angular/core';
-
-
-export interface Theme {
-  name: string;
-  displayName?: string;
-  accent: string;
-  primary: string;
-  isDark?: boolean;
-  isDefault?: boolean;
-}
+import {Theme} from '../../interfaces/theme';
 
 
 @Injectable()

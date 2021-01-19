@@ -6,12 +6,12 @@
 
 <mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
   <ng-container matColumnDef="id">
-    <mat-header-cell *matHeaderCellDef mat-sort-header> id</mat-header-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
     <mat-cell *matCellDef="let audio_file"> {{audio_file.id}} </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="name">
-    <mat-header-cell *matHeaderCellDef mat-sort-header> Имя </mat-header-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Название </mat-header-cell>
     <mat-cell *matCellDef="let audio_file"> {{audio_file.name}} </mat-cell>
   </ng-container>
 
@@ -51,16 +51,16 @@
   </ng-container>
 
   <ng-container matColumnDef="workplace">
-    <mat-header-cell *matHeaderCellDef mat-sort-header> Рабочее место</mat-header-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Рабочее место </mat-header-cell>
     <mat-cell *matCellDef="let audio_file"> {{audio_file.workplace}} </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="role">
-    <mat-header-cell *matHeaderCellDef mat-sort-header> Роль</mat-header-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Роль </mat-header-cell>
     <mat-cell *matCellDef="let audio_file"> {{audio_file.role}} </mat-cell>
   </ng-container>
 
-  <mat-header-row *matHeaderRowDef="displayedColumns" ></mat-header-row>
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
   <mat-row *matRowDef="let row; columns: displayedColumns; let i = index" (click)="play(row, i)" style="cursor: pointer"></mat-row>
 
   <!--  <ng-container matColumnDef="start_time">-->
