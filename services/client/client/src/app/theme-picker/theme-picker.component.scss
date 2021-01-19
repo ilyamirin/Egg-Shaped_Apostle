@@ -10,32 +10,33 @@
       }
 
       // The below colors need to align with the themes defined in ThemePicker
-      &.light-green-purple svg {
-        .theme-icon-background {
-          fill: #303030;
-        }
-
-        .theme-icon-button {
-          fill: #9C27B0;
-        }
-
-        .theme-icon-toolbar {
-          fill: #64DD17;
-        }
-      }
-
-      &.cyan-yellow svg {
-        .theme-icon-background {
-          fill: #303030;
-        }
-
+      &.cyan-amber svg {
         .theme-icon-button {
           fill: #00BCD4;
+        }
+
+        .theme-icon-background {
+          fill: #fafafa;
         }
 
         .theme-icon-toolbar {
           fill: #FFC107;
         }
+      }
+
+      &.purple-green svg {
+        .theme-icon-toolbar {
+          fill: #9C27B0;
+        }
+
+        .theme-icon-background {
+          fill: #303030;
+        }
+
+        .theme-icon-button {
+          fill: #4CAF50;
+        }
+
       }
     }
   }

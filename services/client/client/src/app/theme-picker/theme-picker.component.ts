@@ -25,14 +25,14 @@ export class ThemePickerComponent implements OnInit {
       displayName: 'Cyan & Amber',
       name: 'cyan-amber',
       isDark: false,
-      isDefault: true,
+      isDefault: true
     },
     {
-      primary: '#64DD17',
-      accent: '#9C27B0',
-      displayName: 'Light Green & Purple',
-      name: 'light-green-purple',
-      isDark: true,
+      primary: '#9C27B0',
+      accent: '#4CAF50',
+      displayName: 'Purple & Green',
+      name: 'purple-green',
+      isDark: true
     }
   ];
 

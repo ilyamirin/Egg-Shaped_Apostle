@@ -1,6 +1,6 @@
-@import './app-theme';
 @import './styles/general';
-@import '~material-design-icons/iconfont/material-icons.css';
+@import './app-theme';
+
 
 @include mat-core();
 

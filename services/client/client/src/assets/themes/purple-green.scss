@@ -2,10 +2,10 @@
 @import '../../highlightjs/material-dark';
 
 
-$primary: mat-palette($mat-light-green, A700);
-$accent: mat-palette($mat-purple);
+$primary: mat-palette($mat-purple);
+$accent: mat-palette($mat-green, A200, A100, A400);
 
+// Define the dark theme.
 $theme: mat-dark-theme($primary, $accent);
-
 @include angular-material-theme($theme);
 @include app-theme($theme);
