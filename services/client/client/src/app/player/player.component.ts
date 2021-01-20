@@ -16,14 +16,16 @@ export class PlayerComponent {
     public audioService: AudioplayerService,
     // public recordsService: AudioService,
   ) {
-    // recordsService.getRecords().subscribe(files => {
-    //   this.files = files;
-    // });
-    this.audioService.getState().subscribe( state => {
+    /*recordsService.getRecords().subscribe(files => {
+      this.files = files;
+    });*/
+
+    this.audioService.getState().subscribe(state => {
       this.state = state;
     });
 
   }
+
   public files: Array<any> = [];
   state: StreamState;
   currentFile: any = {};
@@ -34,7 +36,7 @@ export class PlayerComponent {
   }
 
   openFile(file, index) {
-    this.currentFile = { index, file };
+    this.currentFile = {index, file};
     this.audioService.stop();
     this.playStream(file.url);
   }
@@ -42,6 +44,7 @@ export class PlayerComponent {
   pause() {
     this.audioService.pause();
   }
+
   play() {
     this.audioService.play();
   }

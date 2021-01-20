@@ -29,11 +29,9 @@ export class AudioBrowserComponent implements OnInit, AfterViewInit {
       .subscribe(records => {
         records.map(x => {
           const date = new Date(Date.parse(x.date));
-          // console.log(x.date)
-          // console.log(x.role)
           x.role = (x.role in [0, 1] ? (x.role.toString() === '0' ? 'Оператор' : 'Клиент') : 'Не указано');
           x.year = date.getFullYear();
-          x.month = date.getMonth()+1;
+          x.month = date.getMonth() + 1;
           x.day = date.getDate();
           x.hour = date.getHours();
           x.minute = date.getMinutes();
