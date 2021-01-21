@@ -1,5 +1,5 @@
 @import '../node_modules/@angular/material/theming';
-@import './app/devices/_devices-theme.scss';
+@import './app/devices/devices-theme';
 
 
 @mixin app-theme($theme) {

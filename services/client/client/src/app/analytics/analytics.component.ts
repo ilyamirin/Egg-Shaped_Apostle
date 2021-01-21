@@ -12,6 +12,7 @@ import {MatPaginator} from '@angular/material/paginator';
 import {BehaviorSubject, timer} from 'rxjs';
 import {FormControl} from '@angular/forms';
 import {MatDatepickerInputEvent} from '@angular/material/datepicker';
+import {PageTitle} from '../page-title/page-title';
 
 
 @Component({
@@ -71,9 +72,10 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
 
 
   constructor(
-    public dialog: MatDialog,
     private audioService: AudioplayerService,
     private recordsService: AudioService,
+    public dialog: MatDialog,
+    public _pageTitle: PageTitle
   ) {
     this.dataSource = new MatTableDataSource();
   }
@@ -93,6 +95,7 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this._pageTitle.title = 'Аналитика';
     this.getAudio();
   }
 

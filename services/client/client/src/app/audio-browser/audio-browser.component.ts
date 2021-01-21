@@ -9,6 +9,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {BehaviorSubject} from 'rxjs';
 import {map} from 'rxjs/operators';
+import {PageTitle} from '../page-title/page-title';
 // import {MatPaginator} from '@angular/material/paginator';
 
 @Component({
@@ -44,11 +45,11 @@ export class AudioBrowserComponent implements OnInit, AfterViewInit {
       });
   }
 
-
   constructor(
-    public dialog: MatDialog,
     private audioService: AudioplayerService,
     private recordsService: AudioService,
+    public dialog: MatDialog,
+    public _pageTitle: PageTitle
   ) {
     this.dataSource = new MatTableDataSource();
   }
@@ -68,6 +69,7 @@ export class AudioBrowserComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this._pageTitle.title = 'Записи';
     this.getAudio();
   }
 

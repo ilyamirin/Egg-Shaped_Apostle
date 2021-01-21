@@ -8,7 +8,6 @@ import {ListenerModule} from './listener/listener.module';
 import {NavigationModule} from './navigation/navigation.module';
 import {PlayerModule} from './player/player.module';
 import {RecorderModule} from './recorder/recorder.module';
-import {ThemePickerModule} from './theme-picker/theme-picker.module';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppRoutingModule} from './app-routing.module';
@@ -21,9 +20,9 @@ import {MatGridListModule} from '@angular/material/grid-list';
   declarations: [AppComponent, AnalysisDialogueComponent],
   imports: [
     AppRoutingModule,
-    HttpClientModule,
     BrowserAnimationsModule,
     BrowserModule,
+    HttpClientModule,
 
     AnalyticsModule,
     AudioBrowserModule,
@@ -33,8 +32,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
     NavigationModule,
     PlayerModule,
     RecorderModule,
-    ThemePickerModule,
-    MatGridListModule,
+    MatGridListModule
   ],
   providers: [],
   bootstrap: [AppComponent]

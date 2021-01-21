@@ -6,6 +6,7 @@ import {Microphone} from '../interfaces/microphone';
 import {ListenerComponent} from '../listener/listener.component';
 import {RecorderComponent} from '../recorder/recorder.component';
 import {Location} from '@angular/common';
+import {PageTitle} from '../page-title/page-title';
 
 
 @Component({
@@ -14,19 +15,26 @@ import {Location} from '@angular/common';
   styleUrls: ['./devices.component.scss']
 })
 export class DevicesComponent implements OnInit {
+
+  microphones: Microphone[];
+
   constructor(
     private audioService: AudioService,
-    public dialog: MatDialog,
-    private location: Location
+    private location: Location,
+    public _pageTitle: PageTitle,
+    public dialog: MatDialog
   ) {
   }
 
-  microphones: Microphone[];
+  ngOnInit(): void {
+    this._pageTitle.title = 'Микрофоны';
+    this.getAudio();
+  }
+
   getAudio(): void {
     this.audioService.getMicrophones()
       .subscribe(microphones => this.microphones = microphones);
   }
-
 
   listen(mic: Microphone) {
     console.log(mic);
@@ -51,10 +59,6 @@ export class DevicesComponent implements OnInit {
   update() {
     this.audioService.updateMicrophones();
     location.reload();
-  }
-
-  ngOnInit(): void {
-    this.getAudio();
   }
 
 }

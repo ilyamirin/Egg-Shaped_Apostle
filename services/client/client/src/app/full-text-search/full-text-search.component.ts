@@ -4,6 +4,7 @@ import {FormControl} from '@angular/forms';
 import {FtsQuery} from '../interfaces/fts-query';
 import {FtsResult} from '../interfaces/fts-result';
 import {Ftsservice} from '../services/ftsservice';
+import {PageTitle} from '../page-title/page-title';
 
 
 @Component({
@@ -41,7 +42,8 @@ export class FullTextSearchComponent implements OnInit {
 
     if (value.length <= length) {
       return value.replace(new RegExp(this.query.text, 'gi'), match => {
-        return '<b>' + match + '</b>'; });
+        return '<b>' + match + '</b>';
+      });
     }
 
     if (length < elipses.length) {
@@ -51,9 +53,15 @@ export class FullTextSearchComponent implements OnInit {
     const valueIndex = value.indexOf(this.query.text);
     console.log('valueInd: ', valueIndex);
     let leftBorder = Math.floor(valueIndex - length / 2);
-    if (leftBorder < 0) { leftBorder = 0; };
+    if (leftBorder < 0) {
+      leftBorder = 0;
+    }
+    ;
     let rightBorder = Math.floor(valueIndex + length / 2);
-    if (rightBorder > value.length) { rightBorder = value.length; };
+    if (rightBorder > value.length) {
+      rightBorder = value.length;
+    }
+    ;
     let truncatedText = value.slice(leftBorder, rightBorder);
     console.log('trunc:', truncatedText);
     while (truncatedText.length > length - elipses.length) {
@@ -67,7 +75,8 @@ export class FullTextSearchComponent implements OnInit {
       truncatedText = truncatedText.slice(0, lastSpace).replace(/[!,.?]$/, '');
     }
     truncatedText = truncatedText.replace(new RegExp(this.query.text, 'gi'), match => {
-      return '<b>' + match + '</b>'; });
+      return '<b>' + match + '</b>';
+    });
     return truncatedText + elipses;
   }
 
@@ -80,11 +89,13 @@ export class FullTextSearchComponent implements OnInit {
   }
 
   constructor(
-    private ftsService: Ftsservice
+    private ftsService: Ftsservice,
+    public _pageTitle: PageTitle
   ) {
   }
 
   ngOnInit(): void {
+    this._pageTitle.title = 'Поиск';
   }
 
 }

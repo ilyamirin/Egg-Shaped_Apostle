@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 import {Observable} from 'rxjs';
 import {map, shareReplay} from 'rxjs/operators';
+import {PageTitle} from '../page-title/page-title';
 
 
 @Component({
@@ -18,8 +19,13 @@ export class NavigationComponent {
     );
 
   constructor(
-    private breakpointObserver: BreakpointObserver
+    private breakpointObserver: BreakpointObserver,
+    public _pageTitle: PageTitle
   ) {
+  }
+
+  getTitle() {
+    return this._pageTitle.title;
   }
 
 }
