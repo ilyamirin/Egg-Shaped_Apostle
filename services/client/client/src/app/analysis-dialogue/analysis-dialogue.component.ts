@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AnalyticsService} from '../services/analytics-service';
 import {DomSanitizer} from '@angular/platform-browser';
-import {Observable} from 'rxjs';
 
 
 @Component({

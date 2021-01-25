@@ -8,37 +8,38 @@ import {MatInputModule} from '@angular/material/input';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatSelectModule} from '@angular/material/select';
 import {MatIconModule} from '@angular/material/icon';
-import {MatGridListModule} from '@angular/material/grid-list';
 import {CommonModule} from '@angular/common';
 import {MatButtonModule} from '@angular/material/button';
 import {MatNativeDateModule} from '@angular/material/core';
 import {MatTableModule} from '@angular/material/table';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatTooltipModule} from '@angular/material/tooltip';
-
+import {AnalysisDialogueModule} from '../analysis-dialogue/analysis-dialogue.module';
 
 
 @NgModule({
   declarations: [
     AnalyticsComponent
   ],
-    imports: [
-        MatCardModule,
-        MatFormFieldModule,
-        FlexLayoutModule,
-        FormsModule,
-        MatDatepickerModule,
-        MatInputModule,
-        MatRadioModule,
-        ReactiveFormsModule,
-        MatSelectModule,
-        MatIconModule,
-        MatGridListModule,
-        CommonModule,
-        MatButtonModule,
-        MatNativeDateModule,
-        MatTableModule
-    ],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+
+    MatButtonModule,
+    MatCardModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatNativeDateModule,
+    MatRadioModule,
+    MatSelectModule,
+    MatTableModule,
+
+    FlexLayoutModule,
+
+    AnalysisDialogueModule
+  ],
   exports: [
     AnalyticsComponent
   ]

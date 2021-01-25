@@ -12,12 +12,13 @@ import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppRoutingModule} from './app-routing.module';
 import {HttpClientModule} from '@angular/common/http';
-import {AnalysisDialogueComponent} from './analysis-dialogue/analysis-dialogue.component';
 import {MatGridListModule} from '@angular/material/grid-list';
 
 
 @NgModule({
-  declarations: [AppComponent, AnalysisDialogueComponent],
+  declarations: [
+    AppComponent
+  ],
   imports: [
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -31,8 +32,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
     ListenerModule,
     NavigationModule,
     PlayerModule,
-    RecorderModule,
-    MatGridListModule
+    RecorderModule
   ],
   providers: [],
   bootstrap: [AppComponent]
