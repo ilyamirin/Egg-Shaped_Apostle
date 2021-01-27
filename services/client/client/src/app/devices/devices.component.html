@@ -7,30 +7,7 @@
 
   <mat-grid-list fxLayout="row" fxLayoutAlign="center" cols="4">
     <mat-grid-tile *ngFor="let device of microphones">
-      <mat-card class="dashboard-card" [ngClass]="device.status === 'ok' ? 'mic_card_active' : ''">
-        <mat-card-header>
-          <mat-card-title>
-            <p>Рабочее место:</p>
-            <p>{{device.workplace ? device.workplace : 'Не указано'}}</p>
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content fxLayout="column" fxLayoutAlign="space-evenly center" class="dashboard-card-content">
-          <!--<p>Микрофон: {{device.mic}}</p>
-          <p>Raspberry: {{device.raspberry}}</p>
-          <p>аудиокарта: {{device.card}}</p>-->
-
-          <p class="mat-card-header">Роль:
-            {{ device.role ? (device.role === '0' ? 'Оператор' : 'Клиент') : 'Не указано'}}
-          </p>
-
-          <div fxLayout="row" fxLayoutAlign="space-around center">
-            <button [disabled]="device.status != 'ok'" mat-fab color="primary" aria-label="Прослушать"
-                    (click)="listen(device)">
-              <mat-icon>hearing</mat-icon>
-            </button>
-          </div>
-        </mat-card-content>
-      </mat-card>
+      <app-microphone-card [microphone]="device"></app-microphone-card>
     </mat-grid-tile>
   </mat-grid-list>
 </div>

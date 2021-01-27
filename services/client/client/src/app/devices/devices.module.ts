@@ -7,6 +7,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatButtonModule} from '@angular/material/button';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {CommonModule} from '@angular/common';
+import {MicrophoneCardModule} from '../microphone-card/microphone-card.module';
 
 
 @NgModule({
@@ -20,7 +21,9 @@ import {CommonModule} from '@angular/common';
     FlexLayoutModule,
     MatButtonModule,
     MatTooltipModule,
-    CommonModule
+    CommonModule,
+
+    MicrophoneCardModule
   ],
   exports: [
     DevicesComponent

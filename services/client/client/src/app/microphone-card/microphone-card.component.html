@@ -1,0 +1,25 @@
+<mat-card class="dashboard-card" [ngClass]="microphone.status === 'ok' ? 'mic_card_active' : ''">
+  <mat-card-header>
+    <mat-card-title>
+      <p>Рабочее место:</p>
+      <p>{{microphone.workplace ? microphone.workplace : 'Не указано'}}</p>
+    </mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content fxLayout="column" fxLayoutAlign="space-evenly center" class="dashboard-card-content">
+    <!--<p>Микрофон: {{device.mic}}</p>
+    <p>Raspberry: {{device.raspberry}}</p>
+    <p>аудиокарта: {{device.card}}</p>-->
+
+    <p class="mat-card-header">Роль:
+      {{ microphone.role ? (microphone.role === '0' ? 'Оператор' : 'Клиент') : 'Не указано'}}
+    </p>
+
+    <div fxLayout="row" fxLayoutAlign="space-around center">
+      <button [disabled]="microphone.status != 'ok'" mat-fab color="primary" aria-label="Прослушать"
+              (click)="listen(microphone)">
+        <mat-icon>hearing</mat-icon>
+      </button>
+    </div>
+  </mat-card-content>
+</mat-card>
