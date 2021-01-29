@@ -3,6 +3,8 @@ import {MicrophoneComponent} from './microphone.component';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 
 @NgModule({
@@ -12,7 +14,10 @@ import {MatIconModule} from '@angular/material/icon';
   imports: [
     MatButtonModule,
     MatCardModule,
-    MatIconModule
+    MatIconModule,
+    MatTooltipModule,
+
+    FlexLayoutModule
   ],
   exports: [
     MicrophoneComponent

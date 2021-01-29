@@ -1,7 +1,17 @@
 <mat-card>
   <mat-card-content>
+    Рабочее место: {{microphone.workplace ? microphone.workplace : 'Не указано'}}
+    Роль: {{ microphone.role ? (microphone.role === '0' ? 'Оператор' : 'Клиент') : 'Не указано'}}
+
+    Отладочная информация:
+    Микрофон: {{microphone.mic}}
+    Raspberry: {{microphone.raspberry}}
+    Аудиокарта: {{microphone.card}}
   </mat-card-content>
 
-  <mat-card-actions>
+  <mat-card-actions align="end">
+    <button mat-icon-button matTooltip="Прослушать" [disabled]="microphone.status != 'ok'">
+      <mat-icon>hearing</mat-icon>
+    </button>
   </mat-card-actions>
 </mat-card>

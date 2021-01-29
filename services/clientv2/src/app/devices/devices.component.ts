@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Microphone} from '../model';
+
 
 @Component({
   selector: 'app-devices',
@@ -10,8 +11,7 @@ export class DevicesComponent implements OnInit {
 
   microphone: Microphone;
 
-  constructor(
-  ) {
+  constructor() {
   }
 
   ngOnInit(): void {
@@ -21,7 +21,7 @@ export class DevicesComponent implements OnInit {
       card: 1,
       workplace: '1',
       role: 'Оператор',
-      status: 'good'
+      status: 'ok'
     };
   }
 

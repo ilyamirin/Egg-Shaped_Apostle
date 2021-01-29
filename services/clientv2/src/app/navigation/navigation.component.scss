@@ -3,7 +3,7 @@ $toolbar-title-padding: 16px !default;
 
 .list-item-active {
   font-weight: bold;
-  // color: mat-color(map-get($theme, accent), darker) !important;
+  color: orange;
   background: rgba(0, 0, 0, 0.04);
 }
 
@@ -20,19 +20,15 @@ $toolbar-title-padding: 16px !default;
   height: 100%;
 }
 
-/*.sidenav-content {
-  display: flex;
-  height: 100%;
-  align-items: center;
-  justify-content: center;
-}*/
+.sidenav-content {
+  margin: 24px;
+}
 
 .sidenav {
   padding: 20px;
 }
 
-$sidenav-width: 280px; // 240px;
-
+$sidenav-width: 280px;
 .mat-sidenav {
   width: $sidenav-width;
 }
