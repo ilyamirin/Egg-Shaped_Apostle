@@ -1,0 +1,43 @@
+.theme-picker-menu {
+  .mat-menu-item {
+    .mat-icon.theme-preview-icon {
+      margin-right: 0;
+      margin-left: 16px;
+      float: right;
+
+      svg {
+        vertical-align: middle;
+      }
+
+      // The below colors need to align with the themes defined in ThemePicker
+      &.cyan-amber svg {
+        .theme-icon-button {
+          fill: #00BCD4;
+        }
+
+        .theme-icon-background {
+          fill: #fafafa;
+        }
+
+        .theme-icon-toolbar {
+          fill: #FFC107;
+        }
+      }
+
+      &.purple-green svg {
+        .theme-icon-toolbar {
+          fill: #9C27B0;
+        }
+
+        .theme-icon-background {
+          fill: #303030;
+        }
+
+        .theme-icon-button {
+          fill: #4CAF50;
+        }
+
+      }
+    }
+  }
+}
