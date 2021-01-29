@@ -9,20 +9,46 @@ import {Microphone} from '../model';
 })
 export class DevicesComponent implements OnInit {
 
-  microphone: Microphone;
+  microphones: Microphone[];
 
   constructor() {
   }
 
   ngOnInit(): void {
-    this.microphone = {
-      mic: 1,
-      raspberry: 1,
-      card: 1,
-      workplace: '1',
-      role: 'Оператор',
-      status: 'ok'
-    };
+    this.microphones = [
+      {
+        mic: 1,
+        raspberry: 1,
+        card: 1,
+        workplace: '1',
+        role: 'Оператор',
+        status: 'ok'
+      },
+      {
+        mic: 1,
+        raspberry: 1,
+        card: 1,
+        workplace: '1',
+        role: 'Оператор',
+        status: 'ok'
+      },
+      {
+        mic: 1,
+        raspberry: 1,
+        card: 1,
+        workplace: '1',
+        role: 'Оператор',
+        status: 'ok'
+      },
+      {
+        mic: 1,
+        raspberry: 1,
+        card: 1,
+        workplace: '1',
+        role: 'Оператор',
+        status: 'ok'
+      }
+    ];
   }
 
 }

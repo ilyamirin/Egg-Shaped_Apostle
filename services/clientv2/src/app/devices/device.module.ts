@@ -1,6 +1,8 @@
 import {NgModule} from '@angular/core';
 import {DevicesComponent} from './devices.component';
 import {MicrophoneModule} from '../microphone/microphone.module';
+import {CommonModule} from '@angular/common';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 
 @NgModule({
@@ -8,7 +10,11 @@ import {MicrophoneModule} from '../microphone/microphone.module';
     DevicesComponent
   ],
   imports: [
-    MicrophoneModule
+    CommonModule,
+
+    MicrophoneModule,
+
+    FlexLayoutModule
   ],
   exports: [
     DevicesComponent

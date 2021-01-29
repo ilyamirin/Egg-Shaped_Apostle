@@ -1,1 +1,5 @@
-<app-microphone [microphone]="microphone"></app-microphone>
+<div fxLayout='row wrap' fxLayoutGap="32px" class='card-layout'>
+  <div *ngFor="let mic of microphones" fxFlex="240px">
+    <app-microphone [microphone]="mic"></app-microphone>
+  </div>
+</div>
